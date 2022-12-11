@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CollectByTimePanel</class>
+ <widget class="QWidget" name="CollectByTimePanel">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1077</width>
+    <height>534</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>时间采集面板</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QWidget" name="widget_6" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QWidget" name="widget_7" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QComboBox" name="bxDataRoadsSelectingComboBox">
+           <item>
+            <property name="text">
+             <string>第1-18路变形信号</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>第19-36路变形信号</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>第37-54路变形信号</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QStackedWidget" name="stackedWidget">
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="page">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QCustomPlot" name="CollectByTimePlot1" native="true"/>
+          </item>
+          <item>
+           <widget class="QCustomPlot" name="CollectByTimePlot2" native="true"/>
+          </item>
+          <item>
+           <widget class="QCustomPlot" name="CollectByTimePlot3" native="true"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="page_1">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QCustomPlot" name="CollectByTimePlot4" native="true"/>
+          </item>
+          <item>
+           <widget class="QCustomPlot" name="CollectByTimePlot5" native="true"/>
+          </item>
+          <item>
+           <widget class="QCustomPlot" name="CollectByTimePlot6" native="true"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="page_2">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QCustomPlot" name="CollectByTimePlot7" native="true"/>
+          </item>
+          <item>
+           <widget class="QCustomPlot" name="CollectByTimePlot8" native="true"/>
+          </item>
+          <item>
+           <widget class="QCustomPlot" name="CollectByTimePlot9" native="true"/>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QCustomPlot" name="widget_2" native="true"/>
+         </item>
+         <item>
+          <widget class="QCustomPlot" name="widget_3" native="true"/>
+         </item>
+         <item>
+          <widget class="QCustomPlot" name="widget_4" native="true"/>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QWidget" name="widget_5" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QToolButton" name="CollectByTime_StartBtn">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string> 开始采集</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../src.qrc">
+          <normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191023.png</normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191023.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="CollectByTime_StopBtn">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string> 停止采集</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../core_qss/qss.qrc">
+          <normaloff>:/qss/blacksoft/radiobutton_checked.png</normaloff>:/qss/blacksoft/radiobutton_checked.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>34</height>
+         </size>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../../core_qss/qss.qrc"/>
+  <include location="../../src.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/toolkit">
+        <file>transfer/publicFunction.h</file>
+        <file>transfer/transferBinary.cpp</file>
+        <file>transfer/transferbx.h</file>
+        <file>transfer/transferbx_6.cpp</file>
+        <file>transfer/transferbx_6.h</file>
+        <file>transfer/transferbx_8.cpp</file>
+        <file>transfer/transferbx_8.h</file>
+        <file>transfer/transferbx_10.cpp</file>
+        <file>transfer/transferbx_10.h</file>
+        <file>transfer/transferbx_12.cpp</file>
+        <file>transfer/transferbx_12.h</file>
+        <file>transfer/transferbx_14.cpp</file>
+        <file>transfer/transferbx_14.h</file>
+        <file>transfer/transferbx_16.cpp</file>
+        <file>transfer/transferbx_16.h</file>
+        <file>transfer/transferbx_24.cpp</file>
+        <file>transfer/transferbx_24.h</file>
+        <file>transfer/transferbx_28.cpp</file>
+        <file>transfer/transferbx_28.h</file>
+        <file>transfer/transferbx_32.cpp</file>
+        <file>transfer/transferbx_32.h</file>
+        <file>transfer/transferbx_40.cpp</file>
+        <file>transfer/transferbx_40.h</file>
+        <file>transfer/transferbx_48.cpp</file>
+        <file>transfer/transferbx_48.h</file>
+    </qresource>
+</RCC>

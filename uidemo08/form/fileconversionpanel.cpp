@@ -1,0 +1,275 @@
+#include "fileconversionpanel.h"
+#include "qregexp.h"
+#include "ui_fileconversionpanel.h"
+
+#include <QDebug>
+#include <QFileDialog>
+#include <QFile>
+#include <QDateTime>
+#include <QList>
+#include <QTableWidget>
+#include <QMessageBox>
+#include <stdio.h>
+#include <vector>
+
+#include "localfile.h"
+#include "transfer/transferbx_10.h"
+#include "ChineseEncoding.h"
+#include "transfer/transferBinary.h"
+
+using namespace std;
+
+FileConversionPanel::FileConversionPanel(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::FileConversionPanel)
+{
+    ui->setupUi(this);
+
+    // Initialization
+    initializingButtons();
+    initializingTables();
+
+
+}
+
+FileConversionPanel::~FileConversionPanel()
+{
+    delete ui;
+}
+
+
+void FileConversionPanel::initializingTables(){
+    // File Selecting Table
+    ui->FileSelectingTable->setColumnCount(6);
+    ui->FileSelectingTable->setHorizontalHeaderLabels(QStringList()<<"选择"<<"文件名"<<"路径"<<"大小"<<"修改时间"<<"状态");
+
+
+
+}
+
+
+void FileConversionPanel::initializingButtons(){
+
+
+    // Select new File Button
+    connect(ui->SelectFileBtn,&QPushButton::clicked,[=](){
+        // qDebug()<<"SelectBtn Clicked!!!";
+        QString path=QFileDialog::getOpenFileName(this,"Open File","C:\\Users\\DELL\\Desktop");
+        if (path.isEmpty())
+            return;
+        else if(path.contains(QRegExp("[\\x4e00-\\x9fa5]+"))){
+            QMessageBox::warning(this,"提示","文件路径中请勿包含中文字符！");
+            return;
+        }
+        QFile file(path);
+
+        file.open(QIODevice::ReadOnly);
+        QByteArray array = file.readAll();
+
+        // new local file
+        /*
+            QString localFileName;
+            QString localFilePath;
+            QString localFileCreatedTime;
+            QString localFileSize;
+            QString localFileData;
+            bool localFileSelectedFlag;
+        */
+        QFileInfo info(path);
+        localFile *localfile = new localFile();
+        localfile->localFileName=info.fileName();
+        localfile->localFilePath=info.filePath();
+        localfile->localFileCreatedTime=info.lastModified().toString("修改时间：yyyy/MM/dd hh:mm:ss");
+        localfile->localFileSize=QString::number(info.size())+" Byte";
+        localfile->localFileData=array;
+
+        localFileList.append(*localfile);
+
+
+
+        file.close();
+
+        this->updateTable();
+    });
+
+    // Refresh Button
+    connect(ui->RefreshBtn,&QPushButton::clicked,[=](){
+        this->refreshSelection();
+    });
+
+    // Delete Button
+    connect(ui->deleteBtn,&QPushButton::clicked,[=](){
+        if(QMessageBox::question(this,"确认窗口","您确定要移除所选择的文件吗？",QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes){
+            this->deleteFiles();
+        }
+    });
+
+    // Select All Button
+    connect(ui->SelectAllBtn,&QPushButton::clicked,[=](){
+        this->selectAll();
+    });
+
+    // Select Save Path Button
+    connect(ui->SavePathBtn,&QPushButton::clicked,[=](){
+       QString path=QFileDialog::getExistingDirectory(this,"打开文件","C:\\Users\\DELL\\Desktop");
+       if(path.contains(QRegExp("[\\x4e00-\\x9fa5]+"))){
+           QMessageBox::critical(this,"文件保存路径提示！","文件存储路径不可包含中文字符，请选择合适的文件存储路径！");
+           return;
+       }
+       ui->SavePathEdit->setText(path);
+       path=QDir::toNativeSeparators(path);
+       SavePath=path;
+    });
+
+    // Convert Button
+    connect(ui->ConvertBtn,&QPushButton::clicked,[=](){
+        this->convertSelectedFiles();
+    });
+
+}
+
+
+void FileConversionPanel::deleteFiles(){
+    for (int i = 0; i < localFileList.length(); ++i) {
+        if(localFileList[i].localFileSelectedFlag){
+            localFileList.removeAt(i);
+        }
+    }
+    if(!localFileList.isEmpty()&&localFileList[localFileList.length()-1].localFileSelectedFlag){
+        localFileList.removeAt(localFileList.length()-1);
+    }
+    QMessageBox::information(this,"提示","所选文件已移除！");
+
+    this->updateTable();
+}
+
+void FileConversionPanel::refreshSelection(){
+    for (int i = 0; i < ui->FileSelectingTable->rowCount(); ++i) {
+        bool state=ui->FileSelectingTable->item(i,0)->checkState();
+        localFileList[i].localFileSelectedFlag=state;
+    }
+    this->updateTable();
+}
+
+void FileConversionPanel::selectAll(){
+    for (int i = 0; i < ui->FileSelectingTable->rowCount(); ++i) {
+        ui->FileSelectingTable->item(i,0)->setCheckState(Qt::Checked);
+    }
+
+}
+
+void FileConversionPanel::convertSelectedFiles(){
+    int convertedNumber = 0;
+    if(SavePath.isEmpty()){
+        QMessageBox::critical(this,"文件保存路径为空！","当前文件存储路径未设置，请先选择文件存储路径！");
+        return;
+    }
+
+    else {
+        if(QMessageBox::question(this,"文件存储路径确认","您是否想要将转换后的文件存储至 "+SavePath+" ？")==QMessageBox::Yes){
+            for (int i = 0; i < localFileList.length(); ++i) {
+                if(localFileList.at(i).localFileSelectedFlag){
+
+
+                    try{
+                        string cPath=(QDir::toNativeSeparators(localFileList.at(i).localFilePath)).toStdString();
+                        transferBinary *tb = new transferBinary();
+                        vector<string> v;
+                        v.push_back(cPath);
+
+                        tb->callTransfer(v,SavePath.toStdString(),10);
+
+                    }
+                    catch(...){
+                        localFileList[i].convertState="转换失败";
+                        break;
+                    }
+
+//                    FILE *file=fopen(cPath,"w");
+//                    transferbx_10 *trans = new transferbx_10();
+//                    trans->initParameter();
+//                    trans->DatTransTxt_bx(cFileName,cData,file);
+//                    qDebug()<<localFileList.at(i).localFileData<<cData;
+
+
+                    ui->progressBar->setValue(((double)(i+1)/(double)localFileList.length())*100);
+                    convertedNumber++;
+                    localFileList[i].convertState="已转换";
+
+
+                }
+            }
+        }
+        else {
+            return;
+        }
+    }
+    if(convertedNumber==0){
+        QMessageBox::information(this,"提示","请选择您想要转换的文件！");
+        return;
+    }
+    QMessageBox::information(this,"文件转换完成","您所选的文件已转换完成！");
+    this->updateTable();
+}
+
+void FileConversionPanel::updateTable(){
+
+
+    ui->FileSelectingTable->setRowCount(this->localFileList.length());
+
+    QStringList fileNameList;
+    QStringList filePathList;
+    QStringList fileCreatedTimeList;
+    QStringList fileSizeList;
+    QStringList fileSelectionList;
+    QStringList fileConvertStateList;
+
+    for (int i = 0; i < this->localFileList.length(); ++i) {
+        fileNameList.append(QString(this->localFileList.at(i).localFileName));
+        filePathList.append(QString(this->localFileList.at(i).localFilePath));
+        fileCreatedTimeList.append(QString(this->localFileList.at(i).localFileCreatedTime));
+        fileSizeList.append(QString(this->localFileList.at(i).localFileSize));
+        if(this->localFileList.at(i).localFileSelectedFlag){
+            fileSelectionList.append(QString("Selected"));
+        }
+        else{
+            fileSelectionList.append(QString("Unselected"));
+        }
+        fileConvertStateList.append(QString(this->localFileList.at(i).convertState));
+
+    }
+
+    for (int j = 0; j < localFileList.length(); ++j) {
+        int col=0;
+
+        QTableWidgetItem *selectState = new QTableWidgetItem(fileSelectionList[j]);
+        if(this->localFileList.at(j).localFileSelectedFlag){
+            selectState->setCheckState(Qt::Checked);
+        }
+        else{
+            selectState->setCheckState(Qt::Unchecked);
+        }
+        ui->FileSelectingTable->setItem(j,col++,selectState);
+        ui->FileSelectingTable->setItem(j,col++,new QTableWidgetItem(fileNameList[j]));
+        ui->FileSelectingTable->setItem(j,col++,new QTableWidgetItem(filePathList[j]));
+        ui->FileSelectingTable->setItem(j,col++,new QTableWidgetItem(fileSizeList[j]));
+        ui->FileSelectingTable->setItem(j,col++,new QTableWidgetItem(fileCreatedTimeList[j]));
+        ui->FileSelectingTable->setItem(j,col,new QTableWidgetItem(fileConvertStateList[j]));
+        if(fileConvertStateList[j]==QString("未转换")){
+            ui->FileSelectingTable->item(j,col)->setTextColor(Qt::yellow);
+
+        }
+        else if(fileConvertStateList[j]==QString("已转换")){
+            ui->FileSelectingTable->item(j,col)->setTextColor(Qt::cyan);
+
+        }
+        else if(fileConvertStateList[j]==QString("转换失败")){
+            ui->FileSelectingTable->item(j,col)->setTextColor(Qt::red);
+
+        }
+
+    }
+
+    ui->FileSelectingTable->resizeColumnsToContents();
+
+}
