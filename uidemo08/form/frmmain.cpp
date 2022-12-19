@@ -42,9 +42,15 @@ frmMain::frmMain(QWidget *parent) : QWidget(parent), ui(new Ui::frmMain)
     //ui->DataReceived->setVisible(false);
 
     // testBtn
-    QString str("55AABE00535300800084804E00755100DC000EC7008002000000DE77DFFB1FC70277FE64024D3CFE8202BAAD96043E1238A6BC50564625A97464179B150543F435255FA51404A3B734242BC95444643041350574C73525159B0504353B39241421254434F2A36454373B0574B90F2515A53FCB35800D45D1A090B9BDC0B041BDE0D045BB81F0C345A19100FB00B100000000000000000100AE000002187F0000598090003F3E00F7001A0000820000000A000000000D00000000000000000000000052");
+    QString str("bb");
+    bool flag;
     connect(ui->testBtn,&QPushButton::clicked,[=]()mutable{
-        qDebug()<<BindData::frameUnencrypt(str);
+        if(str.toUInt(&flag,16)==0xBB){
+            qDebug()<<"BB converted!"<<endl;
+        }
+        else {
+            qDebug()<<"error!"<<endl;
+        }
     });
 
 
@@ -609,7 +615,7 @@ void frmMain::initParametersConfigPage(){
             str.append(QString("%1").arg(ui->FrequencyComboBox->currentIndex()+1,2,16,QLatin1Char('0')));
             str.append(BindData::frameCalculate(str.right(BindData::frameDataLength(str))));
             serial->write(QByteArray::fromHex(str.toLatin1().data()));
-            CollectByTimePanel *cbtPanel = new CollectByTimePanel(nullptr,this->serial);
+            cbtPanel = new CollectByTimePanel(nullptr,this->serial);
             cbtPanel->setWindowState(Qt::WindowMaximized);
             cbtPanel->show();
         }
@@ -626,8 +632,10 @@ void frmMain::initParametersConfigPage(){
             str.append(QString("%1").arg(ui->FrequencyComboBox->currentIndex()+1,2,16,QLatin1Char('0')));
             str.append(BindData::frameCalculate(str.right(BindData::frameDataLength(str))));
             serial->write(QByteArray::fromHex(str.toLatin1().data()));
-            CollectByDistancePanel *cbdPanel = new CollectByDistancePanel(nullptr, this->serial);
+            cbdPanel = new CollectByDistancePanel(nullptr, this->serial);
+            //传输解码完成数据信号
             connect(this,&frmMain::newBxData,cbdPanel,&CollectByDistancePanel::updateBxData);               //传输变形数据信息
+            connect(this,&frmMain::newBxDataAdditional,cbdPanel,&CollectByDistancePanel::updateBxDataAdditional);   //传输额外显示信息
             cbdPanel->setWindowState(Qt::WindowMaximized);
             cbdPanel->show();
         }
@@ -745,7 +753,12 @@ void frmMain::initFrameWork(){
     framework_8_10_12_14_inch_bx->moveToThread(frameWorkThread);
     frameWorkThread->start();
     connect(this,&frmMain::newFrame_8_10_12_14_inch_bx,framework_8_10_12_14_inch_bx,&FrameWork_8_10_12_14_Inch_bx::setFrameList);  //将8&10&12&14inch变形数据报发送给frameWork进行解析取出变形数据
+
+    //frameWork解码完成通知主线程
     connect(framework_8_10_12_14_inch_bx,&FrameWork_8_10_12_14_Inch_bx::newBxData,this,&frmMain::newBxData);    //通知主线程得到新的一组变形数据
+    connect(framework_8_10_12_14_inch_bx,&FrameWork_8_10_12_14_Inch_bx::newBxDataAdditional,this,&frmMain::newBxDataAdditional);    //通知主线程得到一组新的额外显示数据
+
+
 }
 
 /*************************************** Initiation -- End ************************************************************/

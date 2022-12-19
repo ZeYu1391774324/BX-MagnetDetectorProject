@@ -9,6 +9,7 @@ CollectByTimePanel::CollectByTimePanel(QWidget *parent, QSerialPort *serial) :
 
     this->serial=serial;
     this->initPanel();
+    this->initPlots();
 }
 
 CollectByTimePanel::~CollectByTimePanel()

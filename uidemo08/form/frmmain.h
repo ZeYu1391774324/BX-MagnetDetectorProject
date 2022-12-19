@@ -90,6 +90,8 @@ public:
     // Global parameters
     QSerialPort *serial;                    //串口指针
     bool connected = false;                 //串口连接状态
+    CollectByTimePanel *cbtPanel;           //时间采集面板
+    CollectByDistancePanel *cbdPanel;       //里程采集面板
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
@@ -153,6 +155,7 @@ signals:
     void currentFrameChanges(QString currentframe);     // 解析到新的数据报信号
     void newFrame_8_10_12_14_inch_bx(QString frame);    //解析出新的8&10&12&14inch变形帧
     void newBxData(QList<double> bxData);               //得到新的一组变形数据
+    void newBxDataAdditional(QMap<QString,QString> bxDataAdditional);     //得到新的一组额外显示数据
 
 
 
