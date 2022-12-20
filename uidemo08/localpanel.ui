@@ -13,68 +13,6 @@
   <property name="windowTitle">
    <string>本地文件界面</string>
   </property>
-  <widget class="QToolButton" name="FileConversionBtn">
-   <property name="geometry">
-    <rect>
-     <x>630</x>
-     <y>140</y>
-     <width>131</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>  格式转换</string>
-   </property>
-   <property name="icon">
-    <iconset resource="../src.qrc">
-     <normaloff>:/uidemo08/dataCollectingIcon_files/1-2004121Z622.png</normaloff>:/uidemo08/dataCollectingIcon_files/1-2004121Z622.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>35</width>
-     <height>35</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextBesideIcon</enum>
-   </property>
-  </widget>
-  <widget class="QToolButton" name="DynamicalReplayBtn">
-   <property name="geometry">
-    <rect>
-     <x>630</x>
-     <y>240</y>
-     <width>131</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>  动态回放</string>
-   </property>
-   <property name="icon">
-    <iconset resource="../src.qrc">
-     <normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191023.png</normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191023.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>35</width>
-     <height>35</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextBesideIcon</enum>
-   </property>
-  </widget>
   <widget class="QWidget" name="widget_6" native="true">
    <property name="geometry">
     <rect>
@@ -267,6 +205,68 @@
      <widget class="Line" name="line_2">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_7" native="true">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>130</y>
+     <width>173</width>
+     <height>211</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QToolButton" name="FileConversionBtn">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>  格式转换</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../src.qrc">
+        <normaloff>:/uidemo08/dataCollectingIcon_files/1-2004121Z622.png</normaloff>:/uidemo08/dataCollectingIcon_files/1-2004121Z622.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>35</width>
+        <height>35</height>
+       </size>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextBesideIcon</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QToolButton" name="DynamicalReplayBtn">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>  动态回放</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../src.qrc">
+        <normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191023.png</normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191023.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>35</width>
+        <height>35</height>
+       </size>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonTextBesideIcon</enum>
       </property>
      </widget>
     </item>

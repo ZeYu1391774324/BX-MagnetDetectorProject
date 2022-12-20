@@ -42,15 +42,11 @@ frmMain::frmMain(QWidget *parent) : QWidget(parent), ui(new Ui::frmMain)
     //ui->DataReceived->setVisible(false);
 
     // testBtn
-    QString str("bb");
-    bool flag;
+    QString str("55AABE005353008000DEA458001CE500E2007ABB008092800000006900FD3C000200FE6402BB01C782007FF91202E439B2A0373452C8BB6DF062005C93872386332502C312806739B0A043ED52C0627B8DF80372F9CFA713424B02B37D37A4120A3E44B2151FE2528BF30D72E30425135C477135041CBB00249260C3C4B2E543625267F10372821CA39300D30033000000000000000081004B0080809299FF009FFF0E0011B800F335160098800000000A00000000E30080000000F400980000000028");
+
     connect(ui->testBtn,&QPushButton::clicked,[=]()mutable{
-        if(str.toUInt(&flag,16)==0xBB){
-            qDebug()<<"BB converted!"<<endl;
-        }
-        else {
-            qDebug()<<"error!"<<endl;
-        }
+        qDebug()<<str<<endl;
+        qDebug()<<BindData::frameUnencrypt(str)<<endl;
     });
 
 
@@ -455,13 +451,18 @@ void frmMain::initConnectionConfigPage(){
 
     // 模式检查按钮
     connect(ui->CheckModeBtn,&QPushButton::clicked,[=](){
-
         this->checkMode();
     });
 
     // CPIO检查按钮
     connect(ui->CheckGPIOBtn,&QPushButton::clicked,[=](){this->checkGPIO();});
 
+    // 断开连接并关机按钮
+    connect(ui->disconnectBtn,&QPushButton::clicked,[=](){
+        if(this->checkConnection()){
+            this->systemDisconnect();
+        }
+    });
 }
 
 void frmMain::initParametersConfigPage(){
@@ -692,6 +693,16 @@ void frmMain::LED(bool changeColor){
             ui->LED->setStyleSheet("background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0 rgba(255, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));border-radius:12px;");
             ui->ConnectionStateEdit->setText("串口已关闭！");
         }
+}
+
+bool frmMain::checkConnection(){
+    if(this->connected&&serial->isOpen()){
+        return true;
+    }
+    else{
+        QMessageBox::warning(this,"提示","当前串口系统未连接，请先连接您的串口！");
+        return false;
+    }
 }
 
 void frmMain::clearBuffer(){
@@ -1095,9 +1106,11 @@ void frmMain::modeControl(QString frame){
             break;
         case 3:
             this->ReceiveMode=SUCCESS;
+            emit this->returnedFrame_SUCCESS();
             break;
         case 4:
             this->ReceiveMode=UNSUCCESS;
+            emit this->returnedFrame_UNSUCCESS();
             break;
         default:
             break;
@@ -1209,6 +1222,35 @@ void frmMain::checkMode(){
 
 void frmMain::checkGPIO(){
     serial->write(QByteArray::fromHex(QString(GPIOCHECKFRAME).toLatin1().data()));
+
+}
+
+void frmMain::systemDisconnect(){
+    QTimer *timer = new QTimer;
+    timer->start(50);
+    int count=0;
+    this->ReceiveMode=NULLMODE;
+    serial->write(QByteArray::fromHex(QString(DISCONNECTFRAME).toLatin1().data()));
+    connect(timer,&QTimer::timeout,[=]()mutable{
+        count++;
+        if(count==100){    //关机指令计时五秒
+            timer->stop();
+            timer->disconnect();
+            QMessageBox::warning(this,"系统信息提示","关机指令接收超时，请稍后重新发送！");
+        }
+
+        else if(ReceiveMode==SUCCESS){
+            this->connected=false;
+            timer->stop();
+            timer->disconnect();
+            QMessageBox::information(this,"系统信息提示","关机成功，已断开连接！");
+        }
+        else if(ReceiveMode==UNSUCCESS){
+            timer->stop();
+            timer->disconnect();
+            QMessageBox::warning(this,"系统信息提示","关机指令接收失败，请稍后重新发送！");
+        }
+    });
 
 }
 

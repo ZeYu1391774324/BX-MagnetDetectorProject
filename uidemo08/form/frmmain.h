@@ -35,6 +35,7 @@
 #define COLLECTBYTIMEFRAME "55AA0300585801B1"
 #define COLLECTBYDISTANCEFRAME "55AA0300585803B3"
 #define STOPCOLLECTFRAME "55AA0300585802B2"
+#define DISCONNECTFRAME "55AA0300696901D3"
 
 // Receive Mode Definition
 #define SLIENTMODE "5656"
@@ -69,7 +70,8 @@ public:
     void serialPortInit();                  //初始化串口
     void ReFreshSerialPort(int index);      //刷新串口
     void connectSerialPort();               //打开串口
-    void LED(bool changeColor);             // 串口指示灯
+    void LED(bool changeColor);             //串口指示灯
+    bool checkConnection();                  //检查串口连接状态
 
     // Data Receiving and Uncoding
     void dataSend();
@@ -86,6 +88,7 @@ public:
     // User Commands
     void checkMode();                       //模式检查
     void checkGPIO();                       //CPIO检查
+    void systemDisconnect();                //断开连接并关机
 
     // Global parameters
     QSerialPort *serial;                    //串口指针
@@ -156,6 +159,8 @@ signals:
     void newFrame_8_10_12_14_inch_bx(QString frame);    //解析出新的8&10&12&14inch变形帧
     void newBxData(QList<double> bxData);               //得到新的一组变形数据
     void newBxDataAdditional(QMap<QString,QString> bxDataAdditional);     //得到新的一组额外显示数据
+    void returnedFrame_SUCCESS();                       //串口返回成功指令（SUCCESS FRAME）
+    void returnedFrame_UNSUCCESS();                       //串口返回失败指令（UNSUCCESS FRAME）
 
 
 
