@@ -616,6 +616,9 @@ void frmMain::initParametersConfigPage(){
             str.append(BindData::frameCalculate(str.right(BindData::frameDataLength(str))));
             serial->write(QByteArray::fromHex(str.toLatin1().data()));
             cbtPanel = new CollectByTimePanel(nullptr,this->serial);
+            //传输解码完成数据信号
+            connect(this,&frmMain::newBxData,cbtPanel,&CollectByTimePanel::updateBxData);               //传输变形数据信息
+            connect(this,&frmMain::newBxDataAdditional,cbtPanel,&CollectByTimePanel::updateBxDataAdditional);   //传输额外显示信息
             cbtPanel->setWindowState(Qt::WindowMaximized);
             cbtPanel->show();
         }
