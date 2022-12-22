@@ -44,9 +44,9 @@ void FrameWork_8_10_12_14_Inch_bx::uncodeFrame(){
         frame=BindData::frameUnencrypt(frame);
 
         //解码取信息过程
-        this->bxData.append(this->bxDataExtract(frame.mid(80,72)));     //1-18路
-        this->bxData.append(this->bxDataExtract(frame.mid(154,72)));    //19-36路
-        this->bxData.append(this->bxDataExtract(frame.mid(228,72)));    //37-54路
+        this->bxData.append(this->bxDataExtract(frame.mid(parameters->dataPara.data1_18_start,parameters->dataPara.data1_18_len)));     //1-18路
+        this->bxData.append(this->bxDataExtract(frame.mid(parameters->dataPara.data19_36_start,parameters->dataPara.data19_36_len)));    //19-36路
+        this->bxData.append(this->bxDataExtract(frame.mid(parameters->dataPara.data37_54_start,parameters->dataPara.data37_54_len)));    //37-54路
         /*
             55：环境温度；     56：处理板温度；        57：姿态检测温度；
             58：优选里程脉冲；  59：原始里程脉冲1；     60：原始里程脉冲2；     61：原始里程脉冲3；
@@ -89,21 +89,21 @@ void FrameWork_8_10_12_14_Inch_bx::uncodeFrame_additional(){
         3.3V二次电源电压
     */
     bool flag;
-    bxData_additional["时钟脉冲计数"]=QString("%1").arg(BindData::frameReverse(frame.mid(16,12)).toUInt(&flag,16));
-    bxData_additional["24V系统供电电压"]=QString("%1").arg(BindData::frameReverse(frame.mid(28,4)).toUInt(&flag,16)*0.001);
-    bxData_additional["24V系统供电电流"]=QString("%1").arg(BindData::frameReverse(frame.mid(32,4)).toUInt(&flag,16)*0.001);
-    bxData_additional["电池组已用电量"]=QString("%1").arg(BindData::frameReverse(frame.mid(36,4)).toUInt(&flag,16)*0.1);
-    bxData_additional["电池累计通电次数"]=QString("%1").arg(BindData::frameReverse(frame.mid(40,4)).toUInt(&flag,16));
-    bxData_additional["电池累计通电时间"]=QString("%1").arg(BindData::frameReverse(frame.mid(44,4)).toUInt(&flag,16)*0.01);
-    bxData_additional["电池组额定电量"]=QString("%1").arg(BindData::frameReverse(frame.mid(48,4)).toUInt(&flag,16)*0.1);
+    bxData_additional["时钟脉冲计数"]=QString("%1").arg(BindData::frameReverse(frame.mid(parameters->addData.clock_start,parameters->addData.clock_len)).toUInt(&flag,16));
+    bxData_additional["24V系统供电电压"]=QString("%1").arg(BindData::frameReverse(frame.mid(parameters->addData.Volt24V_start,parameters->addData.Volt24V_len)).toUInt(&flag,16)*parameters->addData.Volt_24V_para);
+    bxData_additional["24V系统供电电流"]=QString("%1").arg(BindData::frameReverse(frame.mid(parameters->addData.Current_24V_start,parameters->addData.Current_24V_len)).toUInt(&flag,16)*parameters->addData.Current_24V_para);
+    bxData_additional["电池组已用电量"]=QString("%1").arg(BindData::frameReverse(frame.mid(parameters->addData.batUsed_start,parameters->addData.batUsed_len)).toUInt(&flag,16)*parameters->addData.batUsed_para);
+    bxData_additional["电池累计通电次数"]=QString("%1").arg(BindData::frameReverse(frame.mid(parameters->addData.batUsedTimes_start,parameters->addData.batUsedTimes_len)).toUInt(&flag,16));
+    bxData_additional["电池累计通电时间"]=QString("%1").arg(BindData::frameReverse(frame.mid(parameters->addData.batUsedTimelen_start,parameters->addData.batUsedTimelen_len)).toUInt(&flag,16)*parameters->addData.batUsedTimelen_para);
+    bxData_additional["电池组额定电量"]=QString("%1").arg(BindData::frameReverse(frame.mid(parameters->addData.batVolume_start,parameters->addData.batVolume_len)).toUInt(&flag,16)*parameters->addData.batVolume_para);
     int year,month,day;
-    year=frame.mid(52,4).toUInt(&flag,16);
-    month=frame.mid(56,2).toUInt(&flag,16);
-    day=frame.mid(58,2).toUInt(&flag,16);
+    year=frame.mid(parameters->addData.timeYear_start,parameters->addData.timeYear_len).toUInt(&flag,16);
+    month=frame.mid(parameters->addData.timeMonth_start,parameters->addData.timeMonth_len).toUInt(&flag,16);
+    day=frame.mid(parameters->addData.timeDay_start,parameters->addData.timeDay_len).toUInt(&flag,16);
     bxData_additional["电池更换时间"]=QString("%1年%2月%3日").arg(year).arg(month).arg(day);
-    bxData_additional["电池模块环境温度"]=QString("%1").arg(139.23-(0.23*BindData::frameReverse(frame.mid(60,4)).toUInt(&flag,16)));
+    bxData_additional["电池模块环境温度"]=QString("%1").arg(parameters->tempData.envirPara1-(parameters->tempData.envirPara2*BindData::frameReverse(frame.mid(parameters->tempData.tempEnvir_start,parameters->tempData.tempEnvir_len)).toUInt(&flag,16)));
     QString batteryMode,batteryModeSubFrame;
-    batteryModeSubFrame=frame.mid(66,2);
+    batteryModeSubFrame=frame.mid(parameters->addData.batMode_start,parameters->addData.batMode_len);
     if(batteryModeSubFrame.toInt(&flag,16)==0xBB){
         batteryMode="内电源";
     }
@@ -114,8 +114,8 @@ void FrameWork_8_10_12_14_Inch_bx::uncodeFrame_additional(){
         batteryMode="N/A";
     }
     bxData_additional["供电方式"]=batteryMode;
-    bxData_additional["5V二次电源电压"]=QString("%1").arg(BindData::frameReverse(frame.mid(68,4)).toUInt(&flag,16)*0.0078);
-    bxData_additional["3.3V二次电源电压"]=QString("%1").arg(BindData::frameReverse(frame.mid(72,4)).toUInt(&flag,16)*0.0036);
+    bxData_additional["5V二次电源电压"]=QString("%1").arg(BindData::frameReverse(frame.mid(parameters->addData.Volt5V_start,parameters->addData.Volt5V_len)).toUInt(&flag,16)*parameters->addData.Volt5V_para);
+    bxData_additional["3.3V二次电源电压"]=QString("%1").arg(BindData::frameReverse(frame.mid(parameters->addData.Volt3V_start,parameters->addData.Volt3V_len)).toUInt(&flag,16)*parameters->addData.Volt3V_para);
 
     emit this->newBxDataAdditional(bxData_additional);
     this->bxData_additional.clear();
@@ -137,13 +137,13 @@ QList<double> FrameWork_8_10_12_14_Inch_bx::temperatureDataExtract(QString frame
     QList<double> output;
     double temperature_environment,temperature_panel,temperature_position;
     QString subframe_TempEnvir,subframe_TempPanel,subframe_TempPos;
-    subframe_TempEnvir=BindData::frameReverse(frame.mid(60,4));     //unsigned
-    subframe_TempPanel=BindData::frameReverse(frame.mid(302,4));    //signed
-    subframe_TempPos=BindData::frameReverse(frame.mid(330,4));      //signed
+    subframe_TempEnvir=BindData::frameReverse(frame.mid(parameters->tempData.tempEnvir_start,parameters->tempData.tempEnvir_len));     //unsigned
+    subframe_TempPanel=BindData::frameReverse(frame.mid(parameters->tempData.tempPanel_start,parameters->tempData.tempPanel_len));    //signed
+    subframe_TempPos=BindData::frameReverse(frame.mid(parameters->tempData.tempPos_start,parameters->tempData.tempPos_len));      //signed
     bool flag;
-    temperature_environment=193.23-(0.23*subframe_TempEnvir.toUInt(&flag,16));
-    temperature_panel=subframe_TempPanel.toInt(&flag,16)*0.0625;
-    temperature_position=subframe_TempPos.toInt(&flag,16)*0.0625;
+    temperature_environment=parameters->tempData.envirPara1-(parameters->tempData.envirPara2*subframe_TempEnvir.toUInt(&flag,16));
+    temperature_panel=subframe_TempPanel.toInt(&flag,16)*parameters->tempData.panelPara;
+    temperature_position=subframe_TempPos.toInt(&flag,16)*parameters->tempData.positionPara;
     output.append(temperature_environment);
     output.append(temperature_panel);
     output.append(temperature_position);
@@ -156,10 +156,10 @@ QList<double> FrameWork_8_10_12_14_Inch_bx::distanceDataExtract(QString frame){
     QList<double> output;
     double distance_optimized,distance_1,distance_2,distance_3;
     QString subframe_opt,subframe_d1,subframe_d2,subframe_d3;
-    subframe_opt=BindData::frameReverse(frame.mid(8,8));
-    subframe_d1=BindData::frameReverse(frame.mid(360,8));
-    subframe_d2=BindData::frameReverse(frame.mid(368,8));
-    subframe_d3=BindData::frameReverse(frame.mid(376,8));
+    subframe_opt=BindData::frameReverse(frame.mid(parameters->disData.opt_start,parameters->disData.opt_len));
+    subframe_d1=BindData::frameReverse(frame.mid(parameters->disData.dis1_start,parameters->disData.dis1_len));
+    subframe_d2=BindData::frameReverse(frame.mid(parameters->disData.dis2_start,parameters->disData.dis2_len));
+    subframe_d3=BindData::frameReverse(frame.mid(parameters->disData.dis3_start,parameters->disData.dis3_len));
     bool flag;
     distance_optimized=subframe_opt.toUInt(&flag,16);
     distance_1=subframe_d1.toUInt(&flag,16);
@@ -177,17 +177,21 @@ QList<double> FrameWork_8_10_12_14_Inch_bx::positionDataExtract(QString frame){
     QList<double> output;
     double ZXJ,QJ,HXJ;
     QString subframe_ZXJ,subframe_QJ,subframe_HXJ;
-    subframe_ZXJ=BindData::frameReverse(frame.mid(306,4));
-    subframe_QJ=BindData::frameReverse(frame.mid(310,4));
-    subframe_HXJ=BindData::frameReverse(frame.mid(314,4));
+    subframe_ZXJ=BindData::frameReverse(frame.mid(parameters->posData.ZXJ_start,parameters->posData.ZXJ_len));
+    subframe_QJ=BindData::frameReverse(frame.mid(parameters->posData.QJ_start,parameters->posData.QJ_len));
+    subframe_HXJ=BindData::frameReverse(frame.mid(parameters->posData.HXJ_start,parameters->posData.HXJ_len));
     bool flag;
-    ZXJ=subframe_ZXJ.toInt(&flag,16)*0.1;
-    QJ=subframe_QJ.toInt(&flag,16)*0.1;
-    HXJ=subframe_HXJ.toInt(&flag,16)*0.1;
+    ZXJ=subframe_ZXJ.toInt(&flag,16)*parameters->posData.ZXJpara;
+    QJ=subframe_QJ.toInt(&flag,16)*parameters->posData.QJpara;
+    HXJ=subframe_HXJ.toInt(&flag,16)*parameters->posData.HXJpara;
     output.append(ZXJ);
     output.append(QJ);
     output.append(HXJ);
     return output;
 
+}
+
+void FrameWork_8_10_12_14_Inch_bx::setParameters(ParaGet* para){
+    this->parameters=para;
 }
 

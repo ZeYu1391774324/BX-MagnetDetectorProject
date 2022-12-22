@@ -392,6 +392,24 @@ void frmMain::initConfigPanel(){
 
 void frmMain::initConnectionConfigPage(){
     // Initiate Buttons
+    connect(ui->setParametersBtn,&QPushButton::clicked,[=](){
+        this->initParameters(ui->pipeTypecomboBox->currentText(),ui->pipeSizecomboBox->currentText());
+        if(ui->pipeTypecomboBox->currentIndex()==0){
+            QMessageBox::information(this,"提示","请选择产品类型！");
+            return;
+        }
+        if(ui->pipeSizecomboBox->currentIndex()==0){
+            QMessageBox::information(this,"提示","请选择产品尺寸！");
+            return;
+        }
+        if(this->parameters->initiated){
+            QMessageBox::information(this,"提示","产品型号设置成功！");
+        }
+        else {
+            QMessageBox::information(this,"提示","该型号暂不支持！");
+        }
+
+    });
     //打开串口按钮
     connect(ui->OpenSerialButton,&QPushButton::clicked,[=](){
         if(serial->isOpen())                                  // 如果串口打开了，先给他关闭
@@ -612,6 +630,7 @@ void frmMain::initParametersConfigPage(){
     // 时间采集按钮
     connect(ui->CollectByTimeBtn,&QToolButton::clicked,[=](){
         if(this->connected&&serial->isOpen()){
+            if(this->checkParameters()){
             QString str=COLLECTMODEHEAD;
             str.append(QString("%1").arg(ui->FrequencyComboBox->currentIndex()+1,2,16,QLatin1Char('0')));
             str.append(BindData::frameCalculate(str.right(BindData::frameDataLength(str))));
@@ -622,6 +641,7 @@ void frmMain::initParametersConfigPage(){
             connect(this,&frmMain::newBxDataAdditional,cbtPanel,&CollectByTimePanel::updateBxDataAdditional);   //传输额外显示信息
             cbtPanel->setWindowState(Qt::WindowMaximized);
             cbtPanel->show();
+            }
         }
         else{
             QMessageBox::warning(this,"提示","请先连接您的串口！");
@@ -632,6 +652,7 @@ void frmMain::initParametersConfigPage(){
     // 里程采集按钮
     connect(ui->CollectByDistanceBtn,&QToolButton::clicked,[=](){
         if(this->connected&&serial->isOpen()){
+            if(this->checkParameters()){
             QString str=COLLECTMODEHEAD;
             str.append(QString("%1").arg(ui->FrequencyComboBox->currentIndex()+1,2,16,QLatin1Char('0')));
             str.append(BindData::frameCalculate(str.right(BindData::frameDataLength(str))));
@@ -642,6 +663,7 @@ void frmMain::initParametersConfigPage(){
             connect(this,&frmMain::newBxDataAdditional,cbdPanel,&CollectByDistancePanel::updateBxDataAdditional);   //传输额外显示信息
             cbdPanel->setWindowState(Qt::WindowMaximized);
             cbdPanel->show();
+            }
         }
         else{
             QMessageBox::warning(this,"提示","请先连接您的串口！");
@@ -703,6 +725,14 @@ bool frmMain::checkConnection(){
         QMessageBox::warning(this,"提示","当前串口系统未连接，请先连接您的串口！");
         return false;
     }
+}
+
+bool frmMain::checkParameters(){
+    bool flag=this->parameters->initiated;
+    if(!flag){
+        QMessageBox::warning(this,"提示","请设置产品型号！");
+    }
+    return flag;
 }
 
 void frmMain::clearBuffer(){
@@ -767,7 +797,7 @@ void frmMain::initFrameWork(){
     framework_8_10_12_14_inch_bx->moveToThread(frameWorkThread);
     frameWorkThread->start();
     connect(this,&frmMain::newFrame_8_10_12_14_inch_bx,framework_8_10_12_14_inch_bx,&FrameWork_8_10_12_14_Inch_bx::setFrameList);  //将8&10&12&14inch变形数据报发送给frameWork进行解析取出变形数据
-
+    connect(this,&frmMain::newParameters,framework_8_10_12_14_inch_bx,&FrameWork_8_10_12_14_Inch_bx::setParameters);
     //frameWork解码完成通知主线程
     connect(framework_8_10_12_14_inch_bx,&FrameWork_8_10_12_14_Inch_bx::newBxData,this,&frmMain::newBxData);    //通知主线程得到新的一组变形数据
     connect(framework_8_10_12_14_inch_bx,&FrameWork_8_10_12_14_Inch_bx::newBxDataAdditional,this,&frmMain::newBxDataAdditional);    //通知主线程得到一组新的额外显示数据
@@ -1252,6 +1282,11 @@ void frmMain::systemDisconnect(){
         }
     });
 
+}
+
+void frmMain::initParameters(QString type, QString size){
+    parameters = new ParaGet(type,size);
+    emit this->newParameters(parameters);
 }
 
 

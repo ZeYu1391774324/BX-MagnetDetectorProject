@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QDebug>
 #include "binddata.h"
+#include "paraget.h"
 
 class FrameWork_8_10_12_14_Inch_bx : public QObject
 {
@@ -13,6 +14,7 @@ class FrameWork_8_10_12_14_Inch_bx : public QObject
 public:
     FrameWork_8_10_12_14_Inch_bx();
 
+    ParaGet *parameters;
     QList<QString> frameList;
     QString currentFrame;
     QList<double> bxData;                       //图像信息
@@ -21,6 +23,7 @@ public:
 
     void initFrameWork();
     void setFrameList(QString newFrame);
+    void setParameters(ParaGet*);
 
     //解码提取图像信息 & 额外辅助信息
     void uncodeFrame();

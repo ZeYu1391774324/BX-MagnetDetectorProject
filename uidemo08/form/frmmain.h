@@ -8,6 +8,7 @@
 #include "workers/datawork.h"
 #include "workers/uncodework.h"
 #include "workers/framework_8_10_12_14_inch_bx.h"
+#include "paraget.h"
 
 #include <QWidget>
 #include <QCloseEvent>
@@ -72,6 +73,7 @@ public:
     void connectSerialPort();               //打开串口
     void LED(bool changeColor);             //串口指示灯
     bool checkConnection();                  //检查串口连接状态
+    bool checkParameters();                 //检查参数设置
 
     // Data Receiving and Uncoding
     void dataSend();
@@ -95,6 +97,7 @@ public:
     bool connected = false;                 //串口连接状态
     CollectByTimePanel *cbtPanel;           //时间采集面板
     CollectByDistancePanel *cbdPanel;       //里程采集面板
+    ParaGet *parameters=new ParaGet("请选择产品类型","请选择产品尺寸");                    //系统参数信息
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
@@ -146,6 +149,7 @@ private:
     void initConfigPanel();             //初始化系统设置页
     void initConnectionConfigPage();    //初始化串口设置页面
     void initParametersConfigPage();    //初始化参数设置页面
+    void initParameters(QString type, QString size);//初始化参数
 
     //硬盘链接页初始化
     void initDiskCtrlPage();            //初始化硬盘连接页
@@ -161,7 +165,7 @@ signals:
     void newBxDataAdditional(QMap<QString,QString> bxDataAdditional);     //得到新的一组额外显示数据
     void returnedFrame_SUCCESS();                       //串口返回成功指令（SUCCESS FRAME）
     void returnedFrame_UNSUCCESS();                       //串口返回失败指令（UNSUCCESS FRAME）
-
+    void newParameters(ParaGet*);
 
 
 private slots:
@@ -172,6 +176,7 @@ private slots:
     void initLeftConfig();
     void leftMainClick();
     void leftConfigClick();
+
 
 private slots:
     void on_btnMenu_Min_clicked();

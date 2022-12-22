@@ -16,6 +16,7 @@ HEADERS += \
     $$PWD/connectiondlg.h \
     $$PWD/localfile.h \
     $$PWD/panel_password.h \
+    $$PWD/paraget.h \
     $$PWD/qcustomplot.h \
     $$PWD/workers/datawork.h \
     $$PWD/workers/framework_8_10_12_14_inch_bx.h \
@@ -31,6 +32,7 @@ SOURCES += \
     $$PWD/connectiondlg.cpp \
     $$PWD/localfile.cpp \
     $$PWD/panel_password.cpp \
+    $$PWD/paraget.cpp \
     $$PWD/qcustomplot.cpp \
     $$PWD/workers/datawork.cpp \
     $$PWD/workers/framework_8_10_12_14_inch_bx.cpp \
