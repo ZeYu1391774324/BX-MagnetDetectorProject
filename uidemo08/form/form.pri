@@ -19,6 +19,7 @@ HEADERS += \
     $$PWD/paraget.h \
     $$PWD/qcustomplot.h \
     $$PWD/workers/datawork.h \
+    $$PWD/workers/fileconvertwork.h \
     $$PWD/workers/framework_8_10_12_14_inch_bx.h \
     $$PWD/workers/uncodework.h
 
@@ -35,5 +36,6 @@ SOURCES += \
     $$PWD/paraget.cpp \
     $$PWD/qcustomplot.cpp \
     $$PWD/workers/datawork.cpp \
+    $$PWD/workers/fileconvertwork.cpp \
     $$PWD/workers/framework_8_10_12_14_inch_bx.cpp \
     $$PWD/workers/uncodework.cpp

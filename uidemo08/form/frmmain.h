@@ -150,6 +150,7 @@ private:
     void initConnectionConfigPage();    //初始化串口设置页面
     void initParametersConfigPage();    //初始化参数设置页面
     void initParameters(QString type, QString size);//初始化参数
+    void initSysInfoLabel();             //初始化系统信息显示
 
     //硬盘链接页初始化
     void initDiskCtrlPage();            //初始化硬盘连接页

@@ -136,6 +136,33 @@ QString BindData::frameUnencrypt(QString frame){
     return unencryptedDataFrame.toUpper();
 }
 
+QString BindData::hardUnencrypt(QString frame){
+    bool flag;
+    int dataLength=frame.length();
+    QString data_1,data_2,data_3,data_4;
+    QList<uint> data_test;
+    uint data_low,data_high;
+    QString dataFrame=frame;
+    QString unencryptedDataFrame;
+    for (int i = 0; i < dataLength; i=i+2) {
+        data_low=(dataFrame.mid(i,2).toUInt(&flag,16)&0x01);
+        data_high=((dataFrame.mid(i,2).toUInt(&flag,16)>>7)&0x01);
+        data_test.append((((dataFrame.mid(i,2).toUInt(&flag,16))&0x7E)|data_high|(data_low<<7))&0xff);
+    }
+    for (int j = 0; j < data_test.length()/4; ++j) {
+        data_1=QString("%1").arg(data_test.at(4*j+0),2,16,QLatin1Char('0'));
+        data_2=QString("%1").arg(data_test.at(4*j+1),2,16,QLatin1Char('0'));
+        data_3=QString("%1").arg(data_test.at(4*j+2),2,16,QLatin1Char('0'));
+        data_4=QString("%1").arg(data_test.at(4*j+3),2,16,QLatin1Char('0'));
+        unencryptedDataFrame.append(data_2);
+        unencryptedDataFrame.append(data_4);
+        unencryptedDataFrame.append(data_1);
+        unencryptedDataFrame.append(data_3);
+    }
+
+    return unencryptedDataFrame.toUpper();
+}
+
 
 
 
