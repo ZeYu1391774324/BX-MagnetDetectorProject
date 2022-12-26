@@ -126,7 +126,7 @@ QList<double> FrameWork_8_10_12_14_Inch_bx::bxDataExtract(QString subframe){
     QList<double> subframeData;
     bool flag;
     for (int  i= 0; i < subframe.length(); i+=4) {
-        subframeData.append((double)(subframe.mid(i,4).toUInt(&flag,16)&0x0fff)*5/4096);       // 低12位/4096*5
+        subframeData.append((double)(BindData::frameReverse(subframe.mid(i,4)).toUInt(&flag,16)&0x0fff)*5/4096);       // 低12位/4096*5
         //subframeData.append(subframe.mid(i,4).right(3).toDouble()*5/4096);       // 低12位/4096*5
     }
     return subframeData;

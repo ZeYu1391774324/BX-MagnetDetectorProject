@@ -84,6 +84,86 @@
     <widget class="QWidget" name="widget_4" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>请选择产品型号：</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="pipeTypecomboBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <item>
+         <property name="text">
+          <string>请选择产品类型</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>变形</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>漏磁</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="pipeSizecomboBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <item>
+         <property name="text">
+          <string>请选择产品尺寸</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>8inch</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>10inch</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>12inch</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>14inch</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QToolButton" name="ConvertBtn">
         <property name="text">
          <string>  开始转换</string>

@@ -2,7 +2,11 @@
 #define FILECONVERSIONPANEL_H
 
 #include <QWidget>
+#include <QThread>
 #include "localfile.h"
+#include "workers/fileconvertwork.h"
+#include "paraget_hard.h"
+
 namespace Ui {
 class FileConversionPanel;
 }
@@ -24,11 +28,19 @@ public:
     void deleteFiles();
     void selectAll();
     void convertSelectedFiles();
+    void initFileConvertWork();
 
     QList<localFile> localFileList;
+    ParaGet_hard *parameters;
 
 private:
     Ui::FileConversionPanel *ui;
+
+signals:
+    void newLocalFileList(QList<localFile>*);
+    void newSavePath(QString);
+    void newParameters(ParaGet_hard*);
+    void convertFilesCommand();
 
 };
 

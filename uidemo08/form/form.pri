@@ -17,6 +17,7 @@ HEADERS += \
     $$PWD/localfile.h \
     $$PWD/panel_password.h \
     $$PWD/paraget.h \
+    $$PWD/paraget_hard.h \
     $$PWD/qcustomplot.h \
     $$PWD/workers/datawork.h \
     $$PWD/workers/fileconvertwork.h \
@@ -34,6 +35,7 @@ SOURCES += \
     $$PWD/localfile.cpp \
     $$PWD/panel_password.cpp \
     $$PWD/paraget.cpp \
+    $$PWD/paraget_hard.cpp \
     $$PWD/qcustomplot.cpp \
     $$PWD/workers/datawork.cpp \
     $$PWD/workers/fileconvertwork.cpp \

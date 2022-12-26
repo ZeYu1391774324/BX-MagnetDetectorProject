@@ -28,6 +28,7 @@ FileConversionPanel::FileConversionPanel(QWidget *parent) :
     // Initialization
     initializingButtons();
     initializingTables();
+    this->initFileConvertWork();
 
 
 }
@@ -119,10 +120,29 @@ void FileConversionPanel::initializingButtons(){
        ui->SavePathEdit->setText(path);
        path=QDir::toNativeSeparators(path);
        SavePath=path;
+       emit this->newSavePath(SavePath);
     });
 
     // Convert Button
     connect(ui->ConvertBtn,&QPushButton::clicked,[=](){
+        if(ui->pipeTypecomboBox->currentIndex()==0){
+            QMessageBox::information(this,"提示","请选择产品类型！");
+            return;
+        }
+        else if(ui->pipeSizecomboBox->currentIndex()==0) {
+            QMessageBox::information(this,"提示","请选择产品尺寸！");
+            return;
+        }
+        else {
+            this->parameters = new ParaGet_hard(ui->pipeTypecomboBox->currentText(),ui->pipeSizecomboBox->currentText());
+            if(!parameters->initiated){
+                QMessageBox::information(this,"提示","当前型号系统暂不支持！");
+                return;
+            }
+            else {
+                emit this->newParameters(parameters);
+            }
+        }
         this->convertSelectedFiles();
     });
 
@@ -165,6 +185,28 @@ void FileConversionPanel::convertSelectedFiles(){
         return;
     }
 
+
+    else {
+        bool flag;
+        for (int i = 0; i < this->localFileList.length(); ++i) {
+            if(localFileList.at(i).localFileSelectedFlag){
+                flag=true;
+                break;
+            }
+        }
+        if(!flag){
+            QMessageBox::information(this,"提示","请先选择您要转换的文件！");
+            return;
+        }
+
+        if(QMessageBox::question(this,"文件存储路径确认","您是否想要将转换后的文件存储至 "+SavePath+" ？")==QMessageBox::Yes){
+            emit this->convertFilesCommand();
+        }
+        else {
+            return;
+        }
+    }
+/*
     else {
         if(QMessageBox::question(this,"文件存储路径确认","您是否想要将转换后的文件存储至 "+SavePath+" ？")==QMessageBox::Yes){
             for (int i = 0; i < localFileList.length(); ++i) {
@@ -204,12 +246,9 @@ void FileConversionPanel::convertSelectedFiles(){
             return;
         }
     }
-    if(convertedNumber==0){
-        QMessageBox::information(this,"提示","请选择您想要转换的文件！");
-        return;
-    }
+
     QMessageBox::information(this,"文件转换完成","您所选的文件已转换完成！");
-    this->updateTable();
+    this->updateTable();*/
 }
 
 void FileConversionPanel::updateTable(){
@@ -271,5 +310,18 @@ void FileConversionPanel::updateTable(){
     }
 
     ui->FileSelectingTable->resizeColumnsToContents();
+    emit this->newLocalFileList(&localFileList);
 
+}
+
+void FileConversionPanel::initFileConvertWork(){
+    QThread * fileConvertThread = new QThread;
+    FileConvertWork *fileconvertWork = new FileConvertWork;
+    fileconvertWork->moveToThread(fileConvertThread);
+    fileConvertThread->start();
+    connect(this,&FileConversionPanel::newParameters,fileconvertWork,&FileConvertWork::initParameters);
+    connect(this,&FileConversionPanel::newSavePath,fileconvertWork,&FileConvertWork::updateSavePath);
+    connect(this,&FileConversionPanel::newLocalFileList,fileconvertWork,&FileConvertWork::updateLocalFileList);
+    connect(this,&FileConversionPanel::convertFilesCommand,fileconvertWork,&FileConvertWork::convertFiles);
+    connect(fileconvertWork,&FileConvertWork::fileConvertProcess,ui->progressBar,&QProgressBar::setValue);
 }
