@@ -6,13 +6,15 @@
 class ParaGet_hard
 {
 public:
-    ParaGet_hard(QString pipeType,QString pipeSize);
+    ParaGet_hard(QString pipeType,QString pipeSize,int encryptFlag);
 
 
     bool initiated = false;
+    bool encrypted = true;
     QString pipeType;
     QString pipeSize;
     int frameLength_hard;
+    int doubleLength_hard;
     struct DATAPARA
     {
         int clock_start;

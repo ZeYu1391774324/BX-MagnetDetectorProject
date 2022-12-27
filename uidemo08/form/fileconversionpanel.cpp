@@ -134,7 +134,7 @@ void FileConversionPanel::initializingButtons(){
             return;
         }
         else {
-            this->parameters = new ParaGet_hard(ui->pipeTypecomboBox->currentText(),ui->pipeSizecomboBox->currentText());
+            this->parameters = new ParaGet_hard(ui->pipeTypecomboBox->currentText(),ui->pipeSizecomboBox->currentText(),ui->encryptStatComBox->currentIndex());
             if(!parameters->initiated){
                 QMessageBox::information(this,"提示","当前型号系统暂不支持！");
                 return;
@@ -324,4 +324,11 @@ void FileConversionPanel::initFileConvertWork(){
     connect(this,&FileConversionPanel::newLocalFileList,fileconvertWork,&FileConvertWork::updateLocalFileList);
     connect(this,&FileConversionPanel::convertFilesCommand,fileconvertWork,&FileConvertWork::convertFiles);
     connect(fileconvertWork,&FileConvertWork::fileConvertProcess,ui->progressBar,&QProgressBar::setValue);
+    connect(fileconvertWork,&FileConvertWork::fileConvertedIndex,[=](int index,QString stat){
+        this->localFileList[index].setConvertState(stat);
+    });
+    connect(fileconvertWork,&FileConvertWork::workFinished,[=](){
+        QMessageBox::information(this,"提示","所选文件转化完成！");
+        this->updateTable();
+    });
 }

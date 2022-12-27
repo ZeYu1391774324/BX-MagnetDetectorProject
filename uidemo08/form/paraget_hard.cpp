@@ -1,8 +1,14 @@
 #include "paraget_hard.h"
 
 
-ParaGet_hard::ParaGet_hard(QString type,QString size)
+ParaGet_hard::ParaGet_hard(QString type,QString size,int encryptFlag)
 {
+    if(encryptFlag==0){
+        encrypted=true;
+    }
+    else if(encryptFlag==1){
+        encrypted=false;
+    }
     QStringList typelist,sizelist;
     typelist<<"请选择产品类型"<<"变形"<<"漏磁";
     sizelist<<"请选择产品尺寸"<<"8inch"<<"10inch"<<"12inch"<<"14inch";
@@ -19,7 +25,14 @@ ParaGet_hard::ParaGet_hard(QString type,QString size)
             break;
 
         case 2:                 //10inch变形
-            frameLength_hard=196*2;
+            if(encrypted){
+                frameLength_hard=196*2;
+            }
+            else if(!encrypted){
+                frameLength_hard=194*2;
+            }
+            doubleLength_hard=52;
+
             // 数据部分参数
             dataPara.clock_start=16;
             dataPara.clock_len=12;
@@ -45,12 +58,23 @@ ParaGet_hard::ParaGet_hard(QString type,QString size)
             //里程参数
             disData.opt_start=8;
             disData.opt_len=8;
-            disData.dis1_start=360;
-            disData.dis1_len=8;
-            disData.dis2_start=368;
-            disData.dis2_len=8;
-            disData.dis3_start=376;
-            disData.dis3_len=8;
+            if(encrypted){
+                disData.dis1_start=360;
+                disData.dis1_len=8;
+                disData.dis2_start=368;
+                disData.dis2_len=8;
+                disData.dis3_start=376;
+                disData.dis3_len=8;
+            }
+            else {
+                disData.dis1_start=356;
+                disData.dis1_len=8;
+                disData.dis2_start=364;
+                disData.dis2_len=8;
+                disData.dis3_start=372;
+                disData.dis3_len=8;
+            }
+
 
             //姿态周向角，倾角，航向角，加速度
             posData.ZXJ_start=306;

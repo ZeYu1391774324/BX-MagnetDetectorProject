@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QDebug>
 #include <fstream>
+#include <QTimer>
+#include <cmath>>
 #include "localfile.h"
 #include "binddata.h"
 #include "paraget_hard.h"
@@ -22,7 +24,7 @@ public:
     double process;
     void initParameters(ParaGet_hard*);
     void convertFiles();
-    void HexToDecimalFile(localFile file);
+    int HexToDecimalFile(localFile file);
     void updateLocalFileList(QList<localFile>*);
     void updateSavePath(QString);
     QList<double> bxDataExtract(QString subframe);
@@ -35,6 +37,8 @@ private:
 
 signals:
     void fileConvertProcess(double);
+    void fileConvertedIndex(int,QString);
+    void workFinished();
 
 };
 

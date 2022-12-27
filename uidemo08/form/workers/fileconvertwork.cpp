@@ -2,7 +2,11 @@
 
 FileConvertWork::FileConvertWork()
 {
-
+//    QTimer *timer = new QTimer;     //每个半秒上传文件转换进度
+//    timer->start(500);
+//    connect(timer,&QTimer::timeout,[=](){
+//        emit this->fileConvertProcess(this->process);
+//    });
 }
 
 void FileConvertWork::initParameters(ParaGet_hard *para){
@@ -12,17 +16,36 @@ void FileConvertWork::initParameters(ParaGet_hard *para){
 void FileConvertWork::convertFiles(){
     for (int i = 0; i < this->localfilelist->length(); ++i) {
         if(localfilelist->at(i).localFileSelectedFlag){
-            this->HexToDecimalFile(localfilelist->at(i));
+
+            qDebug()<<QString("正在转换文件%1").arg(localfilelist->at(i).localFilePath);
+            if(parameters->encrypted){
+                qDebug()<<QString("系统产品变量：%1-%2-加密").arg(parameters->pipeSize,parameters->pipeType);
+            }
+            else {
+                qDebug()<<QString("系统产品变量：%1-%2-未加密").arg(parameters->pipeSize,parameters->pipeType);
+            }
+            //return -1：转换失败； return 0：已转换； return 1：未转换；
+            int convertFlag = this->HexToDecimalFile(localfilelist->at(i));
+            if(convertFlag==-1){
+                emit this->fileConvertedIndex(i,"转换失败");
+            }
+            else if(convertFlag==0){
+                emit this->fileConvertedIndex(i,"已转换");
+            }
+            else if(convertFlag==1){
+                emit this->fileConvertedIndex(i,"未转换");
+            }
         }
         else {
             continue;
         }
 
     }
+    emit this->workFinished();
 
 }
 
-void FileConvertWork::HexToDecimalFile(localFile file){
+int FileConvertWork::HexToDecimalFile(localFile file){      //return -1：转换失败； return 0：已转换； return 1：未转换；
     //read file
     QString hexData;
     QString filepath=file.localFilePath;
@@ -44,16 +67,26 @@ void FileConvertWork::HexToDecimalFile(localFile file){
       hexData.append(hexList.at(b));
       b = 0x0f & byteDataArray[i];
       hexData.append(hexList.at(b));
+
+
     }
 
-    hexData=BindData::hardUnencrypt(hexData);   //解码
+    if(parameters->encrypted){
+        hexData=BindData::hardUnencrypt(hexData);   //解码
+    }
+
     delete[](byteDataArray);
 
 
     /********** 数据解析 **********/
+    if(hexData.length()%parameters->frameLength_hard!=0){
+        qDebug()<<"数据文件与参数设置不匹配！";
+        return -1; // 转换失败
+    }
     int frameNum=hexData.length()/parameters->frameLength_hard;
-    int frameCount=1;
-    int fileCount=1;
+    int fileNum=ceil(frameNum/DECIMALFILEFRAMENUM_MAX);
+    int frameCount=0;
+    int fileCount=0;
     QStringList typelist,sizelist;
     typelist<<"请选择产品类型"<<"变形"<<"漏磁";
     sizelist<<"请选择产品尺寸"<<"8inch"<<"10inch"<<"12inch"<<"14inch";
@@ -68,12 +101,15 @@ void FileConvertWork::HexToDecimalFile(localFile file){
             break;
         case 2:         //10inch-变形
         {
+
             QList <double> DecimalData;
             double dis_opt,clock,Volt24_voltage;
             QList<double> bxData;
             double temp_bat,temp_panel,temp_pos,ZXJ,QJ,HXJ,acc_x,acc_y,acc_z,dis_1,dis_2,dis_3,stat;
             bool flag;
-            for (int i = STARTPOINT-1; i < frameNum; ++i) {
+            ofstream ofs;
+            for (int i = STARTPOINT-1; i < frameNum; ++i)
+            {
                 QString currentFrame=hexData.mid(i*parameters->frameLength_hard,parameters->frameLength_hard);
                 //优选里程
                 dis_opt=BindData::frameReverse(currentFrame.mid(parameters->disData.opt_start,parameters->disData.opt_len)).toInt(&flag,16);
@@ -101,7 +137,7 @@ void FileConvertWork::HexToDecimalFile(localFile file){
                 //Y加速度
                 acc_y=BindData::frameReverse(currentFrame.mid(parameters->addData.accY_start,parameters->addData.accY_len)).toInt(&flag,16)*parameters->addData.accY_para;
                 //Z加速度
-                acc_x=BindData::frameReverse(currentFrame.mid(parameters->addData.accZ_start,parameters->addData.accZ_len)).toInt(&flag,16)*parameters->addData.accZ_para;
+                acc_z=BindData::frameReverse(currentFrame.mid(parameters->addData.accZ_start,parameters->addData.accZ_len)).toInt(&flag,16)*parameters->addData.accZ_para;
                 //里程1
                 dis_1=BindData::frameReverse(currentFrame.mid(parameters->disData.dis1_start,parameters->disData.dis1_len)).toInt(&flag,16);
                 //里程2
@@ -119,6 +155,7 @@ void FileConvertWork::HexToDecimalFile(localFile file){
                 DecimalData.append(clock);
                 DecimalData.append(Volt24_voltage);
                 DecimalData.append(bxData);
+                bxData.clear();
                 DecimalData.append(temp_bat);
                 DecimalData.append(temp_panel);
                 DecimalData.append(temp_pos);
@@ -132,29 +169,59 @@ void FileConvertWork::HexToDecimalFile(localFile file){
                 DecimalData.append(dis_2);
                 DecimalData.append(dis_3);
                 DecimalData.append(stat);
+                frameCount++;
+                emit this->fileConvertProcess((double)(frameCount)/(double)frameNum*100);
 
                 //写文件
-                ofstream ofs;
-                QString outputPath=SavePath.append(QString("%1.dat%2IN.bin").arg(file.localFileName.left(file.localFileName.lastIndexOf(".")),fileCount));
-                ofs.open(outputPath.toStdString(),ios::out|ios::binary|ios::app);
+//                int outputSize_double=DecimalData.length();
+//                double *outByteArray=new double[outputSize_double];
+//                for (int j = 0; j < outputSize_double; ++j) {
+//                    outByteArray[j]=DecimalData.at(j);
+//                }
+//                if(frameCount%50000==1){
+//                    ofs.close();
+//                    fileCount++;
+//                    QString outputPath=SavePath+(QString("\\%1.dat%2IN.bin").arg(file.localFileName.left(file.localFileName.lastIndexOf("."))).arg(fileCount));
+//                    ofs.open(outputPath.toStdString(),ios::app|ios::binary);
+//                }
+//                ofs.write((char*)outByteArray,sizeof(double)*outputSize_double);
+//                delete[](outByteArray);
+//                DecimalData.clear();
+
+                // 写文件
+                if(frameCount%50000==0){
+                    int outputSize_double=DecimalData.length();
+                    double *outByteArray=new double[outputSize_double];
+                    for (int j = 0; j < outputSize_double; ++j) {
+                        outByteArray[j]=DecimalData.at(j);
+                    }
+                    fileCount++;
+                    QString outputPath=SavePath+(QString("\\%1.dat%2IN.bin").arg(file.localFileName.left(file.localFileName.lastIndexOf("."))).arg(fileCount));
+                    ofs.open(outputPath.toStdString(),ios::out|ios::binary);
+                    ofs.write((char*)outByteArray,sizeof(double)*outputSize_double);
+                    delete[](outByteArray);
+                    DecimalData.clear();
+                    ofs.close();
+                }
+            }
+            if(!DecimalData.isEmpty()){
                 int outputSize_double=DecimalData.length();
                 double *outByteArray=new double[outputSize_double];
                 for (int j = 0; j < outputSize_double; ++j) {
                     outByteArray[j]=DecimalData.at(j);
                 }
+                //写剩余文件
+                fileCount++;
+                QString outputPath=SavePath+(QString("\\%1.dat%2IN.bin").arg(file.localFileName.left(file.localFileName.lastIndexOf("."))).arg(fileCount));
+                ofs.open(outputPath.toStdString(),ios::out|ios::binary);
                 ofs.write((char*)outByteArray,sizeof(double)*outputSize_double);
                 ofs.close();
                 delete[](outByteArray);
-                frameCount++;
-                if(frameCount>=DECIMALFILEFRAMENUM_MAX){
-                    fileCount++;
-                    frameCount=0;
-                }
-                emit this->fileConvertProcess(((double)(i/frameNum))*100);
-
+                DecimalData.clear();
             }
+            ofs.close();
             ifs.close();
-
+            return 0; //已转换
         }
             break;
         default:
@@ -166,10 +233,7 @@ void FileConvertWork::HexToDecimalFile(localFile file){
     default:
         break;
     }
-
-
-
-
+    return 1;   //未转换
 
 }
 

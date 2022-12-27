@@ -41,7 +41,10 @@ void FrameWork_8_10_12_14_Inch_bx::uncodeFrame(){
         this->frameList.removeFirst();
 
         //解密数据帧部分
-        frame=BindData::frameUnencrypt(frame);
+        if(parameters->encrypted){
+            frame=BindData::frameUnencrypt(frame);
+        }
+
 
         //解码取信息过程
         this->bxData.append(this->bxDataExtract(frame.mid(parameters->dataPara.data1_18_start,parameters->dataPara.data1_18_len)));     //1-18路
@@ -71,8 +74,9 @@ void FrameWork_8_10_12_14_Inch_bx::uncodeFrame_additional(){
     QString frame = currentFrame;
 
     //解密数据帧部分
-    frame = BindData::frameUnencrypt(frame);
-
+    if(parameters->encrypted){
+        frame = BindData::frameUnencrypt(frame);
+    }
     //解码取信息
     /*
         时钟脉冲计数

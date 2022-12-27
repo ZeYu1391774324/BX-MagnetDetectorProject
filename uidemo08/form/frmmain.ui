@@ -1499,6 +1499,20 @@
                  </item>
                 </widget>
                </item>
+               <item>
+                <widget class="QComboBox" name="encryptStatComboBox">
+                 <item>
+                  <property name="text">
+                   <string>加密文件</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>未加密文件</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
               </layout>
              </widget>
             </item>
@@ -2595,8 +2609,8 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../src.qrc"/>
   <include location="../other/main.qrc"/>
+  <include location="../../src.qrc"/>
  </resources>
  <connections/>
 </ui>

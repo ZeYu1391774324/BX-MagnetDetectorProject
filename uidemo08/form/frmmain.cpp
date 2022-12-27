@@ -102,6 +102,10 @@ void frmMain::initSysInfoLabel(){
     connect(this,&frmMain::newParameters,[=](ParaGet* para){
         if(para->initiated){
             ui->sysInfoLabel->setText(QString("当前产品型号：%1-%2").arg(para->pipeSize,para->pipeType));
+            if(para->encrypted){
+                qDebug()<<"加密文件模式";
+            }
+
         }
         else {
             ui->sysInfoLabel->setText("产品型号未设置...");
@@ -406,7 +410,7 @@ void frmMain::initConfigPanel(){
 void frmMain::initConnectionConfigPage(){
     // Initiate Buttons
     connect(ui->setParametersBtn,&QPushButton::clicked,[=](){
-        this->initParameters(ui->pipeTypecomboBox->currentText(),ui->pipeSizecomboBox->currentText());
+
         if(ui->pipeTypecomboBox->currentIndex()==0){
             QMessageBox::information(this,"提示","请选择产品类型！");
             return;
@@ -415,12 +419,8 @@ void frmMain::initConnectionConfigPage(){
             QMessageBox::information(this,"提示","请选择产品尺寸！");
             return;
         }
-        if(this->parameters->initiated){
-            QMessageBox::information(this,"提示","产品型号设置成功！");
-        }
-        else {
-            QMessageBox::information(this,"提示","该型号暂不支持！");
-        }
+        this->initParameters(ui->pipeTypecomboBox->currentText(),ui->pipeSizecomboBox->currentText());
+
 
     });
     //打开串口按钮
@@ -643,7 +643,7 @@ void frmMain::initParametersConfigPage(){
     // 时间采集按钮
     connect(ui->CollectByTimeBtn,&QToolButton::clicked,[=](){
         if(this->connected&&serial->isOpen()){
-            if(this->checkParameters()){
+            if(parameters->initiated){
             QString str=COLLECTMODEHEAD;
             str.append(QString("%1").arg(ui->FrequencyComboBox->currentIndex()+1,2,16,QLatin1Char('0')));
             str.append(BindData::frameCalculate(str.right(BindData::frameDataLength(str))));
@@ -655,6 +655,9 @@ void frmMain::initParametersConfigPage(){
             cbtPanel->setWindowState(Qt::WindowMaximized);
             cbtPanel->show();
             }
+            else {
+                QMessageBox::warning(this,"提示","请先设置产品型号！");
+            }
         }
         else{
             QMessageBox::warning(this,"提示","请先连接您的串口！");
@@ -665,7 +668,7 @@ void frmMain::initParametersConfigPage(){
     // 里程采集按钮
     connect(ui->CollectByDistanceBtn,&QToolButton::clicked,[=](){
         if(this->connected&&serial->isOpen()){
-            if(this->checkParameters()){
+            if(parameters->initiated){
             QString str=COLLECTMODEHEAD;
             str.append(QString("%1").arg(ui->FrequencyComboBox->currentIndex()+1,2,16,QLatin1Char('0')));
             str.append(BindData::frameCalculate(str.right(BindData::frameDataLength(str))));
@@ -676,6 +679,9 @@ void frmMain::initParametersConfigPage(){
             connect(this,&frmMain::newBxDataAdditional,cbdPanel,&CollectByDistancePanel::updateBxDataAdditional);   //传输额外显示信息
             cbdPanel->setWindowState(Qt::WindowMaximized);
             cbdPanel->show();
+            }
+            else {
+                QMessageBox::warning(this,"提示","请先设置产品型号！");
             }
         }
         else{
@@ -1124,6 +1130,7 @@ void frmMain::currentFrameControl(){
             }
             break;
         default:
+                emit this->newFrame_8_10_12_14_inch_bx(currentframe);       //将数据报传送给变形解析子线程
             break;
         }
 
@@ -1298,8 +1305,15 @@ void frmMain::systemDisconnect(){
 }
 
 void frmMain::initParameters(QString type, QString size){
-    parameters = new ParaGet(type,size);
+    parameters = new ParaGet(type,size,ui->encryptStatComboBox->currentIndex());
+    //qDebug()<<this->parameters->dataPara.data19_36_len<<this->parameters->initiated;
     emit this->newParameters(parameters);
+    if(this->parameters->initiated){
+        QMessageBox::information(this,"提示","产品型号设置成功！");
+    }
+    else {
+        QMessageBox::information(this,"提示","该型号暂不支持！");
+    }
 }
 
 

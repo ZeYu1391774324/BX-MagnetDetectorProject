@@ -16,7 +16,7 @@ public:
     bool localFileSelectedFlag;
     QString convertState;
 
-
+    void setConvertState(QString);
 
 
 

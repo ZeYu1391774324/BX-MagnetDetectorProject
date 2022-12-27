@@ -12,3 +12,7 @@ localFile::localFile()
 
 
 }
+
+void localFile::setConvertState(QString stat){
+    this->convertState=stat;
+}

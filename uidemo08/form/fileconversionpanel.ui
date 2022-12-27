@@ -151,6 +151,20 @@
        </widget>
       </item>
       <item>
+       <widget class="QComboBox" name="encryptStatComBox">
+        <item>
+         <property name="text">
+          <string>加密文件</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>未加密文件</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer_2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>

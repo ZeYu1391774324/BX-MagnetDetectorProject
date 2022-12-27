@@ -1,14 +1,17 @@
 #ifndef PARAGET_H
 #define PARAGET_H
 
-#include <QWidget>>
+#include <QWidget>
+#include <QDebug>
 
 class ParaGet
 {
 public:
-    ParaGet(QString type, QString size);
+    //ParaGet(QString type, QString size);
+    ParaGet(QString type, QString size, int encryptFlag);
 
     bool initiated = false;
+    bool encrypted = true;
     QString pipeType;
     QString pipeSize;
     struct DATAPARA
