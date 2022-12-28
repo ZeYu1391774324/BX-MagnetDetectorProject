@@ -98,6 +98,7 @@ void frmMain::getQssColor(const QString &qss, QString &textColor, QString &panel
 /*************************************** Initiation -- Start ************************************************************/
 
 void frmMain::initSysInfoLabel(){
+    //系统信息栏初始化
     ui->sysInfoLabel->setText("产品型号未设置...");
     connect(this,&frmMain::newParameters,[=](ParaGet* para){
         if(para->initiated){
@@ -110,6 +111,11 @@ void frmMain::initSysInfoLabel(){
         else {
             ui->sysInfoLabel->setText("产品型号未设置...");
         }
+    });
+
+    //流量监控栏初始化
+    connect(this,&frmMain::newByteSpeed,[=](int ByteSpeed){
+        ui->byteSpeedLabel->setText(QString("当前串口传输速率：%1 Byte/s").arg(ByteSpeed));
     });
 }
 
@@ -286,8 +292,14 @@ void frmMain::initForm()
     // localBtn
     connect(ui->localBtn,&QToolButton::clicked,[=](){
         //qDebug() << "localBtn clicked!";
-        LocalPanel * localpanel = new LocalPanel();
-        localpanel->show();
+//        LocalPanel * localpanel = new LocalPanel();
+//        localpanel->show();
+        FileConversionPanel * fc_Panel = new FileConversionPanel(nullptr,this->localFileList);
+        fc_Panel->show();
+        connect(fc_Panel,&FileConversionPanel::newLocalFileList,[=](QList<localFile>* lfList){
+            this->localFileList=lfList;
+        });
+
     });
 }
 
@@ -796,6 +808,7 @@ void frmMain::initDataWork(){
     connect(uncodework,&UncodeWork::clearDataWork,datawork,&DataWork::clearBuffer);
     connect(datawork,&DataWork::DataWorkCleared,uncodework,&UncodeWork::resetHeadandEnd);
     connect(uncodework,&UncodeWork::currentFrameChanges,this,&frmMain::currentFrameChanges);
+    connect(datawork,&DataWork::newByteSpeed,this,&frmMain::newByteSpeed);
 //    connect(datawork,&DataWork::dataChanged,[=](QString newData){
 //        this->data=newData;
 //        emit this->dataChanges();

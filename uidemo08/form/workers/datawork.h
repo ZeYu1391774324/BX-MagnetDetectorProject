@@ -28,6 +28,7 @@ public:
     //Members
     QSerialPort *serial;
     QString data;
+    int ByteCount;
 
 
 
@@ -35,13 +36,14 @@ public:
     void clearBuffer(int head, int end);
 
     //TODO ByteCurrent speed Detecting
-
+    void ByteSpeedDetecting();
 
 
 
 signals:
     void dataChanged(QString data);
     void DataWorkCleared();
+    void newByteSpeed(int ByteSpeed);
 };
 
 #endif // DATAWORK_H

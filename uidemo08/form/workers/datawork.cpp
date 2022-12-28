@@ -4,15 +4,24 @@ DataWork::DataWork(QSerialPort *serial)
 
 {
     this->serial=serial;
+    this->ByteSpeedDetecting();
 
 }
 
-
+void DataWork::ByteSpeedDetecting(){
+    QTimer *timer = new QTimer;
+    timer->start(1000);
+    connect(timer,&QTimer::timeout,[=](){
+        emit this->newByteSpeed(ByteCount);
+        ByteCount=0;
+    });
+}
 
 
 void DataWork::receiveData(){
     QByteArray res = serial->readAll();                      // 读取数据
     QString hexRes =res.toHex().toUpper();
+    ByteCount++;
 
     if(!hexRes.isEmpty())                                 // 接收到数据
     {

@@ -16,7 +16,7 @@ class FileConversionPanel : public QWidget
     Q_OBJECT
 
 public:
-    explicit FileConversionPanel(QWidget *parent = nullptr);
+    explicit FileConversionPanel(QWidget *parent = nullptr,QList<localFile> *lfList=nullptr);
     ~FileConversionPanel();
 
     QString SavePath;
@@ -37,10 +37,15 @@ private:
     Ui::FileConversionPanel *ui;
 
 signals:
-    void newLocalFileList(QList<localFile>*);
+    void newLocalFileList(QList<localFile> *list);
     void newSavePath(QString);
     void newParameters(ParaGet_hard*);
     void convertFilesCommand();
+    void returnedProgress_total(int currentIndex,int total);
+    void returnedProgress(int progress);
+    void returnedFileConvertedIndex(int index,QString stat);
+    void returnedFinishedInfo();
+
 
 };
 

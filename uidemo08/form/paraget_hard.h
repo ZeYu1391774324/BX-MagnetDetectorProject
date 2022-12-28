@@ -6,6 +6,7 @@
 class ParaGet_hard
 {
 public:
+    ParaGet_hard();
     ParaGet_hard(QString pipeType,QString pipeSize,int encryptFlag);
 
 

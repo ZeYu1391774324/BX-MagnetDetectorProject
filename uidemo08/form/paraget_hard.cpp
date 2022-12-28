@@ -1,5 +1,6 @@
 #include "paraget_hard.h"
 
+ParaGet_hard::ParaGet_hard(){}
 
 ParaGet_hard::ParaGet_hard(QString type,QString size,int encryptFlag)
 {

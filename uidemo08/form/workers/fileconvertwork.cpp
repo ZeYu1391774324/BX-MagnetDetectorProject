@@ -7,25 +7,40 @@ FileConvertWork::FileConvertWork()
 //    connect(timer,&QTimer::timeout,[=](){
 //        emit this->fileConvertProcess(this->process);
 //    });
+
+
 }
 
 void FileConvertWork::initParameters(ParaGet_hard *para){
-    this->parameters=para;
+    this->parameters=*para;
 }
 
 void FileConvertWork::convertFiles(){
-    for (int i = 0; i < this->localfilelist->length(); ++i) {
-        if(localfilelist->at(i).localFileSelectedFlag){
+    int count=0;
+    int total=0;
+    for (int i = 0; i < localfilelist.length(); ++i) {
+        if(localfilelist.at(i).localFileSelectedFlag){
+            total++;
+        }
+    }
 
-            qDebug()<<QString("正在转换文件%1").arg(localfilelist->at(i).localFilePath);
-            if(parameters->encrypted){
-                qDebug()<<QString("系统产品变量：%1-%2-加密").arg(parameters->pipeSize,parameters->pipeType);
+    for (int i = 0; i < this->localfilelist.length(); ++i) {
+        if(localfilelist.at(i).localFileSelectedFlag){
+
+            qDebug()<<QString("正在转换文件%1").arg(localfilelist.at(i).localFilePath);
+            if(parameters.encrypted){
+                qDebug()<<QString("系统产品变量：%1-%2-加密").arg(parameters.pipeSize,parameters.pipeType);
             }
             else {
-                qDebug()<<QString("系统产品变量：%1-%2-未加密").arg(parameters->pipeSize,parameters->pipeType);
+                qDebug()<<QString("系统产品变量：%1-%2-未加密").arg(parameters.pipeSize,parameters.pipeType);
             }
+
+            count++;
+            emit this->fileConvertProgress_total(count,total);
+
             //return -1：转换失败； return 0：已转换； return 1：未转换；
-            int convertFlag = this->HexToDecimalFile(localfilelist->at(i));
+            int convertFlag = this->HexToDecimalFile(localfilelist.at(i));
+
             if(convertFlag==-1){
                 emit this->fileConvertedIndex(i,"转换失败");
             }
@@ -71,7 +86,7 @@ int FileConvertWork::HexToDecimalFile(localFile file){      //return -1：转换
 
     }
 
-    if(parameters->encrypted){
+    if(parameters.encrypted){
         hexData=BindData::hardUnencrypt(hexData);   //解码
     }
 
@@ -79,29 +94,29 @@ int FileConvertWork::HexToDecimalFile(localFile file){      //return -1：转换
 
 
     /********** 数据解析 **********/
-    if(hexData.length()%parameters->frameLength_hard!=0){
+    if(hexData.length()%parameters.frameLength_hard!=0){
         qDebug()<<"数据文件与参数设置不匹配！";
         return -1; // 转换失败
     }
-    int frameNum=hexData.length()/parameters->frameLength_hard;
+    int frameNum=hexData.length()/parameters.frameLength_hard;
     int fileNum=ceil(frameNum/DECIMALFILEFRAMENUM_MAX);
     int frameCount=0;
     int fileCount=0;
     QStringList typelist,sizelist;
     typelist<<"请选择产品类型"<<"变形"<<"漏磁";
     sizelist<<"请选择产品尺寸"<<"8inch"<<"10inch"<<"12inch"<<"14inch";
-    switch (typelist.indexOf(parameters->pipeType)) {
+    switch (typelist.indexOf(parameters.pipeType)) {
     case 0:
         break;
     case 1: //变形
-        switch (sizelist.indexOf(parameters->pipeSize)) {
+        switch (sizelist.indexOf(parameters.pipeSize)) {
         case 0:
             break;
         case 1:
             break;
         case 2:         //10inch-变形
         {
-
+/******************************************************** 10inch-变形 Start ****************************************************************************/
             QList <double> DecimalData;
             double dis_opt,clock,Volt24_voltage;
             QList<double> bxData;
@@ -110,42 +125,42 @@ int FileConvertWork::HexToDecimalFile(localFile file){      //return -1：转换
             ofstream ofs;
             for (int i = STARTPOINT-1; i < frameNum; ++i)
             {
-                QString currentFrame=hexData.mid(i*parameters->frameLength_hard,parameters->frameLength_hard);
+                QString currentFrame=hexData.mid(i*parameters.frameLength_hard,parameters.frameLength_hard);
                 //优选里程
-                dis_opt=BindData::frameReverse(currentFrame.mid(parameters->disData.opt_start,parameters->disData.opt_len)).toInt(&flag,16);
+                dis_opt=BindData::frameReverse(currentFrame.mid(parameters.disData.opt_start,parameters.disData.opt_len)).toInt(&flag,16);
                 //时钟
-                clock=BindData::frameReverse(currentFrame.mid(parameters->dataPara.clock_start,parameters->dataPara.clock_len)).toInt(&flag,16);
+                clock=BindData::frameReverse(currentFrame.mid(parameters.dataPara.clock_start,parameters.dataPara.clock_len)).toInt(&flag,16);
                 //24v
-                Volt24_voltage=BindData::frameReverse(currentFrame.mid(parameters->addData.Volt24V_start,parameters->addData.Volt24V_len)).toUInt(&flag,16)*parameters->addData.Volt_24V_para;
+                Volt24_voltage=BindData::frameReverse(currentFrame.mid(parameters.addData.Volt24V_start,parameters.addData.Volt24V_len)).toUInt(&flag,16)*parameters.addData.Volt_24V_para;
                 //bxData(1-36路)
-                bxData.append(this->bxDataExtract(currentFrame.mid(parameters->dataPara.data1_18_start,parameters->dataPara.data1_18_len)));
-                bxData.append(this->bxDataExtract(currentFrame.mid(parameters->dataPara.data19_36_start,parameters->dataPara.data19_36_len)));
+                bxData.append(this->bxDataExtract(currentFrame.mid(parameters.dataPara.data1_18_start,parameters.dataPara.data1_18_len)));
+                bxData.append(this->bxDataExtract(currentFrame.mid(parameters.dataPara.data19_36_start,parameters.dataPara.data19_36_len)));
                 //信号板温度
-                temp_bat=parameters->tempData.envirPara1-(parameters->tempData.envirPara2*BindData::frameReverse(currentFrame.mid(parameters->tempData.tempEnvir_start,parameters->tempData.tempEnvir_len)).toInt(&flag,16));
+                temp_bat=parameters.tempData.envirPara1-(parameters.tempData.envirPara2*BindData::frameReverse(currentFrame.mid(parameters.tempData.tempEnvir_start,parameters.tempData.tempEnvir_len)).toInt(&flag,16));
                 //处理板温度
-                temp_panel=BindData::frameReverse(currentFrame.mid(parameters->tempData.tempPanel_start,parameters->tempData.tempPanel_len)).toInt(&flag,16)*parameters->tempData.panelPara;
+                temp_panel=BindData::frameReverse(currentFrame.mid(parameters.tempData.tempPanel_start,parameters.tempData.tempPanel_len)).toInt(&flag,16)*parameters.tempData.panelPara;
                 //姿态温度
-                temp_pos=BindData::frameReverse(currentFrame.mid(parameters->tempData.tempPos_start,parameters->tempData.tempPos_len)).toInt(&flag,16)*parameters->tempData.positionPara;
+                temp_pos=BindData::frameReverse(currentFrame.mid(parameters.tempData.tempPos_start,parameters.tempData.tempPos_len)).toInt(&flag,16)*parameters.tempData.positionPara;
                 //周向角
-                ZXJ=BindData::frameReverse(currentFrame.mid(parameters->posData.ZXJ_start,parameters->posData.ZXJ_len)).toInt(&flag,16)*parameters->posData.ZXJpara;
+                ZXJ=BindData::frameReverse(currentFrame.mid(parameters.posData.ZXJ_start,parameters.posData.ZXJ_len)).toInt(&flag,16)*parameters.posData.ZXJpara;
                 //倾角
-                QJ=BindData::frameReverse(currentFrame.mid(parameters->posData.QJ_start,parameters->posData.QJ_len)).toInt(&flag,16)*parameters->posData.QJpara;
+                QJ=BindData::frameReverse(currentFrame.mid(parameters.posData.QJ_start,parameters.posData.QJ_len)).toInt(&flag,16)*parameters.posData.QJpara;
                 //航向角
-                HXJ=BindData::frameReverse(currentFrame.mid(parameters->posData.HXJ_start,parameters->posData.HXJ_len)).toInt(&flag,16)*parameters->posData.HXJpara;
+                HXJ=BindData::frameReverse(currentFrame.mid(parameters.posData.HXJ_start,parameters.posData.HXJ_len)).toInt(&flag,16)*parameters.posData.HXJpara;
                 //X加速度
-                acc_x=BindData::frameReverse(currentFrame.mid(parameters->addData.accX_start,parameters->addData.accX_len)).toInt(&flag,16)*parameters->addData.accX_para;
+                acc_x=BindData::frameReverse(currentFrame.mid(parameters.addData.accX_start,parameters.addData.accX_len)).toInt(&flag,16)*parameters.addData.accX_para;
                 //Y加速度
-                acc_y=BindData::frameReverse(currentFrame.mid(parameters->addData.accY_start,parameters->addData.accY_len)).toInt(&flag,16)*parameters->addData.accY_para;
+                acc_y=BindData::frameReverse(currentFrame.mid(parameters.addData.accY_start,parameters.addData.accY_len)).toInt(&flag,16)*parameters.addData.accY_para;
                 //Z加速度
-                acc_z=BindData::frameReverse(currentFrame.mid(parameters->addData.accZ_start,parameters->addData.accZ_len)).toInt(&flag,16)*parameters->addData.accZ_para;
+                acc_z=BindData::frameReverse(currentFrame.mid(parameters.addData.accZ_start,parameters.addData.accZ_len)).toInt(&flag,16)*parameters.addData.accZ_para;
                 //里程1
-                dis_1=BindData::frameReverse(currentFrame.mid(parameters->disData.dis1_start,parameters->disData.dis1_len)).toInt(&flag,16);
+                dis_1=BindData::frameReverse(currentFrame.mid(parameters.disData.dis1_start,parameters.disData.dis1_len)).toInt(&flag,16);
                 //里程2
-                dis_2=BindData::frameReverse(currentFrame.mid(parameters->disData.dis2_start,parameters->disData.dis2_len)).toInt(&flag,16);
+                dis_2=BindData::frameReverse(currentFrame.mid(parameters.disData.dis2_start,parameters.disData.dis2_len)).toInt(&flag,16);
                 //里程3
-                dis_3=BindData::frameReverse(currentFrame.mid(parameters->disData.dis3_start,parameters->disData.dis3_len)).toInt(&flag,16);
+                dis_3=BindData::frameReverse(currentFrame.mid(parameters.disData.dis3_start,parameters.disData.dis3_len)).toInt(&flag,16);
                 //status
-                stat=currentFrame.mid(parameters->addData.status_start,parameters->addData.status_len).toUInt(&flag,16);
+                stat=currentFrame.mid(parameters.addData.status_start,parameters.addData.status_len).toUInt(&flag,16);
 
                 //拼接十进制文件数据
                 /*  dis_opt,clock,Volt24_voltage;
@@ -222,6 +237,9 @@ int FileConvertWork::HexToDecimalFile(localFile file){      //return -1：转换
             ofs.close();
             ifs.close();
             return 0; //已转换
+
+/******************************************************** 10inch-变形 End ****************************************************************************/
+
         }
             break;
         default:
@@ -248,7 +266,7 @@ QList<double> FileConvertWork::bxDataExtract(QString subframe){
 }
 
 void FileConvertWork::updateLocalFileList(QList<localFile> *newList){
-    this->localfilelist=newList;
+    this->localfilelist=*newList;
 }
 
 void FileConvertWork::updateSavePath(QString newSavePath){

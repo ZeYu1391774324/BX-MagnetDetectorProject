@@ -19,16 +19,20 @@
 
 using namespace std;
 
-FileConversionPanel::FileConversionPanel(QWidget *parent) :
+FileConversionPanel::FileConversionPanel(QWidget *parent,QList<localFile>* lfList) :
     QWidget(parent),
     ui(new Ui::FileConversionPanel)
 {
     ui->setupUi(this);
-
     // Initialization
+    initFileConvertWork();
     initializingButtons();
     initializingTables();
-    this->initFileConvertWork();
+
+    if(lfList!=nullptr){
+        this->localFileList=*lfList;
+    }
+    this->refreshSelection();
 
 
 }
@@ -140,10 +144,13 @@ void FileConversionPanel::initializingButtons(){
                 return;
             }
             else {
+                emit this->newSavePath(SavePath);
                 emit this->newParameters(parameters);
+                emit this->newLocalFileList(&localFileList);
+                this->convertSelectedFiles();
             }
         }
-        this->convertSelectedFiles();
+
     });
 
 }
@@ -309,7 +316,7 @@ void FileConversionPanel::updateTable(){
 
     }
 
-    ui->FileSelectingTable->resizeColumnsToContents();
+    ui->FileSelectingTable->resizeColumnsToContents(); 
     emit this->newLocalFileList(&localFileList);
 
 }
@@ -319,16 +326,29 @@ void FileConversionPanel::initFileConvertWork(){
     FileConvertWork *fileconvertWork = new FileConvertWork;
     fileconvertWork->moveToThread(fileConvertThread);
     fileConvertThread->start();
-    connect(this,&FileConversionPanel::newParameters,fileconvertWork,&FileConvertWork::initParameters);
-    connect(this,&FileConversionPanel::newSavePath,fileconvertWork,&FileConvertWork::updateSavePath);
-    connect(this,&FileConversionPanel::newLocalFileList,fileconvertWork,&FileConvertWork::updateLocalFileList);
-    connect(this,&FileConversionPanel::convertFilesCommand,fileconvertWork,&FileConvertWork::convertFiles);
-    connect(fileconvertWork,&FileConvertWork::fileConvertProcess,ui->progressBar,&QProgressBar::setValue);
-    connect(fileconvertWork,&FileConvertWork::fileConvertedIndex,[=](int index,QString stat){
-        this->localFileList[index].setConvertState(stat);
+    connect(this,&FileConversionPanel::newParameters,fileconvertWork,&FileConvertWork::initParameters);                 //更新产品参数
+    connect(this,&FileConversionPanel::newSavePath,fileconvertWork,&FileConvertWork::updateSavePath);                   //更新存储路径
+    connect(this,&FileConversionPanel::newLocalFileList,fileconvertWork,&FileConvertWork::updateLocalFileList);         //更新文件列表
+    connect(this,&FileConversionPanel::convertFilesCommand,fileconvertWork,&FileConvertWork::convertFiles);             //开始文件转换指令
+    connect(fileconvertWork,&FileConvertWork::fileConvertProgress_total,this,&FileConversionPanel::returnedProgress_total);
+    connect(fileconvertWork,&FileConvertWork::fileConvertProcess,this,&FileConversionPanel::returnedProgress);
+    connect(fileconvertWork,&FileConvertWork::fileConvertedIndex,this,&FileConversionPanel::returnedFileConvertedIndex);
+    connect(fileconvertWork,&FileConvertWork::workFinished,this,&FileConversionPanel::returnedFinishedInfo);
+
+    connect(this,&FileConversionPanel::returnedProgress_total,[=](int currentIndex,int total){                //返回总体进度
+        ui->convertProgressLabel->setText(QString("当前进度：%1/%2").arg(currentIndex).arg(total));
     });
-    connect(fileconvertWork,&FileConvertWork::workFinished,[=](){
-        QMessageBox::information(this,"提示","所选文件转化完成！");
+    connect(this,&FileConversionPanel::returnedProgress,[=](int progress){                                                 //返回当前文件转换进度
+        this->ui->progressBar->setValue(progress);
+    });
+    connect(this,&FileConversionPanel::returnedFileConvertedIndex,[=](int index,QString stat){                           //更新文件转换状态
+        this->localFileList[index].setConvertState(stat);
         this->updateTable();
     });
+    connect(this,&FileConversionPanel::returnedFinishedInfo,[=](){                                                       //转换完成提示
+        QMessageBox::information(this,"提示","文件转换完成！");
+        ui->convertProgressLabel->setText("文件转换完成！");
+        ui->progressBar->setValue(100);
+    });
+
 }

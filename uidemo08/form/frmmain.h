@@ -9,6 +9,7 @@
 #include "workers/uncodework.h"
 #include "workers/framework_8_10_12_14_inch_bx.h"
 #include "paraget.h"
+#include "fileconversionpanel.h"
 
 #include <QWidget>
 #include <QCloseEvent>
@@ -98,6 +99,7 @@ public:
     CollectByTimePanel *cbtPanel;           //时间采集面板
     CollectByDistancePanel *cbdPanel;       //里程采集面板
     ParaGet *parameters=new ParaGet("请选择产品类型","请选择产品尺寸",0);                    //系统参数信息
+    QList<localFile>* localFileList=nullptr;        //本地文件信息
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
@@ -124,10 +126,11 @@ private:
     QTimer *dataTimer;              //超时计时器
     QString data;                   //当前全部数据
     QString CurrentFrame;           //当前数据报
-    int Uncode_head=0;              //解析报头
-    int Uncode_end=0;               //解析报尾
     QString ReceiveMode="0000";     //接收模式
     QString GPIO="0";               //GPIO
+    int Uncode_head=0;              //解析报头
+    int Uncode_end=0;               //解析报尾
+    int ByteSpeed=0;                //串口流量
 
 
 
@@ -166,7 +169,8 @@ signals:
     void newBxDataAdditional(QMap<QString,QString> bxDataAdditional);     //得到新的一组额外显示数据
     void returnedFrame_SUCCESS();                       //串口返回成功指令（SUCCESS FRAME）
     void returnedFrame_UNSUCCESS();                       //串口返回失败指令（UNSUCCESS FRAME）
-    void newParameters(ParaGet*);
+    void newParameters(ParaGet*);                       //初始化产品型号参数
+    void newByteSpeed(int);                             //更新串口流量信息
 
 
 private slots:

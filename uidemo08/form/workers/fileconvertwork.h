@@ -31,14 +31,15 @@ public:
 
 
 private:
-    QList<localFile>* localfilelist;
+    QList<localFile> localfilelist;
     QString SavePath;
-    ParaGet_hard *parameters;
+    ParaGet_hard parameters;
 
 signals:
     void fileConvertProcess(double);
     void fileConvertedIndex(int,QString);
     void workFinished();
+    void fileConvertProgress_total(int,int);
 
 };
 
