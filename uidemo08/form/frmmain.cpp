@@ -664,8 +664,11 @@ void frmMain::initParametersConfigPage(){
             //传输解码完成数据信号
             connect(this,&frmMain::newBxData,cbtPanel,&CollectByTimePanel::updateBxData);               //传输变形数据信息
             connect(this,&frmMain::newBxDataAdditional,cbtPanel,&CollectByTimePanel::updateBxDataAdditional);   //传输额外显示信息
+            connect(this,&frmMain::newByteSpeed,cbtPanel,&CollectByTimePanel::updateSpeedLabel);                //传输流量信息
+            connect(this,&frmMain::newParameters,cbtPanel,&CollectByTimePanel::updateParametersLabel);          //传输产品型号参数
             cbtPanel->setWindowState(Qt::WindowMaximized);
             cbtPanel->show();
+            emit this->newParameters(parameters);                                                               //更新产品型号参数
             }
             else {
                 QMessageBox::warning(this,"提示","请先设置产品型号！");
@@ -689,8 +692,11 @@ void frmMain::initParametersConfigPage(){
             //传输解码完成数据信号
             connect(this,&frmMain::newBxData,cbdPanel,&CollectByDistancePanel::updateBxData);               //传输变形数据信息
             connect(this,&frmMain::newBxDataAdditional,cbdPanel,&CollectByDistancePanel::updateBxDataAdditional);   //传输额外显示信息
+            connect(this,&frmMain::newByteSpeed,cbdPanel,&CollectByDistancePanel::updateSpeedLabel);                //传输流量信息
+            connect(this,&frmMain::newParameters,cbdPanel,&CollectByDistancePanel::updateParametersLabel);          //传输产品型号参数
             cbdPanel->setWindowState(Qt::WindowMaximized);
             cbdPanel->show();
+            emit this->newParameters(parameters);                                                                   //更新产品型号参数
             }
             else {
                 QMessageBox::warning(this,"提示","请先设置产品型号！");

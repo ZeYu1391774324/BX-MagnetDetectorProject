@@ -653,3 +653,10 @@ void CollectByTimePanel::updateBxDataAdditional(QMap<QString,QString> additional
 
 }
 
+void CollectByTimePanel::updateSpeedLabel(int speed){
+    ui->ByteSpeedLabel->setText(QString("当前串口传输速率：%1 Byte/s.").arg(speed));
+}
+
+void CollectByTimePanel::updateParametersLabel(ParaGet* para){
+    ui->ParametersLabel->setText(QString("当前产品参数：%1-%2").arg(para->pipeSize).arg(para->pipeType));
+}

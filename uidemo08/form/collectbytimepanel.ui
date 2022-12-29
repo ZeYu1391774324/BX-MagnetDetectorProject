@@ -30,6 +30,13 @@
           <widget class="QWidget" name="widget_7" native="true">
            <layout class="QHBoxLayout" name="horizontalLayout_6">
             <item>
+             <widget class="QLabel" name="ByteSpeedLabel">
+              <property name="text">
+               <string>流量信息栏</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -41,6 +48,13 @@
                </size>
               </property>
              </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="ParametersLabel">
+              <property name="text">
+               <string>参数信息栏</string>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QComboBox" name="bxDataRoadsSelectingComboBox">
@@ -432,8 +446,8 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../src.qrc"/>
   <include location="../../core_qss/qss.qrc"/>
+  <include location="../../src.qrc"/>
  </resources>
  <connections/>
 </ui>

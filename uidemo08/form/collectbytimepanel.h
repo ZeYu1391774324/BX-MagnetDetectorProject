@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QSerialPort>
+#include "paraget.h"
 
 // Plots Definitions
 #define LINENUM 6       // 每个图表中绘制图像数量
@@ -61,7 +62,8 @@ public:
     void updatePlots();
     void updateBxData(QList<double> newBxData);
     void updateBxDataAdditional(QMap<QString,QString> newBxDataAdditional);
-
+    void updateSpeedLabel(int speed);
+    void updateParametersLabel(ParaGet*);
 
     // 变形数据列表
     QList<QVector<double>> bxDataList;

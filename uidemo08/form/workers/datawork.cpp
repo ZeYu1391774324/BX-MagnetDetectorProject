@@ -21,7 +21,7 @@ void DataWork::ByteSpeedDetecting(){
 void DataWork::receiveData(){
     QByteArray res = serial->readAll();                      // 读取数据
     QString hexRes =res.toHex().toUpper();
-    ByteCount++;
+    ByteCount+=res.length();
 
     if(!hexRes.isEmpty())                                 // 接收到数据
     {

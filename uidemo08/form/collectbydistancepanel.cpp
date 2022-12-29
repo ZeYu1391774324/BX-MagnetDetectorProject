@@ -722,3 +722,11 @@ void CollectByDistancePanel::updateBxDataAdditional(QMap<QString,QString> additi
     ui->threePointThreeVoltEdit->setText(additionalBxData["3.3V二次电源电压"]);
 
 }
+
+void CollectByDistancePanel::updateSpeedLabel(int speed){
+    ui->ByteSpeedLabel->setText(QString("当前串口传输速率：%1 Byte/s.").arg(speed));
+}
+
+void CollectByDistancePanel::updateParametersLabel(ParaGet* para){
+    ui->ParametersLabel->setText(QString("当前产品参数：%1-%2").arg(para->pipeSize).arg(para->pipeType));
+}
