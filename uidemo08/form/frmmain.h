@@ -3,6 +3,7 @@
 
 #include "QtSerialPort/qserialport.h"
 #include "connection.h"
+#include "displaypanel.h"
 #include "collectbytimepanel.h"
 #include "collectbydistancepanel.h"
 #include "workers/datawork.h"

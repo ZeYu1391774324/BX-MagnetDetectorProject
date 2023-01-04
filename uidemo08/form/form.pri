@@ -1,6 +1,7 @@
 FORMS += \
     $$PWD/collectbydistancepanel.ui \
     $$PWD/collectbytimepanel.ui \
+    $$PWD/displaypanel.ui \
     $$PWD/fileconversionpanel.ui \
     $$PWD/frmmain.ui \
     $$PWD/connectiondlg.ui \
@@ -11,6 +12,7 @@ HEADERS += \
     $$PWD/collectbydistancepanel.h \
     $$PWD/collectbytimepanel.h \
     $$PWD/connection.h \
+    $$PWD/displaypanel.h \
     $$PWD/fileconversionpanel.h \
     $$PWD/frmmain.h \
     $$PWD/connectiondlg.h \
@@ -20,6 +22,7 @@ HEADERS += \
     $$PWD/paraget_hard.h \
     $$PWD/qcustomplot.h \
     $$PWD/workers/datawork.h \
+    $$PWD/workers/displaywork.h \
     $$PWD/workers/fileconvertwork.h \
     $$PWD/workers/framework_8_10_12_14_inch_bx.h \
     $$PWD/workers/uncodework.h
@@ -29,6 +32,7 @@ SOURCES += \
     $$PWD/collectbydistancepanel.cpp \
     $$PWD/collectbytimepanel.cpp \
     $$PWD/connection.cpp \
+    $$PWD/displaypanel.cpp \
     $$PWD/fileconversionpanel.cpp \
     $$PWD/frmmain.cpp \
     $$PWD/connectiondlg.cpp \
@@ -38,6 +42,7 @@ SOURCES += \
     $$PWD/paraget_hard.cpp \
     $$PWD/qcustomplot.cpp \
     $$PWD/workers/datawork.cpp \
+    $$PWD/workers/displaywork.cpp \
     $$PWD/workers/fileconvertwork.cpp \
     $$PWD/workers/framework_8_10_12_14_inch_bx.cpp \
     $$PWD/workers/uncodework.cpp

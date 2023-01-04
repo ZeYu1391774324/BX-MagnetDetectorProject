@@ -14,6 +14,7 @@ public:
     bool encrypted = true;
     QString pipeType;
     QString pipeSize;
+    int frameLength_hard;
     struct DATAPARA
     {
         int data1_18_start;

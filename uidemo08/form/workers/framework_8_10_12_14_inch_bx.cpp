@@ -40,10 +40,17 @@ void FrameWork_8_10_12_14_Inch_bx::uncodeFrame(){
         currentFrame=frame;                         //更新当前帧
         this->frameList.removeFirst();
 
+        //去除状态位5353
+        if(frame.mid(8,4)=="5353"){
+            frame.replace(8,4,"");
+        }
+
         //解密数据帧部分
         if(parameters->encrypted){
             frame=BindData::frameUnencrypt(frame);
         }
+
+        //qDebug()<<frame;
 
 
         //解码取信息过程

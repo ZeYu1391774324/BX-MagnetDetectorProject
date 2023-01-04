@@ -67,7 +67,7 @@ int BindData::frameDataLength(QString frame){
 
 QString BindData::frameReverse(QString frame){
     if(frame.length()%2!=0||frame.isEmpty()){        //如果帧长度不是整字节（不是一对一对的）不进行转换
-        qDebug()<<QString("高低位转换的帧不是偶数位，字节长度有误！ Frame length: 1%.").arg(frame.length());
+        qDebug()<<QString("高低位转换的帧不是偶数位，字节长度有误！ Frame length: %1.").arg(frame.length());
         return frame;
     }
     else{

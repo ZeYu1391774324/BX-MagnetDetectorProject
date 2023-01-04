@@ -44,6 +44,7 @@ signals:
     void dataChanged(QString data);
     void DataWorkCleared();
     void newByteSpeed(int ByteSpeed);
+
 };
 
 #endif // DATAWORK_H

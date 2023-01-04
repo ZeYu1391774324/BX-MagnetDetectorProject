@@ -708,6 +708,19 @@ void frmMain::initParametersConfigPage(){
 
     });
 
+    //文件回放按钮
+    connect(ui->displayBtn,&QPushButton::clicked,[=](){
+        if(parameters->initiated){
+            DisplayPanel *displayPanel = new DisplayPanel(nullptr,parameters);
+            //传输解码完成数据信号
+            displayPanel->setWindowState(Qt::WindowMaximized);
+            displayPanel->show();
+        }
+        else {
+            QMessageBox::warning(this,"提示","请先设置产品型号！");
+        }
+    });
+
 }
 
 void frmMain::serialPortInit(){

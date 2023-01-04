@@ -27,6 +27,12 @@ ParaGet::ParaGet(QString type,QString size,int encryptFlag)
             initiated = false;
             break;
         case 1:                 //8inch变形
+            if(encrypted){
+                frameLength_hard=196*2;
+            }
+            else if(!encrypted){
+                frameLength_hard=194*2;
+            }
             // 数据部分参数
             dataPara.data1_18_start=80;
             dataPara.data1_18_len=72;
@@ -120,6 +126,12 @@ ParaGet::ParaGet(QString type,QString size,int encryptFlag)
             initiated=true;
             break;
         case 2:                 //10inch变形
+            if(encrypted){
+                frameLength_hard=196*2;
+            }
+            else if(!encrypted){
+                frameLength_hard=194*2;
+            }
             // 数据部分参数
             dataPara.data1_18_start=80;
             dataPara.data1_18_len=72;
@@ -223,6 +235,12 @@ ParaGet::ParaGet(QString type,QString size,int encryptFlag)
             initiated=true;
             break;
         case 3:                 //12inch变形
+            if(encrypted){
+                frameLength_hard=196*2;
+            }
+            else if(!encrypted){
+                frameLength_hard=194*2;
+            }
             // 数据部分参数
             dataPara.data1_18_start=80;
             dataPara.data1_18_len=72;
@@ -326,6 +344,12 @@ ParaGet::ParaGet(QString type,QString size,int encryptFlag)
             initiated=true;
             break;
         case 4:                 //14inch变形
+            if(encrypted){
+                frameLength_hard=196*2;
+            }
+            else if(!encrypted){
+                frameLength_hard=194*2;
+            }
             // 数据部分参数
             dataPara.data1_18_start=80;
             dataPara.data1_18_len=72;
