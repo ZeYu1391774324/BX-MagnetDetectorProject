@@ -125,280 +125,280 @@ void DisplayPanel::initPlots(){
         case 1:
             ui->DisplayPlot1->addGraph();     //添加曲线
             ui->DisplayPlot1->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::crimson));
-            ui->DisplayPlot1->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot1->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 2:
             ui->DisplayPlot1->addGraph();     //添加曲线
             ui->DisplayPlot1->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::darkorange));
-            ui->DisplayPlot1->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot1->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 3:
             ui->DisplayPlot1->addGraph();     //添加曲线
             ui->DisplayPlot1->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::gold));
-            ui->DisplayPlot1->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot1->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 4:
             ui->DisplayPlot1->addGraph();     //添加曲线
             ui->DisplayPlot1->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::lime));
-            ui->DisplayPlot1->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot1->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 5:
             ui->DisplayPlot1->addGraph();     //添加曲线
             ui->DisplayPlot1->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::cyan));
-            ui->DisplayPlot1->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot1->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 6:
             ui->DisplayPlot1->addGraph();     //添加曲线
             ui->DisplayPlot1->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::violet));
-            ui->DisplayPlot1->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot1->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
 
         case 7:
             ui->DisplayPlot2->addGraph();     //添加曲线
             ui->DisplayPlot2->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::crimson));
-            ui->DisplayPlot2->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot2->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 8:
             ui->DisplayPlot2->addGraph();     //添加曲线
             ui->DisplayPlot2->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::darkorange));
-            ui->DisplayPlot2->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot2->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 9:
             ui->DisplayPlot2->addGraph();     //添加曲线
             ui->DisplayPlot2->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::gold));
-            ui->DisplayPlot2->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot2->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 10:
             ui->DisplayPlot2->addGraph();     //添加曲线
             ui->DisplayPlot2->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::lime));
-            ui->DisplayPlot2->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot2->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 11:
             ui->DisplayPlot2->addGraph();     //添加曲线
             ui->DisplayPlot2->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::cyan));
-            ui->DisplayPlot2->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot2->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 12:
             ui->DisplayPlot2->addGraph();     //添加曲线
             ui->DisplayPlot2->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::violet));
-            ui->DisplayPlot2->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot2->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
 
         case 13:
             ui->DisplayPlot3->addGraph();     //添加曲线
             ui->DisplayPlot3->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::crimson));
-            ui->DisplayPlot3->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot3->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 14:
             ui->DisplayPlot3->addGraph();     //添加曲线
             ui->DisplayPlot3->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::darkorange));
-            ui->DisplayPlot3->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot3->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 15:
             ui->DisplayPlot3->addGraph();     //添加曲线
             ui->DisplayPlot3->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::gold));
-            ui->DisplayPlot3->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot3->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 16:
             ui->DisplayPlot3->addGraph();     //添加曲线
             ui->DisplayPlot3->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::lime));
-            ui->DisplayPlot3->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot3->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 17:
             ui->DisplayPlot3->addGraph();     //添加曲线
             ui->DisplayPlot3->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::cyan));
-            ui->DisplayPlot3->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot3->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 18:
             ui->DisplayPlot3->addGraph();     //添加曲线
             ui->DisplayPlot3->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::violet));
-            ui->DisplayPlot3->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot3->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
 
         case 19:
             ui->DisplayPlot4->addGraph();     //添加曲线
             ui->DisplayPlot4->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::crimson));
-            ui->DisplayPlot4->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot4->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 20:
             ui->DisplayPlot4->addGraph();     //添加曲线
             ui->DisplayPlot4->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::darkorange));
-            ui->DisplayPlot4->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot4->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 21:
             ui->DisplayPlot4->addGraph();     //添加曲线
             ui->DisplayPlot4->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::gold));
-            ui->DisplayPlot4->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot4->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 22:
             ui->DisplayPlot4->addGraph();     //添加曲线
             ui->DisplayPlot4->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::lime));
-            ui->DisplayPlot4->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot4->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 23:
             ui->DisplayPlot4->addGraph();     //添加曲线
             ui->DisplayPlot4->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::cyan));
-            ui->DisplayPlot4->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot4->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 24:
             ui->DisplayPlot4->addGraph();     //添加曲线
             ui->DisplayPlot4->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::violet));
-            ui->DisplayPlot4->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot4->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
 
         case 25:
             ui->DisplayPlot5->addGraph();     //添加曲线
             ui->DisplayPlot5->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::crimson));
-            ui->DisplayPlot5->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot5->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 26:
             ui->DisplayPlot5->addGraph();     //添加曲线
             ui->DisplayPlot5->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::darkorange));
-            ui->DisplayPlot5->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot5->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 27:
             ui->DisplayPlot5->addGraph();     //添加曲线
             ui->DisplayPlot5->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::gold));
-            ui->DisplayPlot5->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot5->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 28:
             ui->DisplayPlot5->addGraph();     //添加曲线
             ui->DisplayPlot5->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::lime));
-            ui->DisplayPlot5->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot5->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 29:
             ui->DisplayPlot5->addGraph();     //添加曲线
             ui->DisplayPlot5->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::cyan));
-            ui->DisplayPlot5->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot5->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 30:
             ui->DisplayPlot5->addGraph();     //添加曲线
             ui->DisplayPlot5->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::violet));
-            ui->DisplayPlot5->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot5->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
 
         case 31:
             ui->DisplayPlot6->addGraph();     //添加曲线
             ui->DisplayPlot6->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::crimson));
-            ui->DisplayPlot6->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot6->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 32:
             ui->DisplayPlot6->addGraph();     //添加曲线
             ui->DisplayPlot6->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::darkorange));
-            ui->DisplayPlot6->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot6->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 33:
             ui->DisplayPlot6->addGraph();     //添加曲线
             ui->DisplayPlot6->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::gold));
-            ui->DisplayPlot6->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot6->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 34:
             ui->DisplayPlot6->addGraph();     //添加曲线
             ui->DisplayPlot6->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::lime));
-            ui->DisplayPlot6->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot6->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 35:
             ui->DisplayPlot6->addGraph();     //添加曲线
             ui->DisplayPlot6->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::cyan));
-            ui->DisplayPlot6->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot6->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 36:
             ui->DisplayPlot6->addGraph();     //添加曲线
             ui->DisplayPlot6->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::violet));
-            ui->DisplayPlot6->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot6->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
 
         case 37:
             ui->DisplayPlot7->addGraph();     //添加曲线
             ui->DisplayPlot7->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::crimson));
-            ui->DisplayPlot7->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot7->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 38:
             ui->DisplayPlot7->addGraph();     //添加曲线
             ui->DisplayPlot7->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::darkorange));
-            ui->DisplayPlot7->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot7->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 39:
             ui->DisplayPlot7->addGraph();     //添加曲线
             ui->DisplayPlot7->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::gold));
-            ui->DisplayPlot7->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot7->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 40:
             ui->DisplayPlot7->addGraph();     //添加曲线
             ui->DisplayPlot7->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::lime));
-            ui->DisplayPlot7->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot7->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 41:
             ui->DisplayPlot7->addGraph();     //添加曲线
             ui->DisplayPlot7->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::cyan));
-            ui->DisplayPlot7->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot7->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 42:
             ui->DisplayPlot7->addGraph();     //添加曲线
             ui->DisplayPlot7->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::violet));
-            ui->DisplayPlot7->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot7->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
 
         case 43:
             ui->DisplayPlot8->addGraph();     //添加曲线
             ui->DisplayPlot8->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::crimson));
-            ui->DisplayPlot8->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot8->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 44:
             ui->DisplayPlot8->addGraph();     //添加曲线
             ui->DisplayPlot8->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::darkorange));
-            ui->DisplayPlot8->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot8->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 45:
             ui->DisplayPlot8->addGraph();     //添加曲线
             ui->DisplayPlot8->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::gold));
-            ui->DisplayPlot8->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot8->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 46:
             ui->DisplayPlot8->addGraph();     //添加曲线
             ui->DisplayPlot8->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::lime));
-            ui->DisplayPlot8->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot8->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 47:
             ui->DisplayPlot8->addGraph();     //添加曲线
             ui->DisplayPlot8->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::cyan));
-            ui->DisplayPlot8->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot8->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 48:
             ui->DisplayPlot8->addGraph();     //添加曲线
             ui->DisplayPlot8->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::violet));
-            ui->DisplayPlot8->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot8->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
 
         case 49:
             ui->DisplayPlot9->addGraph();     //添加曲线
             ui->DisplayPlot9->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::crimson));
-            ui->DisplayPlot9->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot9->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 50:
             ui->DisplayPlot9->addGraph();     //添加曲线
             ui->DisplayPlot9->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::darkorange));
-            ui->DisplayPlot9->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot9->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 51:
             ui->DisplayPlot9->addGraph();     //添加曲线
             ui->DisplayPlot9->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::gold));
-            ui->DisplayPlot9->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot9->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 52:
             ui->DisplayPlot9->addGraph();     //添加曲线
             ui->DisplayPlot9->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::lime));
-            ui->DisplayPlot9->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot9->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 53:
             ui->DisplayPlot9->addGraph();     //添加曲线
             ui->DisplayPlot9->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::cyan));
-            ui->DisplayPlot9->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot9->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
         case 54:
             ui->DisplayPlot9->addGraph();     //添加曲线
             ui->DisplayPlot9->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::violet));
-            ui->DisplayPlot9->graph((i-1)%6)->setName(QString("第%1路变形数据").arg(i));
+            ui->DisplayPlot9->graph((i-1)%6)->setName(QString("第%1路数据").arg(i));
             break;
             /*
                 55：环境温度；     56：处理板温度；        57：姿态检测温度；
@@ -464,55 +464,55 @@ void DisplayPanel::initPlots(){
             break;
         }
 
-        ui->DisplayPlot1->xAxis->setLabel("X/数据报变形信息序号");
+        ui->DisplayPlot1->xAxis->setLabel("X/数据报信息序号");
         ui->DisplayPlot1->yAxis->setLabel("Y/电压(Volt)");
         ui->DisplayPlot1->legend->setVisible(true);
         ui->DisplayPlot1->setBackground(QColorConstants::Svg::dimgray);
         ui->DisplayPlot1->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
 
-        ui->DisplayPlot2->xAxis->setLabel("X/数据报变形信息序号");
+        ui->DisplayPlot2->xAxis->setLabel("X/数据报信息序号");
         ui->DisplayPlot2->yAxis->setLabel("Y/电压(Volt)");
         ui->DisplayPlot2->legend->setVisible(true);
         ui->DisplayPlot2->setBackground(QColorConstants::Svg::dimgray);
         ui->DisplayPlot2->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
 
-        ui->DisplayPlot3->xAxis->setLabel("X/数据报变形信息序号");
+        ui->DisplayPlot3->xAxis->setLabel("X/数据报信息序号");
         ui->DisplayPlot3->yAxis->setLabel("Y/电压(Volt)");
         ui->DisplayPlot3->legend->setVisible(true);
         ui->DisplayPlot3->setBackground(QColorConstants::Svg::dimgray);
         ui->DisplayPlot3->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
 
-        ui->DisplayPlot4->xAxis->setLabel("X/数据报变形信息序号");
+        ui->DisplayPlot4->xAxis->setLabel("X/数据报信息序号");
         ui->DisplayPlot4->yAxis->setLabel("Y/电压(Volt)");
         ui->DisplayPlot4->legend->setVisible(true);
         ui->DisplayPlot4->setBackground(QColorConstants::Svg::dimgray);
         ui->DisplayPlot4->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
 
-        ui->DisplayPlot5->xAxis->setLabel("X/数据报变形信息序号");
+        ui->DisplayPlot5->xAxis->setLabel("X/数据报信息序号");
         ui->DisplayPlot5->yAxis->setLabel("Y/电压(Volt)");
         ui->DisplayPlot5->legend->setVisible(true);
         ui->DisplayPlot5->setBackground(QColorConstants::Svg::dimgray);
         ui->DisplayPlot5->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
 
-        ui->DisplayPlot6->xAxis->setLabel("X/数据报变形信息序号");
+        ui->DisplayPlot6->xAxis->setLabel("X/数据报信息序号");
         ui->DisplayPlot6->yAxis->setLabel("Y/电压(Volt)");
         ui->DisplayPlot6->legend->setVisible(true);
         ui->DisplayPlot6->setBackground(QColorConstants::Svg::dimgray);
         ui->DisplayPlot6->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
 
-        ui->DisplayPlot7->xAxis->setLabel("X/数据报变形信息序号");
+        ui->DisplayPlot7->xAxis->setLabel("X/数据报信息序号");
         ui->DisplayPlot7->yAxis->setLabel("Y/电压(Volt)");
         ui->DisplayPlot7->legend->setVisible(true);
         ui->DisplayPlot7->setBackground(QColorConstants::Svg::dimgray);
         ui->DisplayPlot7->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
 
-        ui->DisplayPlot8->xAxis->setLabel("X/数据报变形信息序号");
+        ui->DisplayPlot8->xAxis->setLabel("X/数据报信息序号");
         ui->DisplayPlot8->yAxis->setLabel("Y/电压(Volt)");
         ui->DisplayPlot8->legend->setVisible(true);
         ui->DisplayPlot8->setBackground(QColorConstants::Svg::dimgray);
         ui->DisplayPlot8->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
 
-        ui->DisplayPlot9->xAxis->setLabel("X/数据报变形信息序号");
+        ui->DisplayPlot9->xAxis->setLabel("X/数据报信息序号");
         ui->DisplayPlot9->yAxis->setLabel("Y/电压(Volt)");
         ui->DisplayPlot9->legend->setVisible(true);
         ui->DisplayPlot9->setBackground(QColorConstants::Svg::dimgray);

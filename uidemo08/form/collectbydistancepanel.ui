@@ -72,17 +72,17 @@
               </property>
               <item>
                <property name="text">
-                <string>第1-18路变形信号</string>
+                <string>第1-18路信号</string>
                </property>
               </item>
               <item>
                <property name="text">
-                <string>第19-36路变形信号</string>
+                <string>第19-36路信号</string>
                </property>
               </item>
               <item>
                <property name="text">
-                <string>第37-54路变形信号</string>
+                <string>第37-54路信号</string>
                </property>
               </item>
              </widget>

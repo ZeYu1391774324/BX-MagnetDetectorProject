@@ -80,6 +80,10 @@ void FrameWork_8_10_12_14_Inch_bx::uncodeFrame(){
 void FrameWork_8_10_12_14_Inch_bx::uncodeFrame_additional(){
     QString frame = currentFrame;
 
+    //去除状态位5353
+    if(frame.mid(8,4)=="5353"){
+        frame.replace(8,4,"");
+    }
     //解密数据帧部分
     if(parameters->encrypted){
         frame = BindData::frameUnencrypt(frame);
