@@ -21,6 +21,7 @@ DisplayPanel::~DisplayPanel()
 
 void DisplayPanel::initPanel(){
     ui->ParametersLabel->setText(QString("当前产品参数：%1-%2").arg(parameters->pipeSize).arg(parameters->pipeType));
+    ui->jumpEdit->setValidator(new QIntValidator(ui->jumpEdit));
     // initiate buttons
     // Select File Button
     connect(ui->SelectFileBtn,&QPushButton::clicked,[=](){
@@ -38,10 +39,28 @@ void DisplayPanel::initPanel(){
     for (int i = 0; i <= bxData_RoadsNum+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
         this->bxDataList.append(QVector<double>());
     }
+    // jumpBtn
+    connect(ui->jumpBtn,&QPushButton::clicked,[=](){
+        int num = ui->jumpEdit->text().toInt();
+        if(frameNum==0){
+            QMessageBox::information(this,"提示","请先读入数据文件！");
+            return;
+        }
+        if(num<=0||num>frameNum){
+            QMessageBox::information(this,"提示",QString("请输入有效跳转帧序号！（1-%1）").arg(frameNum));
+            return;
+        }
+        emit this->newJumpCommand(num);
+
+    });
 
     //update plots and additional informations
     connect(this,&DisplayPanel::newBxData,this,&DisplayPanel::updateBxData);
     connect(this,&DisplayPanel::newBxDataAdditional,this,&DisplayPanel::updateBxDataAdditional);
+    connect(this,&DisplayPanel::newFrameNum,[=](int num){
+        this->frameNum=num;
+        ui->dataInfoLabel->setText(QString("数据已读入，共%1帧").arg(frameNum));
+    });
 
 }
 
@@ -55,7 +74,10 @@ void DisplayPanel::initWorkers(){
     displaywork->setParameters(parameters);
     connect(displaywork,&DisplayWork::newBxData,this,&DisplayPanel::newBxData);
     connect(displaywork,&DisplayWork::newBxDataAdditional,this,&DisplayPanel::newBxDataAdditional);
+    connect(displaywork,&DisplayWork::newFrameNum,this,&DisplayPanel::newFrameNum);
     connect(this,&DisplayPanel::newFilePath,displaywork,&DisplayWork::readFile);
+    connect(this,&DisplayPanel::newJumpCommand,displaywork,&DisplayWork::jumpCommand);
+
     QTimer *dataTimer = new QTimer;
     QTimer *additionalTimer = new QTimer;
     connect(dataTimer,&QTimer::timeout,displaywork,&DisplayWork::uncodeFrame);
@@ -699,12 +721,14 @@ void DisplayPanel::updateBxData(QList<double> newBxData){
 
     // 变形数据更新
     for (int i = 0; i <= this->bxData_RoadsNum+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
-        if(i==0){
-            this->bxDataList[i].append(this->dataCount++);
-        }
-        else {
-            this->bxDataList[i].append(newBxData.at(i-1));
-        }
+//        if(i==0){
+//            this->bxDataList[i].append(this->dataCount++);
+//        }
+//        else {
+//            this->bxDataList[i].append(newBxData.at(i-1));
+//        }
+        this->dataCount++;
+        this->bxDataList[i].append(newBxData.at(i));
     }
     // 前六组变形数据更新
 //    X.append(dataCount++);

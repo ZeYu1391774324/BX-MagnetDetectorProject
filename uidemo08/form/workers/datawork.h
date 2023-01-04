@@ -45,6 +45,7 @@ signals:
     void DataWorkCleared();
     void newByteSpeed(int ByteSpeed);
 
+
 };
 
 #endif // DATAWORK_H

@@ -28,6 +28,7 @@ public:
     ~DisplayPanel();
 
     int interval=1000;
+    int frameNum;
     void initPanel();
     void initPlots();
     void initWorkers();
@@ -61,7 +62,10 @@ signals:
     void newBxData(QList<double> newBxData);
     void newBxDataAdditional(QMap<QString,QString> newBxDataAdditional);
     void newParameters(ParaGet* para);
+    void newFrameNum(int num);
+    void newJumpCommand(int num);
     void shutDown();
+
 
 };
 

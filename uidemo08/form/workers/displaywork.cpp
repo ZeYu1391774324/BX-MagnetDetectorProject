@@ -10,6 +10,12 @@ void DisplayWork::restartCommand(){
     currentIndex=0;
 }
 
+void DisplayWork::jumpCommand(int num){
+    if(num<=frameList.length()&&num>0){
+        currentIndex=num-1;
+    }
+}
+
 
 
 void DisplayWork::readFile(QString path){
@@ -46,7 +52,8 @@ void DisplayWork::readFile(QString path){
         frameList.append(data.mid(i,parameters->frameLength_hard));
         i+=parameters->frameLength_hard;
     }
-
+    int frameNum=frameList.length();
+    emit this->newFrameNum(frameNum);
 
     delete[](charData);
     data.clear();
@@ -143,6 +150,7 @@ void DisplayWork::uncodeFrame(){
 
 
         //解码取信息过程
+        this->bxData.append(currentIndex);
         this->bxData.append(this->bxDataExtract(frame.mid(parameters->dataPara.data1_18_start,parameters->dataPara.data1_18_len)));     //1-18路
         this->bxData.append(this->bxDataExtract(frame.mid(parameters->dataPara.data19_36_start,parameters->dataPara.data19_36_len)));    //19-36路
         this->bxData.append(this->bxDataExtract(frame.mid(parameters->dataPara.data37_54_start,parameters->dataPara.data37_54_len)));    //37-54路

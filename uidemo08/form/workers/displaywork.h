@@ -47,13 +47,13 @@ public:
     QList<double> positionDataExtract(QString frame);
 
     void setParameters(ParaGet*);
-    void setTimer(int speed);
+    void jumpCommand(int num);
     void restartCommand();
 
 signals:
     void newBxData(QList<double> bxData);
     void newBxDataAdditional(QMap<QString,QString> bxData_additional);
-
+    void newFrameNum(int num);
 
 };
 

@@ -36,6 +36,27 @@
           <widget class="QWidget" name="widget_7" native="true">
            <layout class="QHBoxLayout" name="horizontalLayout_6">
             <item>
+             <widget class="QLabel" name="dataInfoLabel">
+              <property name="text">
+               <string>数据待读入...</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="jumpEdit">
+              <property name="placeholderText">
+               <string>跳转到第...数据帧</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="jumpBtn">
+              <property name="text">
+               <string>数据帧跳转</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -504,8 +525,8 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../src.qrc"/>
   <include location="../../core_qss/qss.qrc"/>
+  <include location="../../src.qrc"/>
  </resources>
  <connections/>
 </ui>
