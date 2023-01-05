@@ -708,6 +708,34 @@ void frmMain::initParametersConfigPage(){
 
     });
 
+    // 传感器测试按钮
+    connect(ui->testPanelBtn,&QToolButton::clicked,[=](){
+        if(this->connected&&serial->isOpen()){
+            if(parameters->initiated){
+            QString str=COLLECTMODEHEAD;
+            str.append(QString("%1").arg(ui->FrequencyComboBox->currentIndex()+1,2,16,QLatin1Char('0')));
+            str.append(BindData::frameCalculate(str.right(BindData::frameDataLength(str))));
+            serial->write(QByteArray::fromHex(str.toLatin1().data()));
+            testPanel = new TestPanel(nullptr, this->serial);
+            //传输解码完成数据信号
+            connect(this,&frmMain::newBxData,testPanel,&TestPanel::updateBxData);               //传输变形数据信息
+            connect(this,&frmMain::newBxDataAdditional,testPanel,&TestPanel::updateBxDataAdditional);   //传输额外显示信息
+            connect(this,&frmMain::newByteSpeed,testPanel,&TestPanel::updateSpeedLabel);                //传输流量信息
+            connect(this,&frmMain::newParameters,testPanel,&TestPanel::updateParametersLabel);          //传输产品型号参数
+            testPanel->setWindowState(Qt::WindowMaximized);
+            testPanel->show();
+            emit this->newParameters(parameters);                                                                   //更新产品型号参数
+            }
+            else {
+                QMessageBox::warning(this,"提示","请先设置产品型号！");
+            }
+        }
+        else{
+            QMessageBox::warning(this,"提示","请先连接您的串口！");
+        }
+
+    });
+
     //文件回放按钮
     connect(ui->displayBtn,&QPushButton::clicked,[=](){
         if(parameters->initiated){

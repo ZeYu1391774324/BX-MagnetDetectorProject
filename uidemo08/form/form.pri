@@ -5,7 +5,8 @@ FORMS += \
     $$PWD/fileconversionpanel.ui \
     $$PWD/frmmain.ui \
     $$PWD/connectiondlg.ui \
-    $$PWD/panel_password.ui
+    $$PWD/panel_password.ui \
+    $$PWD/testpanel.ui
 
 HEADERS += \
     $$PWD/binddata.h \
@@ -17,10 +18,12 @@ HEADERS += \
     $$PWD/frmmain.h \
     $$PWD/connectiondlg.h \
     $$PWD/localfile.h \
+    $$PWD/multiselectcombobox.h \
     $$PWD/panel_password.h \
     $$PWD/paraget.h \
     $$PWD/paraget_hard.h \
     $$PWD/qcustomplot.h \
+    $$PWD/testpanel.h \
     $$PWD/workers/datawork.h \
     $$PWD/workers/displaywork.h \
     $$PWD/workers/fileconvertwork.h \
@@ -37,10 +40,12 @@ SOURCES += \
     $$PWD/frmmain.cpp \
     $$PWD/connectiondlg.cpp \
     $$PWD/localfile.cpp \
+    $$PWD/multiselectcombobox.cpp \
     $$PWD/panel_password.cpp \
     $$PWD/paraget.cpp \
     $$PWD/paraget_hard.cpp \
     $$PWD/qcustomplot.cpp \
+    $$PWD/testpanel.cpp \
     $$PWD/workers/datawork.cpp \
     $$PWD/workers/displaywork.cpp \
     $$PWD/workers/fileconvertwork.cpp \

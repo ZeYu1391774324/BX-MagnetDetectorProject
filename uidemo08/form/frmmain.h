@@ -4,6 +4,7 @@
 #include "QtSerialPort/qserialport.h"
 #include "connection.h"
 #include "displaypanel.h"
+#include "testpanel.h"
 #include "collectbytimepanel.h"
 #include "collectbydistancepanel.h"
 #include "workers/datawork.h"
@@ -99,6 +100,7 @@ public:
     bool connected = false;                 //串口连接状态
     CollectByTimePanel *cbtPanel;           //时间采集面板
     CollectByDistancePanel *cbdPanel;       //里程采集面板
+    TestPanel *testPanel;                   //传感器测试面板
     ParaGet *parameters=new ParaGet("请选择产品类型","请选择产品尺寸",0);                    //系统参数信息
     QList<localFile>* localFileList=nullptr;        //本地文件信息
 
