@@ -35,7 +35,6 @@ public:
     void receiveData();
     void clearBuffer(int head, int end);
 
-    //TODO ByteCurrent speed Detecting
     void ByteSpeedDetecting();
 
 

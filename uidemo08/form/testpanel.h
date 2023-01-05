@@ -81,6 +81,10 @@ public:
 private:
     Ui::TestPanel *ui;
     QSerialPort *serial;
+
+
+signals:
+    void newTestResult(int index, bool stat);
 };
 
 #endif // TESTPANEL_H

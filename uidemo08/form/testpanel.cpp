@@ -686,12 +686,19 @@ void TestPanel::testObjects(){
         QList<int> errList;
         for (int i = 0; i < objects.length(); ++i) {
             QVector<double> testData = bxDataList.at(objects.at(i)+1);
+            bool flag=true;
             for (int j = 0; j < testData.length(); ++j) {
-                if(testData.at(j)<4){       //判断为高电压阈值
+                if(testData.at(j)<4){       //高电压阈值=4
+                    flag = false;
                     errList.append(objects.at(i)+1);
+                    emit this->newTestResult(objects.at(i),false);  //返回传感器index,检测结果异常（false）
                     break;
                 }
             }
+            if(flag){
+                emit this->newTestResult(objects.at(i),true);   //返回传感器index,检测结果正常（true）
+            }
+
         }
         if(errList.isEmpty()){
             QMessageBox::information(this,"消息","所选测试传感器均运行正常！");

@@ -147,8 +147,8 @@ void frmMain::initTableWidget(){
         ui->tableWidget->setRowHeight(i, 24);
         QTableWidgetItem * itemDeviceID = new QTableWidgetItem(QString::number(i + 1));
         QTableWidgetItem * itemDeviceName = new QTableWidgetItem(QString("漏磁传感器%1").arg(i + 1));
-        QTableWidgetItem * itemDeviceAddr = new QTableWidgetItem(QString("已检查"));
-        QTableWidgetItem * itemContent = new QTableWidgetItem("否");
+        QTableWidgetItem * itemDeviceAddr = new QTableWidgetItem(QString("未检查"));
+        QTableWidgetItem * itemContent = new QTableWidgetItem("N/A");
         QTableWidgetItem * itemTime = new QTableWidgetItem(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
 
 
@@ -188,8 +188,8 @@ void frmMain::initTableWidget_2(){
         ui->tableWidget_2->setRowHeight(i, 24);
         QTableWidgetItem * itemDeviceID = new QTableWidgetItem(QString::number(i + 1));
         QTableWidgetItem * itemDeviceName = new QTableWidgetItem(QString("变形传感器%1").arg(i + 1));
-        QTableWidgetItem * itemDeviceAddr = new QTableWidgetItem(QString("已检查"));
-        QTableWidgetItem * itemContent = new QTableWidgetItem("否");
+        QTableWidgetItem * itemDeviceAddr = new QTableWidgetItem(QString("未检查"));
+        QTableWidgetItem * itemContent = new QTableWidgetItem("N/A");
         QTableWidgetItem * itemTime = new QTableWidgetItem(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
 
         ui->tableWidget_2->setItem(i, 0, itemDeviceID);
@@ -198,6 +198,19 @@ void frmMain::initTableWidget_2(){
         ui->tableWidget_2->setItem(i, 3, itemContent);
         ui->tableWidget_2->setItem(i, 4, itemTime);
     }
+
+    connect(this,&frmMain::newTestResult,[=](int index, bool stat){
+        ui->tableWidget_2->item(index,2)->setText("已检查");
+
+        if(stat){
+            ui->tableWidget_2->item(index,3)->setText("传感器正常");
+        }
+        else {
+            ui->tableWidget_2->item(index,3)->setText("传感器异常");
+        }
+        ui->tableWidget_2->item(index,4)->setText(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    });
+
 }
 
 void frmMain::initTableWidget_3(){
@@ -722,6 +735,7 @@ void frmMain::initParametersConfigPage(){
             connect(this,&frmMain::newBxDataAdditional,testPanel,&TestPanel::updateBxDataAdditional);   //传输额外显示信息
             connect(this,&frmMain::newByteSpeed,testPanel,&TestPanel::updateSpeedLabel);                //传输流量信息
             connect(this,&frmMain::newParameters,testPanel,&TestPanel::updateParametersLabel);          //传输产品型号参数
+            connect(testPanel,&TestPanel::newTestResult,this,&frmMain::newTestResult);                  //回传传感器检测结果
             testPanel->setWindowState(Qt::WindowMaximized);
             testPanel->show();
             emit this->newParameters(parameters);                                                                   //更新产品型号参数

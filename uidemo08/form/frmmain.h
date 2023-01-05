@@ -174,6 +174,7 @@ signals:
     void returnedFrame_UNSUCCESS();                       //串口返回失败指令（UNSUCCESS FRAME）
     void newParameters(ParaGet*);                       //初始化产品型号参数
     void newByteSpeed(int);                             //更新串口流量信息
+    void newTestResult(int index, bool stat);                                //更新传感器检测结果信息
 
 
 private slots:
