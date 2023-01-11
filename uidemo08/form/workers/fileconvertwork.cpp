@@ -72,6 +72,7 @@ int FileConvertWork::HexToDecimalFile(localFile file){      //return -1：转换
     int filesize_char=filetailpos;
     ifs.seekg(0,ios_base::beg);
 
+    emit this->newInfo("文件读取中，请稍后...");
     char* byteDataArray= new char[filesize_char];
     ifs.read(byteDataArray,filesize_char);
     string hexList("0123456789ABCDEF");
@@ -85,9 +86,11 @@ int FileConvertWork::HexToDecimalFile(localFile file){      //return -1：转换
 
 
     }
-
+    emit this->newInfo("文件读取完成...");
     if(parameters.encrypted){
+        emit this->newInfo("文件解码中，请稍后...");
         hexData=BindData::hardUnencrypt(hexData);   //解码
+        emit this->newInfo("文件解码完成...");
     }
 
     delete[](byteDataArray);
@@ -123,6 +126,7 @@ int FileConvertWork::HexToDecimalFile(localFile file){      //return -1：转换
             double temp_bat,temp_panel,temp_pos,ZXJ,QJ,HXJ,acc_x,acc_y,acc_z,dis_1,dis_2,dis_3,stat;
             bool flag;
             ofstream ofs;
+            emit this->newInfo("数据提取中，请稍后...");
             for (int i = STARTPOINT-1; i < frameNum; ++i)
             {
                 QString currentFrame=hexData.mid(i*parameters.frameLength_hard,parameters.frameLength_hard);
@@ -236,6 +240,7 @@ int FileConvertWork::HexToDecimalFile(localFile file){      //return -1：转换
             }
             ofs.close();
             ifs.close();
+            emit this->newInfo("文件转换完成！");
             return 0; //已转换
 
 /******************************************************** 10inch-变形 End ****************************************************************************/

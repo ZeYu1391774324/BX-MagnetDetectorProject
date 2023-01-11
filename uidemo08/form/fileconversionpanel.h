@@ -45,6 +45,7 @@ signals:
     void returnedProgress(int progress);
     void returnedFileConvertedIndex(int index,QString stat);
     void returnedFinishedInfo();
+    void newCovertingInfo(QString);
 
 
 };

@@ -40,6 +40,7 @@ signals:
     void fileConvertedIndex(int,QString);
     void workFinished();
     void fileConvertProgress_total(int,int);
+    void newInfo(QString);
 
 };
 

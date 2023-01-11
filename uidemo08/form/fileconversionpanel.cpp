@@ -59,7 +59,12 @@ void FileConversionPanel::initializingButtons(){
     // Select new File Button
     connect(ui->SelectFileBtn,&QPushButton::clicked,[=](){
         // qDebug()<<"SelectBtn Clicked!!!";
-        QString path=QFileDialog::getOpenFileName(this,"Open File","C:\\Users\\DELL\\Desktop");
+        QStringList pathList;
+        QString path;
+        pathList=QFileDialog::getOpenFileNames(this,"Open File","C:\\Users\\DELL\\Desktop");
+        for (int i = 0; i < pathList.length(); ++i) {
+            path=pathList.at(i);
+
         if (path.isEmpty())
             return;
         else if(path.contains(QRegExp("[\\x4e00-\\x9fa5]+"))){
@@ -93,7 +98,7 @@ void FileConversionPanel::initializingButtons(){
 
 
         file.close();
-
+        }
         this->updateTable();
     });
 
@@ -334,6 +339,7 @@ void FileConversionPanel::initFileConvertWork(){
     connect(fileconvertWork,&FileConvertWork::fileConvertProcess,this,&FileConversionPanel::returnedProgress);
     connect(fileconvertWork,&FileConvertWork::fileConvertedIndex,this,&FileConversionPanel::returnedFileConvertedIndex);
     connect(fileconvertWork,&FileConvertWork::workFinished,this,&FileConversionPanel::returnedFinishedInfo);
+    connect(fileconvertWork,&FileConvertWork::newInfo,this,&FileConversionPanel::newCovertingInfo);
 
     connect(this,&FileConversionPanel::returnedProgress_total,[=](int currentIndex,int total){                //返回总体进度
         ui->convertProgressLabel->setText(QString("当前进度：%1/%2").arg(currentIndex).arg(total));
@@ -349,6 +355,12 @@ void FileConversionPanel::initFileConvertWork(){
         QMessageBox::information(this,"提示","文件转换完成！");
         ui->convertProgressLabel->setText("文件转换完成！");
         ui->progressBar->setValue(100);
+    });
+    connect(this,&FileConversionPanel::newCovertingInfo,[=](QString info){
+        QString str = ui->convertProgressLabel->text();
+        str+="; ";
+        str+=info;
+        ui->convertProgressLabel->setText(str);
     });
 
 }
