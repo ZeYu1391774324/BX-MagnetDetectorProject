@@ -18,6 +18,7 @@ void FileConvertWork::initParameters(ParaGet_hard *para){
 void FileConvertWork::convertFiles(){
     int count=0;
     int total=0;
+    this->restData.clear();
     for (int i = 0; i < localfilelist.length(); ++i) {
         if(localfilelist.at(i).localFileSelectedFlag){
             total++;
@@ -39,7 +40,22 @@ void FileConvertWork::convertFiles(){
             emit this->fileConvertProgress_total(count,total);
 
             //return -1：转换失败； return 0：已转换； return 1：未转换；
-            int convertFlag = this->HexToDecimalFile(localfilelist.at(i));
+            //flag 1=进管文件，2=出管文件，3=既是进管文件又是出管文件，0=中间文件；
+            int flag;
+            if(total==1){//仅一个文件时为既进管又出管文件
+                flag=3;
+            }
+            else if((total>1)&&(count==1)){//第一个文件为进管文件
+                flag=1;
+            }
+            else if((total>1)&&(count==total)){//最后一个文件为出管文件
+                flag=2;
+            }
+            else{
+                flag=0;
+            }
+
+            int convertFlag = this->HexToDecimalFile(localfilelist.at(i),flag);
 
             if(convertFlag==-1){
                 emit this->fileConvertedIndex(i,"转换失败");
@@ -60,7 +76,7 @@ void FileConvertWork::convertFiles(){
 
 }
 
-int FileConvertWork::HexToDecimalFile(localFile file){      //return -1：转换失败； return 0：已转换； return 1：未转换；
+int FileConvertWork::HexToDecimalFile(localFile file, int flag){      //return -1：转换失败； return 0：已转换； return 1：未转换；
     //read file
     QString hexData;
     QString filepath=file.localFilePath;
@@ -121,13 +137,25 @@ int FileConvertWork::HexToDecimalFile(localFile file){      //return -1：转换
         {
 /******************************************************** 10inch-变形 Start ****************************************************************************/
             QList <double> DecimalData;
+            //前一文件续写
+            if(!this->restData.isEmpty()){
+                DecimalData.append(restData);
+                this->restData.clear();
+            }
             double dis_opt,clock,Volt24_voltage;
             QList<double> bxData;
             double temp_bat,temp_panel,temp_pos,ZXJ,QJ,HXJ,acc_x,acc_y,acc_z,dis_1,dis_2,dis_3,stat;
             bool flag;
             ofstream ofs;
             emit this->newInfo("数据提取中，请稍后...");
-            for (int i = STARTPOINT-1; i < frameNum; ++i)
+            int i;
+            if((flag==1)||(flag==3)){// 1||3为进管文件
+                i = STARTPOINT-1;   // 进管文件舍去前六帧
+            }
+            else {
+                i=0;
+            }
+            for (i ; i < frameNum; ++i)
             {
                 QString currentFrame=hexData.mid(i*parameters.frameLength_hard,parameters.frameLength_hard);
                 //优选里程
@@ -224,19 +252,26 @@ int FileConvertWork::HexToDecimalFile(localFile file){      //return -1：转换
                 }
             }
             if(!DecimalData.isEmpty()){
-                int outputSize_double=DecimalData.length();
-                double *outByteArray=new double[outputSize_double];
-                for (int j = 0; j < outputSize_double; ++j) {
-                    outByteArray[j]=DecimalData.at(j);
+                if((flag==2)||(flag==3)){       //如果是出管文件写剩余文件
+                    int outputSize_double=DecimalData.length();
+                    double *outByteArray=new double[outputSize_double];
+                    for (int j = 0; j < outputSize_double; ++j) {
+                        outByteArray[j]=DecimalData.at(j);
+                    }
+                    //写剩余文件
+                    fileCount++;
+                    QString outputPath=SavePath+(QString("\\%1.dat%2IN.bin").arg(file.localFileName.left(file.localFileName.lastIndexOf("."))).arg(fileCount));
+                    ofs.open(outputPath.toStdString(),ios::out|ios::binary);
+                    ofs.write((char*)outByteArray,sizeof(double)*outputSize_double);
+                    ofs.close();
+                    delete[](outByteArray);
+                    DecimalData.clear();
                 }
-                //写剩余文件
-                fileCount++;
-                QString outputPath=SavePath+(QString("\\%1.dat%2IN.bin").arg(file.localFileName.left(file.localFileName.lastIndexOf("."))).arg(fileCount));
-                ofs.open(outputPath.toStdString(),ios::out|ios::binary);
-                ofs.write((char*)outByteArray,sizeof(double)*outputSize_double);
-                ofs.close();
-                delete[](outByteArray);
-                DecimalData.clear();
+                else { //其他文件在下一文件中续写
+                    this->restData.append(DecimalData);
+                    DecimalData.clear();
+                }
+
             }
             ofs.close();
             ifs.close();

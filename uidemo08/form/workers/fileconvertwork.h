@@ -24,7 +24,7 @@ public:
     double process;
     void initParameters(ParaGet_hard*);
     void convertFiles();
-    int HexToDecimalFile(localFile file);
+    int HexToDecimalFile(localFile file,int flag);
     void updateLocalFileList(QList<localFile>*);
     void updateSavePath(QString);
     QList<double> bxDataExtract(QString subframe);
@@ -34,6 +34,7 @@ private:
     QList<localFile> localfilelist;
     QString SavePath;
     ParaGet_hard parameters;
+    QList<double> restData;
 
 signals:
     void fileConvertProcess(double);

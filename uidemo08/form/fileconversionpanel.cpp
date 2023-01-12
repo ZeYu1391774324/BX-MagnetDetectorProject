@@ -45,8 +45,8 @@ FileConversionPanel::~FileConversionPanel()
 
 void FileConversionPanel::initializingTables(){
     // File Selecting Table
-    ui->FileSelectingTable->setColumnCount(6);
-    ui->FileSelectingTable->setHorizontalHeaderLabels(QStringList()<<"选择"<<"文件名"<<"路径"<<"大小"<<"修改时间"<<"状态");
+    ui->FileSelectingTable->setColumnCount(7);
+    ui->FileSelectingTable->setHorizontalHeaderLabels(QStringList()<<"选择"<<"文件名"<<"路径"<<"大小"<<"修改时间"<<"状态"<<"移动文件按钮");
 
 
 
@@ -158,19 +158,24 @@ void FileConversionPanel::initializingButtons(){
 
     });
 
+    //自动排序按钮
+    //connect(ui->autoSortBtn,&QPushButton::clicked,this,&FileConversionPanel::autoSort);
+
 }
 
 
 void FileConversionPanel::deleteFiles(){
+
     for (int i = 0; i < localFileList.length(); ++i) {
         if(localFileList[i].localFileSelectedFlag){
             localFileList.removeAt(i);
+            i--;
         }
     }
-    if(!localFileList.isEmpty()&&localFileList[localFileList.length()-1].localFileSelectedFlag){
-        localFileList.removeAt(localFileList.length()-1);
-    }
-    QMessageBox::information(this,"提示","所选文件已移除！");
+//    if(!localFileList.isEmpty()&&localFileList[localFileList.length()-1].localFileSelectedFlag){
+//        localFileList.removeAt(localFileList.length()-1);
+//    }
+    //QMessageBox::information(this,"提示","所选文件已移除！");
 
     this->updateTable();
 }
@@ -318,6 +323,41 @@ void FileConversionPanel::updateTable(){
             ui->FileSelectingTable->item(j,col)->setTextColor(Qt::red);
 
         }
+        col++;
+        QPushButton *upBtn = new QPushButton("上移");
+        QPushButton *downBtn = new QPushButton("下移");
+        QWidget *tmp_widget = new QWidget();
+        upBtn->setParent(tmp_widget);
+        downBtn->setParent(tmp_widget);
+        QHBoxLayout *tmp_layout = new QHBoxLayout(tmp_widget);
+        tmp_layout->addWidget(upBtn);
+        tmp_layout->addWidget(downBtn);
+        tmp_layout->setMargin(0);
+
+        ui->FileSelectingTable->setCellWidget(j,col,tmp_widget);
+        connect(upBtn,&QPushButton::clicked,[=](){
+            int x = tmp_widget->mapToParent(QPoint(0,0)).x();
+            int y = tmp_widget->mapToParent(QPoint(0,0)).y();
+            QModelIndex index = ui->FileSelectingTable->indexAt(QPoint(x,y));
+            int row = index.row();
+            int col = index.column();
+            //qDebug()<<row<<"---"<<col;
+            if(row>0){
+                this->moveFileTo(row,row-1);
+            }
+        });
+        connect(downBtn,&QPushButton::clicked,[=](){
+            int x = tmp_widget->mapToParent(QPoint(0,0)).x();
+            int y = tmp_widget->mapToParent(QPoint(0,0)).y();
+            QModelIndex index = ui->FileSelectingTable->indexAt(QPoint(x,y));
+            int row = index.row();
+            int col = index.column();
+            //qDebug()<<row<<"---"<<col;
+            if(row<localFileList.length()-1){
+                this->moveFileTo(row,row+1);
+            }
+
+        });
 
     }
 
@@ -363,4 +403,36 @@ void FileConversionPanel::initFileConvertWork(){
         ui->convertProgressLabel->setText(str);
     });
 
+}
+
+void FileConversionPanel::moveFileTo(int currentIndex, int targetIndex){
+    if((targetIndex>=0)&&(targetIndex<this->localFileList.length())){
+//        localFile temp = localFileList.at(currentIndex);
+//        localFileList[currentIndex]=localFileList[targetIndex];
+//        localFileList[targetIndex]=temp;
+        localFileList.swap(currentIndex,targetIndex);
+        this->updateTable();
+
+    }
+}
+
+void FileConversionPanel::autoSort(){
+    QList<localFile> tempList;
+    for (int i = 0; i < localFileList.length(); ++i) {
+        int min=tempList.at(i).localFileName.toInt();
+        int flag;
+        for (int j = 0; j < localFileList.length(); ++j) {
+            int value = localFileList.at(j).localFileName.toInt();
+            if(value<min){
+                flag=j;
+                min=value;
+            }
+        }
+        tempList.append(localFileList.at(flag));
+        localFileList.removeAt(flag);
+        i--;
+    }
+    localFileList=tempList;
+    tempList.clear();
+    this->updateTable();
 }

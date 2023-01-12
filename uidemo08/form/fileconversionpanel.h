@@ -30,6 +30,10 @@ public:
     void convertSelectedFiles();
     void initFileConvertWork();
 
+    //文件操作函数
+    void moveFileTo(int currentIndex, int targetIndex);
+    void autoSort();
+
     QList<localFile> localFileList;
     ParaGet_hard *parameters;
 
