@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>987</width>
-    <height>660</height>
+    <width>984</width>
+    <height>668</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -340,7 +340,7 @@
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page1">
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -1904,576 +1904,560 @@
           </widget>
          </widget>
          <widget class="QWidget" name="ParameterConfigPage">
-          <widget class="QWidget" name="widget_11" native="true">
-           <property name="geometry">
-            <rect>
-             <x>40</x>
-             <y>50</y>
-             <width>765</width>
-             <height>281</height>
-            </rect>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_8">
-            <item>
-             <widget class="Line" name="line_3">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QWidget" name="widget_6" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_10">
-               <item>
-                <widget class="QLabel" name="label_31">
-                 <property name="text">
-                  <string>管道标识：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QWidget" name="widget_10" native="true">
-                 <widget class="QLabel" name="label_26">
-                  <property name="geometry">
-                   <rect>
-                    <x>60</x>
-                    <y>10</y>
-                    <width>53</width>
-                    <height>16</height>
-                   </rect>
-                  </property>
-                  <property name="text">
-                   <string>参数设置</string>
-                  </property>
-                 </widget>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="pipeLabelEdit">
-                 <property name="maximumSize">
-                  <size>
-                   <width>120</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_32">
-                 <property name="text">
-                  <string>管道长度：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="pipeLengthEdit">
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_33">
-                 <property name="text">
-                  <string>km</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_34">
-                 <property name="text">
-                  <string>管道壁厚：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="pipeThicknessEdit">
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_35">
-                 <property name="text">
-                  <string>mm</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_36">
-                 <property name="text">
-                  <string>管道设计运行压力：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="pressureEdit">
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_37">
-                 <property name="text">
-                  <string>MPa</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QWidget" name="widget_7" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_11">
-               <item>
-                <widget class="QLabel" name="label_42">
-                 <property name="text">
-                  <string>电池更换时间：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QDateEdit" name="batteryDateEdit">
-                 <property name="date">
-                  <date>
-                   <year>2022</year>
-                   <month>10</month>
-                   <day>1</day>
-                  </date>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_9">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_38">
-                 <property name="text">
-                  <string>检测时间：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QDateTimeEdit" name="workDateTimeEdit">
-                 <property name="dateTime">
-                  <datetime>
-                   <hour>10</hour>
-                   <minute>30</minute>
-                   <second>0</second>
-                   <year>2022</year>
-                   <month>10</month>
-                   <day>1</day>
-                  </datetime>
-                 </property>
-                 <property name="time">
-                  <time>
-                   <hour>10</hour>
-                   <minute>30</minute>
-                   <second>0</second>
-                  </time>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_10">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QPushButton" name="bindBtn">
-                 <property name="text">
-                  <string>装订信息</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QWidget" name="widget_8" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_12">
-               <item>
-                <widget class="QLabel" name="label_39">
-                 <property name="text">
-                  <string>采集频率：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QComboBox" name="FrequencyComboBox">
-                 <property name="currentIndex">
-                  <number>3</number>
-                 </property>
+          <layout class="QVBoxLayout" name="verticalLayout_10">
+           <item>
+            <widget class="QWidget" name="widget_11" native="true">
+             <layout class="QVBoxLayout" name="verticalLayout_8">
+              <item>
+               <widget class="QLabel" name="label_43">
+                <property name="font">
+                 <font>
+                  <family>华文楷体</family>
+                  <pointsize>-1</pointsize>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLabel{font: 20px;}</string>
+                </property>
+                <property name="text">
+                 <string>参数设置</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="Line" name="line_3">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="widget_6" native="true">
+                <layout class="QHBoxLayout" name="horizontalLayout_10">
                  <item>
-                  <property name="text">
-                   <string>1HZ</string>
-                  </property>
+                  <widget class="QLabel" name="label_31">
+                   <property name="text">
+                    <string>管道标识：</string>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <property name="text">
-                   <string>10HZ</string>
-                  </property>
+                  <widget class="QWidget" name="widget_10" native="true">
+                   <widget class="QLabel" name="label_26">
+                    <property name="geometry">
+                     <rect>
+                      <x>60</x>
+                      <y>10</y>
+                      <width>53</width>
+                      <height>16</height>
+                     </rect>
+                    </property>
+                    <property name="text">
+                     <string>参数设置</string>
+                    </property>
+                   </widget>
+                  </widget>
                  </item>
                  <item>
-                  <property name="text">
-                   <string>100HZ</string>
-                  </property>
+                  <widget class="QLineEdit" name="pipeLabelEdit">
+                   <property name="maximumSize">
+                    <size>
+                     <width>120</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <property name="text">
-                   <string>1000HZ</string>
-                  </property>
+                  <widget class="QLabel" name="label_32">
+                   <property name="text">
+                    <string>管道长度：</string>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <property name="text">
-                   <string>2000HZ</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_40">
-                 <property name="text">
-                  <string>额定电量：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="PowerEdit">
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_41">
-                 <property name="text">
-                  <string>Wh</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_3">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QWidget" name="widget_13" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_15">
-               <item>
-                <widget class="QLabel" name="label_46">
-                 <property name="text">
-                  <string>信息装订进度：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QProgressBar" name="bindingBar">
-                 <property name="value">
-                  <number>0</number>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QLabel" name="label_43">
-           <property name="geometry">
-            <rect>
-             <x>60</x>
-             <y>30</y>
-             <width>131</width>
-             <height>31</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <family>华文楷体</family>
-             <pointsize>-1</pointsize>
-             <italic>false</italic>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLabel{font: 20px;}</string>
-           </property>
-           <property name="text">
-            <string>参数设置</string>
-           </property>
-          </widget>
-          <widget class="QToolButton" name="CollectByDistanceBtn">
-           <property name="geometry">
-            <rect>
-             <x>200</x>
-             <y>430</y>
-             <width>121</width>
-             <height>60</height>
-            </rect>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>60</width>
-             <height>60</height>
-            </size>
-           </property>
-           <property name="text">
-            <string> 里程采集</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../src.qrc">
-             <normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191103.png</normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191103.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>42</width>
-             <height>42</height>
-            </size>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
-           </property>
-          </widget>
-          <widget class="QToolButton" name="CollectByTimeBtn">
-           <property name="geometry">
-            <rect>
-             <x>40</x>
-             <y>430</y>
-             <width>121</width>
-             <height>60</height>
-            </rect>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>60</width>
-             <height>60</height>
-            </size>
-           </property>
-           <property name="text">
-            <string> 时间采集</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../src.qrc">
-             <normaloff>:/uidemo08/dataCollectingIcon_files/1-2004121Z917.png</normaloff>:/uidemo08/dataCollectingIcon_files/1-2004121Z917.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>42</width>
-             <height>42</height>
-            </size>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
-           </property>
-          </widget>
-          <widget class="QWidget" name="widget_14" native="true">
-           <property name="geometry">
-            <rect>
-             <x>90</x>
-             <y>310</y>
-             <width>681</width>
-             <height>121</height>
-            </rect>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_9">
-            <item>
-             <widget class="QWidget" name="widget_9" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_13">
-               <item>
-                <widget class="QComboBox" name="pipeTypecomboBox">
-                 <item>
-                  <property name="text">
-                   <string>请选择产品类型</string>
-                  </property>
+                  <widget class="QLineEdit" name="pipeLengthEdit">
+                   <property name="maximumSize">
+                    <size>
+                     <width>50</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <property name="text">
-                   <string>变形</string>
-                  </property>
+                  <widget class="QLabel" name="label_33">
+                   <property name="text">
+                    <string>km</string>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <property name="text">
-                   <string>漏磁</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item>
-                <widget class="QComboBox" name="pipeSizecomboBox">
-                 <item>
-                  <property name="text">
-                   <string>请选择产品尺寸</string>
-                  </property>
+                  <widget class="QLabel" name="label_34">
+                   <property name="text">
+                    <string>管道壁厚：</string>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <property name="text">
-                   <string>8inch</string>
-                  </property>
+                  <widget class="QLineEdit" name="pipeThicknessEdit">
+                   <property name="maximumSize">
+                    <size>
+                     <width>50</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <property name="text">
-                   <string>10inch</string>
-                  </property>
+                  <widget class="QLabel" name="label_35">
+                   <property name="text">
+                    <string>mm</string>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <property name="text">
-                   <string>12inch</string>
-                  </property>
+                  <widget class="QLabel" name="label_36">
+                   <property name="text">
+                    <string>管道设计运行压力：</string>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <property name="text">
-                   <string>14inch</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item>
-                <widget class="QComboBox" name="encryptStatComboBox">
-                 <item>
-                  <property name="text">
-                   <string>加密文件</string>
-                  </property>
+                  <widget class="QLineEdit" name="pressureEdit">
+                   <property name="maximumSize">
+                    <size>
+                     <width>50</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <property name="text">
-                   <string>未加密文件</string>
-                  </property>
+                  <widget class="QLabel" name="label_37">
+                   <property name="text">
+                    <string>MPa</string>
+                   </property>
+                  </widget>
                  </item>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QWidget" name="widget_15" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_16">
-               <item>
-                <spacer name="horizontalSpacer_2">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QPushButton" name="setParametersBtn">
-                 <property name="text">
-                  <string>设置尺寸参数</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QToolButton" name="displayBtn">
-           <property name="geometry">
-            <rect>
-             <x>550</x>
-             <y>430</y>
-             <width>121</width>
-             <height>61</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string> 文件回放</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../src.qrc">
-             <normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191023.png</normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191023.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>42</width>
-             <height>42</height>
-            </size>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
-           </property>
-          </widget>
-          <widget class="QToolButton" name="testPanelBtn">
-           <property name="geometry">
-            <rect>
-             <x>380</x>
-             <y>430</y>
-             <width>141</width>
-             <height>61</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string> 传感器测试</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../src.qrc">
-             <normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191038.png</normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191038.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>42</width>
-             <height>42</height>
-            </size>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
-           </property>
-          </widget>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="widget_7" native="true">
+                <layout class="QHBoxLayout" name="horizontalLayout_11">
+                 <item>
+                  <widget class="QLabel" name="label_42">
+                   <property name="text">
+                    <string>电池更换时间：</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDateEdit" name="batteryDateEdit">
+                   <property name="date">
+                    <date>
+                     <year>2022</year>
+                     <month>10</month>
+                     <day>1</day>
+                    </date>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_9">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_38">
+                   <property name="text">
+                    <string>检测时间：</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDateTimeEdit" name="workDateTimeEdit">
+                   <property name="dateTime">
+                    <datetime>
+                     <hour>10</hour>
+                     <minute>30</minute>
+                     <second>0</second>
+                     <year>2022</year>
+                     <month>10</month>
+                     <day>1</day>
+                    </datetime>
+                   </property>
+                   <property name="time">
+                    <time>
+                     <hour>10</hour>
+                     <minute>30</minute>
+                     <second>0</second>
+                    </time>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_10">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="bindBtn">
+                   <property name="text">
+                    <string>装订信息</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="widget_8" native="true">
+                <layout class="QHBoxLayout" name="horizontalLayout_12">
+                 <item>
+                  <widget class="QLabel" name="label_39">
+                   <property name="text">
+                    <string>采集频率：</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="FrequencyComboBox">
+                   <property name="currentIndex">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>1HZ</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>10HZ</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>100HZ</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1000HZ</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>2000HZ</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_40">
+                   <property name="text">
+                    <string>额定电量：</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="PowerEdit">
+                   <property name="maximumSize">
+                    <size>
+                     <width>50</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_41">
+                   <property name="text">
+                    <string>Wh</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_3">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="widget_13" native="true">
+                <layout class="QHBoxLayout" name="horizontalLayout_15">
+                 <item>
+                  <widget class="QLabel" name="label_46">
+                   <property name="text">
+                    <string>信息装订进度：</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QProgressBar" name="bindingBar">
+                   <property name="value">
+                    <number>0</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget_14" native="true">
+             <layout class="QVBoxLayout" name="verticalLayout_9">
+              <item>
+               <widget class="QWidget" name="widget_9" native="true">
+                <layout class="QHBoxLayout" name="horizontalLayout_13">
+                 <item>
+                  <widget class="QComboBox" name="pipeTypecomboBox">
+                   <item>
+                    <property name="text">
+                     <string>请选择产品类型</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>变形</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>漏磁</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="pipeSizecomboBox">
+                   <item>
+                    <property name="text">
+                     <string>请选择产品尺寸</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>8inch</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>10inch</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>12inch</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>14inch</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="encryptStatComboBox">
+                   <item>
+                    <property name="text">
+                     <string>加密文件</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>未加密文件</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="widget_15" native="true">
+                <layout class="QHBoxLayout" name="horizontalLayout_16">
+                 <item>
+                  <spacer name="horizontalSpacer_2">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="setParametersBtn">
+                   <property name="text">
+                    <string>设置尺寸参数</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget_17" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_18">
+              <item>
+               <widget class="QToolButton" name="CollectByTimeBtn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>60</width>
+                  <height>60</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string> 时间采集</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../src.qrc">
+                  <normaloff>:/uidemo08/dataCollectingIcon_files/1-2004121Z917.png</normaloff>:/uidemo08/dataCollectingIcon_files/1-2004121Z917.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>42</width>
+                  <height>42</height>
+                 </size>
+                </property>
+                <property name="toolButtonStyle">
+                 <enum>Qt::ToolButtonTextBesideIcon</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="CollectByDistanceBtn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>60</width>
+                  <height>60</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string> 里程采集</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../src.qrc">
+                  <normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191103.png</normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191103.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>42</width>
+                  <height>42</height>
+                 </size>
+                </property>
+                <property name="toolButtonStyle">
+                 <enum>Qt::ToolButtonTextBesideIcon</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="testPanelBtn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string> 传感器测试</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../src.qrc">
+                  <normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191038.png</normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191038.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>42</width>
+                  <height>42</height>
+                 </size>
+                </property>
+                <property name="toolButtonStyle">
+                 <enum>Qt::ToolButtonTextBesideIcon</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="displayBtn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string> 文件回放</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../src.qrc">
+                  <normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191023.png</normaloff>:/uidemo08/dataCollectingIcon_files/1-200412191023.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>42</width>
+                  <height>42</height>
+                 </size>
+                </property>
+                <property name="toolButtonStyle">
+                 <enum>Qt::ToolButtonTextBesideIcon</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
          </widget>
          <widget class="QWidget" name="UserConfigPage">
           <widget class="QGroupBox" name="groupBox_6">
