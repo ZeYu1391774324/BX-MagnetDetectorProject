@@ -126,7 +126,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>系统设置</string>
+            <string>系统检测</string>
            </property>
            <property name="icon">
             <iconset resource="../other/main.qrc">

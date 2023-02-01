@@ -348,12 +348,19 @@ void frmMain::buttonClick()
 
     QList<QAbstractButton *> tbtns = ui->widgetTop->findChildren<QAbstractButton *>();
     foreach (QAbstractButton *btn, tbtns) {
-        btn->setChecked(btn == b);
+        if(btn->text() == "本地文件"){
+            btn->setCheckable(false);
+        }
+        else{
+            btn->setChecked(btn == b);
+        }
+
+
     }
 
     if (name == "主界面") {
         ui->stackedWidget->setCurrentIndex(0);
-    } else if (name == "系统设置") {
+    } else if (name == "系统检测") {
         ui->stackedWidget->setCurrentIndex(1);
     } else if (name == "报告生成") {
         ui->stackedWidget->setCurrentIndex(2);
