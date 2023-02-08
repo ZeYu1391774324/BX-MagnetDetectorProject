@@ -1,15 +1,25 @@
 #include "collectbydistancepanel.h"
 #include "ui_collectbydistancepanel.h"
 
-CollectByDistancePanel::CollectByDistancePanel(QWidget *parent, QSerialPort *serial) :
+CollectByDistancePanel::CollectByDistancePanel(QWidget *parent, QSerialPort *serial, ParaGet* para) :
     QWidget(parent),
     ui(new Ui::CollectByDistancePanel)
 {
     ui->setupUi(this);
 
     this->serial=serial;
-    this->initPanel();
-    this->initPlots();
+    this->parameters=para;
+    this->MFLData_RoadsNum=parameters->dataPara_MFL.MFLData_num;
+    if(parameters->pipeType=="变形"){
+        this->initPanel();
+        this->initPlots();
+    }
+    else if (parameters->pipeType=="漏磁") {
+        this->initPanel_MFL();
+        this->initPlots_MFL();
+    }
+
+
 }
 
 CollectByDistancePanel::~CollectByDistancePanel()
@@ -18,15 +28,19 @@ CollectByDistancePanel::~CollectByDistancePanel()
 }
 
 void CollectByDistancePanel::initPanel(){
+
     // initiate buttons
     // Collect by time start button
     connect(ui->CollectByDistance_StartBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(COLLECTBYDISTANCEFRAME).toLatin1().data()));});
     // Collect by time stop button
     connect(ui->CollectByDistance_StopBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(STOPCOLLECTFRAME).toLatin1().data()));});
     // stackWidget Selection comBox
+    ui->bxDataRoadsSelectingComboBox->setVisible(true);
+    ui->MFLRoadscomboBox->setVisible(false);
     connect(ui->bxDataRoadsSelectingComboBox,&QComboBox::currentTextChanged,[=](){
         ui->stackedWidget->setCurrentIndex(ui->bxDataRoadsSelectingComboBox->currentIndex());
     });
+    ui->stackedWidget->setCurrentIndex(0);
     // initiate bxDataRoads
     for (int i = 0; i <= bxData_RoadsNum+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
         this->bxDataList.append(QVector<double>());
@@ -34,7 +48,153 @@ void CollectByDistancePanel::initPanel(){
 
 }
 
+void CollectByDistancePanel::initPanel_MFL(){
+    // initiate buttons
+    // Collect by time start button
+    connect(ui->CollectByDistance_StartBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(COLLECTBYDISTANCEFRAME).toLatin1().data()));});
+    // Collect by time stop button
+    connect(ui->CollectByDistance_StopBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(STOPCOLLECTFRAME).toLatin1().data()));});
+    // stackWidget Selection comBox
+    ui->bxDataRoadsSelectingComboBox->setVisible(false);
+    ui->MFLRoadscomboBox->setVisible(true);
+    for (int i = 1; i <= this->MFLData_RoadsNum; ++i) {
+        ui->MFLRoadscomboBox->addItem(QString("第%1漏磁通道").arg(i));
+    }
+    ui->stackedWidget->setCurrentIndex(3);
+    // initiate MFLDataRoads
+    for (int i = 0; i <= MFLData_RoadsNum*MFLCHANNELNUM+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
+        this->MFLDataList.append(QVector<double>());
+    }
+}
 
+
+
+void CollectByDistancePanel::initPlots_MFL(){
+    // 每个图表中绘制6条曲线
+    for (int i = 1; i <= MFLCHANNELNUM+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
+        switch (i) {
+        case 1:
+            ui->MFLPlot->addGraph();     //添加曲线
+            ui->MFLPlot->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::crimson));
+            ui->MFLPlot->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+            break;
+        case 2:
+            ui->MFLPlot->addGraph();     //添加曲线
+            ui->MFLPlot->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::darkorange));
+            ui->MFLPlot->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+            break;
+        case 3:
+            ui->MFLPlot->addGraph();     //添加曲线
+            ui->MFLPlot->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::gold));
+            ui->MFLPlot->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+            break;
+        case 4:
+            ui->MFLPlot->addGraph();     //添加曲线
+            ui->MFLPlot->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::lime));
+            ui->MFLPlot->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+            break;
+        case 5:
+            ui->MFLPlot->addGraph();     //添加曲线
+            ui->MFLPlot->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::cyan));
+            ui->MFLPlot->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+            break;
+        case 6:
+            ui->MFLPlot->addGraph();     //添加曲线
+            ui->MFLPlot->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::violet));
+            ui->MFLPlot->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+            break;
+
+            /*
+                7：环境温度；     8：处理板温度；        9：姿态检测温度；
+                10：优选里程脉冲；  11：原始里程脉冲1；    12：原始里程脉冲2；     13：原始里程脉冲3；
+                14：周向角         15：倾角；             16：航向角；           17：加速度；
+            */
+        case 7:
+            ui->temperaturePlot->addGraph();
+            ui->temperaturePlot->graph(0)->setPen(QPen(QColorConstants::Svg::crimson));
+            ui->temperaturePlot->graph(0)->setName(QString("环境温度"));
+            break;
+        case 8:
+            ui->temperaturePlot->addGraph();
+            ui->temperaturePlot->graph(1)->setPen(QPen(QColorConstants::Svg::gold));
+            ui->temperaturePlot->graph(1)->setName(QString("处理板温度"));
+            break;
+        case 9:
+            ui->temperaturePlot->addGraph();
+            ui->temperaturePlot->graph(2)->setPen(QPen(QColorConstants::Svg::cyan));
+            ui->temperaturePlot->graph(2)->setName(QString("姿态检测温度"));
+            break;
+        case 10:
+            ui->distancePlot->addGraph();
+            ui->distancePlot->graph(0)->setPen(QPen(QColorConstants::Svg::crimson));
+            ui->distancePlot->graph(0)->setName(QString("优选里程脉冲"));
+            break;
+        case 11:
+            ui->distancePlot->addGraph();
+            ui->distancePlot->graph(1)->setPen(QPen(QColorConstants::Svg::gold));
+            ui->distancePlot->graph(1)->setName(QString("原始里程脉冲1"));
+            break;
+        case 12:
+            ui->distancePlot->addGraph();
+            ui->distancePlot->graph(2)->setPen(QPen(QColorConstants::Svg::cyan));
+            ui->distancePlot->graph(2)->setName(QString("原始里程脉冲2"));
+            break;
+        case 13:
+            ui->distancePlot->addGraph();
+            ui->distancePlot->graph(3)->setPen(QPen(QColorConstants::Svg::violet));
+            ui->distancePlot->graph(3)->setName(QString("原始里程脉冲3"));
+            break;
+        case 14:
+            ui->positionPlot->addGraph();
+            ui->positionPlot->graph(0)->setPen(QPen(QColorConstants::Svg::crimson));
+            ui->positionPlot->graph(0)->setName(QString("周向角"));
+            break;
+        case 15:
+            ui->positionPlot->addGraph();
+            ui->positionPlot->graph(1)->setPen(QPen(QColorConstants::Svg::gold));
+            ui->positionPlot->graph(1)->setName(QString("倾角"));
+            break;
+        case 16:
+            ui->positionPlot->addGraph();
+            ui->positionPlot->graph(2)->setPen(QPen(QColorConstants::Svg::cyan));
+            ui->positionPlot->graph(2)->setName(QString("航向角"));
+            break;
+//        case 65:
+//            ui->positionPlot->addGraph();
+//            ui->positionPlot->graph(3)->setPen(QPen(QColorConstants::Svg::violet));
+//            ui->positionPlot->graph(3)->setName(QString("加速度"));
+//            break;
+        default:
+            break;
+        }
+}
+        ui->MFLPlot->xAxis->setLabel("X/数据报信息序号");
+        ui->MFLPlot->yAxis->setLabel("Y/电压(Volt)");
+        ui->MFLPlot->legend->setVisible(true);
+        ui->MFLPlot->setBackground(QColorConstants::Svg::dimgray);
+        ui->MFLPlot->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
+
+        ui->temperaturePlot->xAxis->setLabel("X/温度信息序号");
+        ui->temperaturePlot->yAxis->setLabel("Y/温度(℃)");
+        ui->temperaturePlot->legend->setVisible(true);
+        ui->temperaturePlot->setBackground(QColorConstants::Svg::dimgray);
+        ui->temperaturePlot->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
+
+        ui->distancePlot->xAxis->setLabel("X/里程信息序号");
+        ui->distancePlot->yAxis->setLabel("Y/里程(mm)");
+        ui->distancePlot->legend->setVisible(true);
+        ui->distancePlot->setBackground(QColorConstants::Svg::dimgray);
+        ui->distancePlot->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
+
+        ui->positionPlot->xAxis->setLabel("X/姿态信息序号");
+        ui->positionPlot->yAxis->setLabel("Y/角度(°)");
+        ui->positionPlot->legend->setVisible(true);
+        ui->positionPlot->setBackground(QColorConstants::Svg::dimgray);
+        ui->positionPlot->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
+
+
+
+}
 
 void CollectByDistancePanel::initPlots(){
     // 每个图表中绘制6条曲线
@@ -458,6 +618,95 @@ void CollectByDistancePanel::initPlots(){
 
 }
 
+void CollectByDistancePanel::updatePlots_MFL(){
+
+    for (int i = 1; i <= MFLCHANNELNUM+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
+        switch (i) {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+            ui->MFLPlot->graph((i-1)%6)->setData(this->MFLDataList[0],this->MFLDataList[ui->MFLRoadscomboBox->currentIndex()*MFLCHANNELNUM+i]);
+            break;
+
+        /*
+            7：环境温度；     8：处理板温度；        9：姿态检测温度；
+            10：优选里程脉冲； 11：原始里程脉冲1；    12：原始里程脉冲2；     13：原始里程脉冲3；
+            14：周向角        15：倾角；            16：航向角；
+        */
+        case 7:
+        case 8:
+        case 9:
+            ui->temperaturePlot->graph(i%7)->setData(this->MFLDataList[0],this->MFLDataList[MFLCHANNELNUM*this->MFLData_RoadsNum+(i-6)]);
+            break;
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+            ui->distancePlot->graph(i%10)->setData(this->MFLDataList[0],this->MFLDataList[MFLCHANNELNUM*this->MFLData_RoadsNum+(i-6)]);
+            break;
+        case 14:
+        case 15:
+        case 16:
+            ui->positionPlot->graph(i%14)->setData(this->MFLDataList[0],this->MFLDataList[MFLCHANNELNUM*this->MFLData_RoadsNum+(i-6)]);
+            break;
+        default:
+            break;
+            }
+    }
+
+    //每个表中有六条曲线
+//    for (int i = 0; i < LINENUM; ++i) {
+//        switch (i) {
+//        case 0:
+//            ui->CollectByDistancePlot1->graph(i)->setData(X,Y1);
+//            break;
+//        case 1:
+//            ui->CollectByDistancePlot1->graph(i)->setData(X,Y2);
+//            break;
+//        case 2:
+//            ui->CollectByDistancePlot1->graph(i)->setData(X,Y3);
+//            break;
+//        case 3:
+//            ui->CollectByDistancePlot1->graph(i)->setData(X,Y4);
+//            break;
+//        case 4:
+//            ui->CollectByDistancePlot1->graph(i)->setData(X,Y5);
+//            break;
+//        case 5:
+//            ui->CollectByDistancePlot1->graph(i)->setData(X,Y6);
+//            break;
+//        default:
+//            break;
+//        }
+//    }
+
+
+
+    if(this->dataCount>=CLEARNUM){
+        ui->MFLPlot->xAxis->setRange(this->MFLDataList[0].first(),CLEARNUM,Qt::AlignLeft);
+        ui->temperaturePlot->xAxis->setRange(this->MFLDataList[0].first(),CLEARNUM,Qt::AlignLeft);
+        ui->distancePlot->xAxis->setRange(this->MFLDataList[0].first(),CLEARNUM,Qt::AlignLeft);
+        ui->positionPlot->xAxis->setRange(this->MFLDataList[0].first(),CLEARNUM,Qt::AlignLeft);
+    }
+    ui->MFLPlot->replot();
+    ui->temperaturePlot->replot();
+    ui->distancePlot->replot();
+    ui->positionPlot->replot();
+    for (int i = 0; i < LINENUM; ++i) {
+        ui->MFLPlot->graph(i)->rescaleAxes(true);
+        if(i<3){
+            ui->temperaturePlot->graph(i)->rescaleAxes(true);
+            ui->positionPlot->graph(i)->rescaleAxes(true);
+        }
+        if(i<4){
+            ui->distancePlot->graph(i)->rescaleAxes(true);
+        }
+    }
+}
+
 void CollectByDistancePanel::updatePlots(){
 
     for (int i = 1; i <= this->bxData_RoadsNum+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
@@ -633,6 +882,65 @@ void CollectByDistancePanel::updatePlots(){
             ui->distancePlot->graph(i)->rescaleAxes(true);
         }
     }
+}
+
+
+void CollectByDistancePanel::updateMFLData(QList<double> newMFLData){
+    // 数据更新
+    for (int i = 0; i <= this->MFLData_RoadsNum*MFLCHANNELNUM+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
+        if(i==0){
+            this->MFLDataList[i].append(this->dataCount++);
+        }
+        else {
+            this->MFLDataList[i].append(newMFLData.at(i-1));
+        }
+    }
+    // 前六组数据更新
+//    X.append(dataCount++);
+//    for (int i = 0; i < LINENUM; ++i) {
+//        switch (i) {
+//        case 0:
+//            Y1.append(newBxData.at(i));
+//            break;
+//        case 1:
+//            Y2.append(newBxData.at(i));
+//            break;
+//        case 2:
+//            Y3.append(newBxData.at(i));
+//            break;
+//        case 3:
+//            Y4.append(newBxData.at(i));
+//            break;
+//        case 4:
+//            Y5.append(newBxData.at(i));
+//            break;
+//        case 5:
+//            Y6.append(newBxData.at(i));
+//            break;
+//        default:
+//            break;
+//        }
+//    }
+
+    // 滚动清除数据
+    if(this->MFLDataList[0].length()>=CLEARNUM){
+        for (int i = 0; i <= this->MFLData_RoadsNum*MFLCHANNELNUM+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
+            this->MFLDataList[i].removeFirst();
+        }
+    }
+
+    //滚动清除数据
+//    if(X.length()>=CLEARNUM){
+//        X.removeFirst();
+//        Y1.removeFirst();
+//        Y2.removeFirst();
+//        Y3.removeFirst();
+//        Y4.removeFirst();
+//        Y5.removeFirst();
+//        Y6.removeFirst();
+//    }
+    //更新变形图像
+    this->updatePlots_MFL();
 }
 
 void CollectByDistancePanel::updateBxData(QList<double> newBxData){

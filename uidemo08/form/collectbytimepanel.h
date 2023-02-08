@@ -51,12 +51,12 @@ class CollectByTimePanel : public QWidget
     Q_OBJECT
 
 public:
-    explicit CollectByTimePanel(QWidget *parent = nullptr, QSerialPort *serial= nullptr);
+    explicit CollectByTimePanel(QWidget *parent = nullptr, QSerialPort *serial= nullptr, ParaGet* para=nullptr);
     ~CollectByTimePanel();
 
 
 
-
+    // bx
     void initPanel();
     void initPlots();
     void updatePlots();
@@ -65,9 +65,18 @@ public:
     void updateSpeedLabel(int speed);
     void updateParametersLabel(ParaGet*);
 
+    // MFL
+    void initPanel_MFL();
+    void initPlots_MFL();
+    void updatePlots_MFL();
+    void updateMFLData(QList<double> newMFLData);
+
     // 变形数据列表
+    ParaGet *parameters;
     QList<QVector<double>> bxDataList;
+    QList<QVector<double>> MFLDataList;
     int bxData_RoadsNum=54;         //54个变形臂
+    int MFLData_RoadsNum=80;        //80个漏磁通道
     /*
         55：环境温度；     56：处理板温度；        57：姿态检测温度；
         58：优选里程脉冲；  59：原始里程脉冲1；     60：原始里程脉冲2；     61：原始里程脉冲3；

@@ -169,6 +169,7 @@ signals:
     void currentFrameChanges(QString currentframe);     // 解析到新的数据报信号
     void newFrame_8_10_12_14_inch_bx(QString frame);    //解析出新的8&10&12&14inch变形帧
     void newBxData(QList<double> bxData);               //得到新的一组变形数据
+    void newMFLData(QList<double> MFLData);               //得到新的一组漏磁数据
     void newBxDataAdditional(QMap<QString,QString> bxDataAdditional);     //得到新的一组额外显示数据
     void returnedFrame_SUCCESS();                       //串口返回成功指令（SUCCESS FRAME）
     void returnedFrame_UNSUCCESS();                       //串口返回失败指令（UNSUCCESS FRAME）

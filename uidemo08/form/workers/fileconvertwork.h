@@ -35,6 +35,7 @@ private:
     QString SavePath;
     ParaGet_hard parameters;
     QList<double> restData;
+    int frameCount;
 
 signals:
     void fileConvertProcess(double);

@@ -680,9 +680,10 @@ void frmMain::initParametersConfigPage(){
             str.append(QString("%1").arg(ui->FrequencyComboBox->currentIndex()+1,2,16,QLatin1Char('0')));
             str.append(BindData::frameCalculate(str.right(BindData::frameDataLength(str))));
             serial->write(QByteArray::fromHex(str.toLatin1().data()));
-            cbtPanel = new CollectByTimePanel(nullptr,this->serial);
+            cbtPanel = new CollectByTimePanel(nullptr,this->serial,this->parameters);
             //传输解码完成数据信号
             connect(this,&frmMain::newBxData,cbtPanel,&CollectByTimePanel::updateBxData);               //传输变形数据信息
+            connect(this,&frmMain::newMFLData,cbtPanel,&CollectByTimePanel::updateMFLData);             //传输漏磁数据信息
             connect(this,&frmMain::newBxDataAdditional,cbtPanel,&CollectByTimePanel::updateBxDataAdditional);   //传输额外显示信息
             connect(this,&frmMain::newByteSpeed,cbtPanel,&CollectByTimePanel::updateSpeedLabel);                //传输流量信息
             connect(this,&frmMain::newParameters,cbtPanel,&CollectByTimePanel::updateParametersLabel);          //传输产品型号参数
@@ -708,9 +709,10 @@ void frmMain::initParametersConfigPage(){
             str.append(QString("%1").arg(ui->FrequencyComboBox->currentIndex()+1,2,16,QLatin1Char('0')));
             str.append(BindData::frameCalculate(str.right(BindData::frameDataLength(str))));
             serial->write(QByteArray::fromHex(str.toLatin1().data()));
-            cbdPanel = new CollectByDistancePanel(nullptr, this->serial);
+            cbdPanel = new CollectByDistancePanel(nullptr, this->serial, this->parameters);
             //传输解码完成数据信号
             connect(this,&frmMain::newBxData,cbdPanel,&CollectByDistancePanel::updateBxData);               //传输变形数据信息
+            connect(this,&frmMain::newMFLData,cbdPanel,&CollectByDistancePanel::updateMFLData);             //传输漏磁数据信息
             connect(this,&frmMain::newBxDataAdditional,cbdPanel,&CollectByDistancePanel::updateBxDataAdditional);   //传输额外显示信息
             connect(this,&frmMain::newByteSpeed,cbdPanel,&CollectByDistancePanel::updateSpeedLabel);                //传输流量信息
             connect(this,&frmMain::newParameters,cbdPanel,&CollectByDistancePanel::updateParametersLabel);          //传输产品型号参数
@@ -900,6 +902,7 @@ void frmMain::initFrameWork(){
     connect(this,&frmMain::newParameters,framework_8_10_12_14_inch_bx,&FrameWork_8_10_12_14_Inch_bx::setParameters);
     //frameWork解码完成通知主线程
     connect(framework_8_10_12_14_inch_bx,&FrameWork_8_10_12_14_Inch_bx::newBxData,this,&frmMain::newBxData);    //通知主线程得到新的一组变形数据
+    connect(framework_8_10_12_14_inch_bx,&FrameWork_8_10_12_14_Inch_bx::newMFLData,this,&frmMain::newMFLData);    //通知主线程得到新的一组漏磁数据
     connect(framework_8_10_12_14_inch_bx,&FrameWork_8_10_12_14_Inch_bx::newBxDataAdditional,this,&frmMain::newBxDataAdditional);    //通知主线程得到一组新的额外显示数据
 
 
@@ -1192,7 +1195,7 @@ void frmMain::currentFrameControl(){
 
     connect(this,&frmMain::currentFrameChanges,[=](QString currentframe)mutable{
         this->CurrentFrame=currentframe;
-        this->ui->ReceivedFrameEdit->setText(this->CurrentFrame);
+        this->ui->ReceivedFrameEdit->setText(this->CurrentFrame.left(16));
         frameHead=currentframe.left(8);
 
         // 根据报头解析并分发处理数据报

@@ -119,7 +119,9 @@ int FileConvertWork::HexToDecimalFile(localFile file, int flag){      //return -
     }
     int frameNum=hexData.length()/parameters.frameLength_hard;
     int fileNum=ceil(frameNum/DECIMALFILEFRAMENUM_MAX);
-    int frameCount=0;
+    if(flag==1||flag==3){
+        frameCount=0;
+    }
     int fileCount=0;
     QStringList typelist,sizelist;
     typelist<<"请选择产品类型"<<"变形"<<"漏磁";

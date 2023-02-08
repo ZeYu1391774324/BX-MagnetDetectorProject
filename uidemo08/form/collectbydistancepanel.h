@@ -8,6 +8,7 @@
 // Plots Definitions
 #define LINENUM 6       // 每个图表中绘制图像数量
 #define CLEARNUM 150        // 图表中清除缓存取数据阈值
+#define MFLCHANNELNUM 6 //每个漏磁通道有6个传感器
 
 // BufferCtrl Parameters
 #define CLEARBUffER 4096        // 一级缓存区清理阈值
@@ -51,9 +52,10 @@ class CollectByDistancePanel : public QWidget
     Q_OBJECT
 
 public:
-    explicit CollectByDistancePanel(QWidget *parent = nullptr, QSerialPort *serial=nullptr);
+    explicit CollectByDistancePanel(QWidget *parent = nullptr, QSerialPort *serial=nullptr,ParaGet *para=nullptr);
     ~CollectByDistancePanel();
 
+    // bx
     void initPanel();
     void initPlots();
     void updatePlots();
@@ -62,9 +64,18 @@ public:
     void updateSpeedLabel(int speed);
     void updateParametersLabel(ParaGet*);
 
+    // MFL
+    void initPanel_MFL();
+    void initPlots_MFL();
+    void updatePlots_MFL();
+    void updateMFLData(QList<double> newMFLData);
 
+
+    ParaGet * parameters;
     QList<QVector<double>> bxDataList;
+    QList<QVector<double>> MFLDataList;
     int bxData_RoadsNum=54;         //54个变形臂
+    int MFLData_RoadsNum=80;        //80个漏磁通道
     /*
         55：环境温度；     56：处理板温度；        57：姿态检测温度；
         58：优选里程脉冲；  59：原始里程脉冲1；     60：原始里程脉冲2；     61：原始里程脉冲3；

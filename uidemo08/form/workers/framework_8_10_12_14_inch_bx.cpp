@@ -1,4 +1,5 @@
 #include "framework_8_10_12_14_inch_bx.h"
+#include "collectbydistancepanel.h"
 
 FrameWork_8_10_12_14_Inch_bx::FrameWork_8_10_12_14_Inch_bx()
 {
@@ -54,21 +55,32 @@ void FrameWork_8_10_12_14_Inch_bx::uncodeFrame(){
 
 
         //解码取信息过程
-        this->bxData.append(this->bxDataExtract(frame.mid(parameters->dataPara.data1_18_start,parameters->dataPara.data1_18_len)));     //1-18路
-        this->bxData.append(this->bxDataExtract(frame.mid(parameters->dataPara.data19_36_start,parameters->dataPara.data19_36_len)));    //19-36路
-        this->bxData.append(this->bxDataExtract(frame.mid(parameters->dataPara.data37_54_start,parameters->dataPara.data37_54_len)));    //37-54路
-        /*
-            55：环境温度；     56：处理板温度；        57：姿态检测温度；
-            58：优选里程脉冲；  59：原始里程脉冲1；     60：原始里程脉冲2；     61：原始里程脉冲3；
-            62：周向角         63：倾角；             64：航向角；
-        */
-        this->bxData.append(this->temperatureDataExtract(frame));       //环境温度提取
-        this->bxData.append(this->distanceDataExtract(frame));          //里程信息提取
-        this->bxData.append(this->positionDataExtract(frame));          //姿态信息提取
+        if(parameters->pipeType=="变形"){
+            this->bxData.append(this->bxDataExtract(frame.mid(parameters->dataPara.data1_18_start,parameters->dataPara.data1_18_len)));     //1-18路
+            this->bxData.append(this->bxDataExtract(frame.mid(parameters->dataPara.data19_36_start,parameters->dataPara.data19_36_len)));    //19-36路
+            this->bxData.append(this->bxDataExtract(frame.mid(parameters->dataPara.data37_54_start,parameters->dataPara.data37_54_len)));    //37-54路
+            /*
+                55：环境温度；     56：处理板温度；        57：姿态检测温度；
+                58：优选里程脉冲；  59：原始里程脉冲1；     60：原始里程脉冲2；     61：原始里程脉冲3；
+                62：周向角         63：倾角；             64：航向角；
+            */
+            this->bxData.append(this->temperatureDataExtract(frame));       //环境温度提取
+            this->bxData.append(this->distanceDataExtract(frame));          //里程信息提取
+            this->bxData.append(this->positionDataExtract(frame));          //姿态信息提取
 
 
-        emit this->newBxData(this->bxData);
-        this->bxData.clear();
+            emit this->newBxData(this->bxData);
+            this->bxData.clear();
+        }
+        else if(parameters->pipeType=="漏磁"){
+            this->MFLData.append(this->MFLDataExtract(frame));
+            this->MFLData.append(this->temperatureDataExtract(frame));       //环境温度提取
+            this->MFLData.append(this->distanceDataExtract(frame));          //里程信息提取
+            this->MFLData.append(this->positionDataExtract(frame));          //姿态信息提取
+
+            emit this->newMFLData(this->MFLData);
+            this->MFLData.clear();
+        }
 
         this->uncodeLock=true;                      //解锁
     }
@@ -145,6 +157,20 @@ QList<double> FrameWork_8_10_12_14_Inch_bx::bxDataExtract(QString subframe){
         //subframeData.append(subframe.mid(i,4).right(3).toDouble()*5/4096);       // 低12位/4096*5
     }
     return subframeData;
+}
+
+QList<double> FrameWork_8_10_12_14_Inch_bx::MFLDataExtract(QString frame){
+    QList<double> frameData;
+    bool flag;
+    for (int i = 1; i <= parameters->dataPara_MFL.MFLData_num; ++i) {
+        int startPtr=parameters->dataPara_MFL.MFLData_start+(i-1)*parameters->dataPara_MFL.MFLData_len;
+        for (int j = 0; j < MFLCHANNELNUM; ++j) {
+            int currentPtr=startPtr+j*8;
+            QString tempFrame=frame.mid(currentPtr,4);
+            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
+        }
+    }
+    return frameData;
 }
 
 QList<double> FrameWork_8_10_12_14_Inch_bx::temperatureDataExtract(QString frame){
