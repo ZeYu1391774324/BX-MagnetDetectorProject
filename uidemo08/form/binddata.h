@@ -1,7 +1,9 @@
 #ifndef BINDDATA_H
 #define BINDDATA_H
+#include "workers/fileconvertwork.h"
 #include <QString>
 #include <QDate>
+#include <QProgressDialog>
 
 class BindData
 {
@@ -18,6 +20,7 @@ public:
     QString Power;              //额定电量
 
 
+
     QString bindSystemDateTime();
     QString dataBinding();
 
@@ -27,6 +30,8 @@ public:
     static QString frameUnencrypt(QString frame);
     static QString hardUnencrypt(QString frame);
     QString toString();
+
+
 
 };
 

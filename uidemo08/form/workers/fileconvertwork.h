@@ -28,6 +28,7 @@ public:
     void updateLocalFileList(QList<localFile>*);
     void updateSavePath(QString);
     QList<double> bxDataExtract(QString subframe);
+    QString hardUnencrypt(QString frame);
 
 
 private:

@@ -56,12 +56,22 @@ ParaGet::ParaGet(QString type,QString size,int encryptFlag)
             //里程参数
             disData.opt_start=8;
             disData.opt_len=8;
-            disData.dis1_start=360;
-            disData.dis1_len=8;
-            disData.dis2_start=368;
-            disData.dis2_len=8;
-            disData.dis3_start=376;
-            disData.dis3_len=8;
+            if(encrypted){
+                disData.dis1_start=360;
+                disData.dis1_len=8;
+                disData.dis2_start=368;
+                disData.dis2_len=8;
+                disData.dis3_start=376;
+                disData.dis3_len=8;
+            }
+            else {
+                disData.dis1_start=356;
+                disData.dis1_len=8;
+                disData.dis2_start=364;
+                disData.dis2_len=8;
+                disData.dis3_start=372;
+                disData.dis3_len=8;
+            }
 
             //姿态周向角，倾角，航向角，加速度
             posData.ZXJ_start=306;
@@ -373,12 +383,22 @@ ParaGet::ParaGet(QString type,QString size,int encryptFlag)
             //里程参数
             disData.opt_start=8;
             disData.opt_len=8;
-            disData.dis1_start=360;
-            disData.dis1_len=8;
-            disData.dis2_start=368;
-            disData.dis2_len=8;
-            disData.dis3_start=376;
-            disData.dis3_len=8;
+            if(encrypted){
+                disData.dis1_start=360;
+                disData.dis1_len=8;
+                disData.dis2_start=368;
+                disData.dis2_len=8;
+                disData.dis3_start=376;
+                disData.dis3_len=8;
+            }
+            else {
+                disData.dis1_start=356;
+                disData.dis1_len=8;
+                disData.dis2_start=364;
+                disData.dis2_len=8;
+                disData.dis3_start=372;
+                disData.dis3_len=8;
+            }
 
             //姿态周向角，倾角，航向角，加速度
             posData.ZXJ_start=306;

@@ -117,11 +117,15 @@ QString BindData::frameUnencrypt(QString frame){
     uint data_low,data_high;
     QString dataFrame=frame.mid(8,dataLength);
     QString unencryptedDataFrame=frame.left(8);
+
+
     for (int i = 0; i < dataLength; i=i+2) {
         data_low=(dataFrame.mid(i,2).toUInt(&flag,16)&0x01);
         data_high=((dataFrame.mid(i,2).toUInt(&flag,16)>>7)&0x01);
         data_test.append((((dataFrame.mid(i,2).toUInt(&flag,16))&0x7E)|data_high|(data_low<<7))&0xff);
+
     }
+
     for (int j = 0; j < data_test.length()/4; ++j) {
         data_1=QString("%1").arg(data_test.at(4*j+0),2,16,QLatin1Char('0'));
         data_2=QString("%1").arg(data_test.at(4*j+1),2,16,QLatin1Char('0'));
@@ -131,10 +135,15 @@ QString BindData::frameUnencrypt(QString frame){
         unencryptedDataFrame.append(data_4);
         unencryptedDataFrame.append(data_1);
         unencryptedDataFrame.append(data_3);
+
     }
+
+
+
     unencryptedDataFrame.append(BindData::frameCalculate(unencryptedDataFrame.mid(8)));
     return unencryptedDataFrame.toUpper();
 }
+
 
 QString BindData::hardUnencrypt(QString frame){
     bool flag;
@@ -144,10 +153,15 @@ QString BindData::hardUnencrypt(QString frame){
     uint data_low,data_high;
     QString dataFrame=frame;
     QString unencryptedDataFrame;
-    for (int i = 0; i < dataLength/2; i=i+2) {
+
+
+
+
+    for (int i = 0; i < dataLength; i=i+2) {
         data_low=(dataFrame.mid(i,2).toUInt(&flag,16)&0x01);
         data_high=((dataFrame.mid(i,2).toUInt(&flag,16)>>7)&0x01);
         data_test.append((((dataFrame.mid(i,2).toUInt(&flag,16))&0x7E)|data_high|(data_low<<7))&0xff);
+
     }
     for (int j = 0; j < data_test.length()/4; ++j) {
         data_1=QString("%1").arg(data_test.at(4*j+0),2,16,QLatin1Char('0'));
