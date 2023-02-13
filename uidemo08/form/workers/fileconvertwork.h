@@ -12,6 +12,7 @@
 
 #define STARTPOINT 6
 #define DECIMALFILEFRAMENUM_MAX 50000
+#define MFLCHANNELNUM 6 //每个漏磁通道有6个传感器
 
 using namespace std;
 
@@ -28,6 +29,8 @@ public:
     void updateLocalFileList(QList<localFile>*);
     void updateSavePath(QString);
     QList<double> bxDataExtract(QString subframe);
+    QList<double> MFLDataExtract(QString frame);
+    double MFLDataExtract_Temperature(QString frame, int position);
     QString hardUnencrypt(QString frame);
 
 

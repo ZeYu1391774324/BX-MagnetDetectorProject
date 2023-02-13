@@ -10,6 +10,8 @@
 
 #define MFLCHANNELNUM 6 //每个漏磁通道有6个传感器
 
+#define MFLCHANNELNUM 6 //每个漏磁通道有6个传感器
+
 
 using namespace std;
 

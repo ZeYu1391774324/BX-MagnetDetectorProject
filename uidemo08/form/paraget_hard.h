@@ -29,6 +29,15 @@ public:
 
     }dataPara;
 
+    struct DATAPARA_MFL
+    {
+        int MFLData_start;
+        int MFLData_end;
+        int MFLData_num;
+        int MFLData_len;
+
+    }dataPara_MFL;
+
     struct TEMPDATA{
         int tempEnvir_start;
         int tempEnvir_len;

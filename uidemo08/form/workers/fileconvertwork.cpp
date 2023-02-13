@@ -159,7 +159,7 @@ int FileConvertWork::HexToDecimalFile(localFile file, int fileFlag){      //retu
             {
                 QString currentFrame=hexData.mid(i*parameters.frameLength_hard,parameters.frameLength_hard);
                 //优选里程
-                dis_opt=BindData::frameReverse(currentFrame.mid(parameters.disData.opt_start,parameters.disData.opt_len)).toInt(&flag,16);
+                dis_opt=BindData::frameReverse(currentFrame.mid(parameters.disData.opt_start,parameters.disData.opt_len)).toULongLong(&flag,16);
                 //时钟
                 clock=BindData::frameReverse(currentFrame.mid(parameters.dataPara.clock_start,parameters.dataPara.clock_len)).toULongLong(&flag,16);
 
@@ -310,7 +310,7 @@ int FileConvertWork::HexToDecimalFile(localFile file, int fileFlag){      //retu
             {
                 QString currentFrame=hexData.mid(i*parameters.frameLength_hard,parameters.frameLength_hard);
                 //优选里程
-                dis_opt=BindData::frameReverse(currentFrame.mid(parameters.disData.opt_start,parameters.disData.opt_len)).toInt(&flag,16);
+                dis_opt=BindData::frameReverse(currentFrame.mid(parameters.disData.opt_start,parameters.disData.opt_len)).toULongLong(&flag,16);
                 //时钟
                 clock=BindData::frameReverse(currentFrame.mid(parameters.dataPara.clock_start,parameters.dataPara.clock_len)).toULongLong(&flag,16);
                 //24v
@@ -459,7 +459,7 @@ int FileConvertWork::HexToDecimalFile(localFile file, int fileFlag){      //retu
             {
                 QString currentFrame=hexData.mid(i*parameters.frameLength_hard,parameters.frameLength_hard);
                 //优选里程
-                dis_opt=BindData::frameReverse(currentFrame.mid(parameters.disData.opt_start,parameters.disData.opt_len)).toInt(&flag,16);
+                dis_opt=BindData::frameReverse(currentFrame.mid(parameters.disData.opt_start,parameters.disData.opt_len)).toULongLong(&flag,16);
                 //时钟
                 clock=BindData::frameReverse(currentFrame.mid(parameters.dataPara.clock_start,parameters.dataPara.clock_len)).toULongLong(&flag,16);
                 //24v
@@ -609,7 +609,7 @@ int FileConvertWork::HexToDecimalFile(localFile file, int fileFlag){      //retu
             {
                 QString currentFrame=hexData.mid(i*parameters.frameLength_hard,parameters.frameLength_hard);
                 //优选里程
-                dis_opt=BindData::frameReverse(currentFrame.mid(parameters.disData.opt_start,parameters.disData.opt_len)).toInt(&flag,16);
+                dis_opt=BindData::frameReverse(currentFrame.mid(parameters.disData.opt_start,parameters.disData.opt_len)).toULongLong(&flag,16);
                 //时钟
                 clock=BindData::frameReverse(currentFrame.mid(parameters.dataPara.clock_start,parameters.dataPara.clock_len)).toULongLong(&flag,16);
                 //24v
@@ -737,6 +737,168 @@ int FileConvertWork::HexToDecimalFile(localFile file, int fileFlag){      //retu
         }
         break;
     case 2: //漏磁
+        switch (sizelist.indexOf(parameters.pipeSize)) {
+        case 0:
+            break;
+        case 3:         //12inch 漏磁
+        {
+        /******************************************************** 12inch-漏磁 Start ****************************************************************************/
+                    QList <double> DecimalData;
+                    //前一文件续写
+                    if(!this->restData.isEmpty()){
+                        DecimalData.append(restData);
+                        this->restData.clear();
+                    }
+                    double dis_opt,clock,Volt24_voltage;
+                    QList<double> MFLData;
+                    double temp_bat,temp_panel,temp_pos,ZXJ,QJ,HXJ,acc_x,acc_y,acc_z,dis_1,dis_2,dis_3,stat;
+                    bool flag;
+                    ofstream ofs;
+                    emit this->newInfo("数据提取中，请稍后...");
+                    int i;
+                    if((fileFlag==1)||(fileFlag==3)){// 1||3为进管文件
+                        i = STARTPOINT-1;   // 进管文件舍去前六帧
+                    }
+                    else {
+                        i=0;
+                    }
+                    for (i ; i < frameNum; ++i)
+                    {
+                        QString currentFrame=hexData.mid(i*parameters.frameLength_hard,parameters.frameLength_hard);
+                        //优选里程
+                        dis_opt=BindData::frameReverse(currentFrame.mid(parameters.disData.opt_start,parameters.disData.opt_len)).toULongLong(&flag,16);
+                        //时钟
+                        clock=BindData::frameReverse(currentFrame.mid(parameters.dataPara.clock_start,parameters.dataPara.clock_len)).toULongLong(&flag,16);
+                        //24v
+                        Volt24_voltage=BindData::frameReverse(currentFrame.mid(parameters.addData.Volt24V_start,parameters.addData.Volt24V_len)).toUInt(&flag,16)*parameters.addData.Volt_24V_para;
+                        //MFLData
+                        MFLData.append(this->MFLDataExtract(currentFrame));
+                        //第1瓣温度（第1通道温度数据）
+                        MFLData.append(this->MFLDataExtract_Temperature(currentFrame,1));
+                        //第7瓣温度（第13通道温度数据）
+                        MFLData.append(this->MFLDataExtract_Temperature(currentFrame,13));
+                        //周向角
+                        ZXJ=BindData::frameReverse(currentFrame.mid(parameters.posData.ZXJ_start,parameters.posData.ZXJ_len)).toInt(&flag,16)*parameters.posData.ZXJpara;
+                        //倾角
+                        QJ=BindData::frameReverse(currentFrame.mid(parameters.posData.QJ_start,parameters.posData.QJ_len)).toInt(&flag,16)*parameters.posData.QJpara;
+                        //航向角
+                        HXJ=BindData::frameReverse(currentFrame.mid(parameters.posData.HXJ_start,parameters.posData.HXJ_len)).toInt(&flag,16)*parameters.posData.HXJpara;
+                        //X加速度
+                        acc_x=BindData::frameReverse(currentFrame.mid(parameters.addData.accX_start,parameters.addData.accX_len)).toInt(&flag,16)*parameters.addData.accX_para;
+                        //Y加速度
+                        acc_y=BindData::frameReverse(currentFrame.mid(parameters.addData.accY_start,parameters.addData.accY_len)).toInt(&flag,16)*parameters.addData.accY_para;
+                        //Z加速度
+                        acc_z=BindData::frameReverse(currentFrame.mid(parameters.addData.accZ_start,parameters.addData.accZ_len)).toInt(&flag,16)*parameters.addData.accZ_para;
+                        //姿态温度
+                        temp_pos=BindData::frameReverse(currentFrame.mid(parameters.tempData.tempPos_start,parameters.tempData.tempPos_len)).toInt(&flag,16)*parameters.tempData.positionPara;
+                        //环境温度
+                        temp_bat=parameters.tempData.envirPara1-(parameters.tempData.envirPara2*BindData::frameReverse(currentFrame.mid(parameters.tempData.tempEnvir_start,parameters.tempData.tempEnvir_len)).toInt(&flag,16));
+                        //处理板温度
+                        temp_panel=BindData::frameReverse(currentFrame.mid(parameters.tempData.tempPanel_start,parameters.tempData.tempPanel_len)).toInt(&flag,16)*parameters.tempData.panelPara;
+                        //里程1
+                        dis_1=BindData::frameReverse(currentFrame.mid(parameters.disData.dis1_start,parameters.disData.dis1_len)).toInt(&flag,16);
+                        //里程2
+                        dis_2=BindData::frameReverse(currentFrame.mid(parameters.disData.dis2_start,parameters.disData.dis2_len)).toInt(&flag,16);
+                        //里程3
+                        dis_3=BindData::frameReverse(currentFrame.mid(parameters.disData.dis3_start,parameters.disData.dis3_len)).toInt(&flag,16);
+                        //status
+                        stat=currentFrame.mid(parameters.addData.status_start,parameters.addData.status_len).toUInt(&flag,16);
+
+                        //拼接十进制文件数据
+                        /*  dis_opt,clock,Volt24_voltage;
+                            QList<double> MFLData;
+                            ZXJ,QJ,HXJ,acc_x,acc_y,acc_z,temp_pos,temp_bat,temp_panel,dis_1,dis_2,dis_3,stat;*/
+                        DecimalData.append(dis_opt);
+                        DecimalData.append(clock);
+                        DecimalData.append(Volt24_voltage);
+                        DecimalData.append(MFLData);
+                        MFLData.clear();
+                        DecimalData.append(ZXJ);
+                        DecimalData.append(QJ);
+                        DecimalData.append(HXJ);
+                        DecimalData.append(acc_x);
+                        DecimalData.append(acc_y);
+                        DecimalData.append(acc_z);
+                        DecimalData.append(temp_pos);
+                        DecimalData.append(temp_bat);
+                        DecimalData.append(temp_panel);
+                        DecimalData.append(dis_1);
+                        DecimalData.append(dis_2);
+                        DecimalData.append(dis_3);
+                        DecimalData.append(stat);
+                        frameCount++;
+                        emit this->fileConvertProcess((double)(frameCount%frameNum)/(double)frameNum*100);
+
+                        //写文件
+        //                int outputSize_double=DecimalData.length();
+        //                double *outByteArray=new double[outputSize_double];
+        //                for (int j = 0; j < outputSize_double; ++j) {
+        //                    outByteArray[j]=DecimalData.at(j);
+        //                }
+        //                if(frameCount%50000==1){
+        //                    ofs.close();
+        //                    fileCount++;
+        //                    QString outputPath=SavePath+(QString("\\%1.dat%2IN.bin").arg(file.localFileName.left(file.localFileName.lastIndexOf("."))).arg(fileCount));
+        //                    ofs.open(outputPath.toStdString(),ios::app|ios::binary);
+        //                }
+        //                ofs.write((char*)outByteArray,sizeof(double)*outputSize_double);
+        //                delete[](outByteArray);
+        //                DecimalData.clear();
+
+                        // 写文件
+                        if(frameCount%50000==0){
+                            int outputSize_double=DecimalData.length();
+                            double *outByteArray=new double[outputSize_double];
+                            for (int j = 0; j < outputSize_double; ++j) {
+                                outByteArray[j]=DecimalData.at(j);
+                            }
+                            fileCount++;
+                            QString outputPath=SavePath+(QString("\\%1.dat%2IN.bin").arg(file.localFileName.left(file.localFileName.lastIndexOf("."))).arg(fileCount));
+                            ofs.open(outputPath.toStdString(),ios::out|ios::binary);
+                            ofs.write((char*)outByteArray,sizeof(double)*outputSize_double);
+                            delete[](outByteArray);
+                            DecimalData.clear();
+                            ofs.close();
+                        }
+                    }
+                    if(!DecimalData.isEmpty()){
+                        if((fileFlag==2)||(fileFlag==3)){       //如果是出管文件写剩余文件
+                            int outputSize_double=DecimalData.length();
+                            double *outByteArray=new double[outputSize_double];
+                            for (int j = 0; j < outputSize_double; ++j) {
+                                outByteArray[j]=DecimalData.at(j);
+                            }
+                            //写剩余文件
+                            fileCount++;
+                            QString outputPath=SavePath+(QString("\\%1.dat%2IN.bin").arg(file.localFileName.left(file.localFileName.lastIndexOf("."))).arg(fileCount));
+                            ofs.open(outputPath.toStdString(),ios::out|ios::binary);
+                            ofs.write((char*)outByteArray,sizeof(double)*outputSize_double);
+                            ofs.close();
+                            delete[](outByteArray);
+                            DecimalData.clear();
+                        }
+                        else { //其他文件在下一文件中续写
+                            this->restData.append(DecimalData);
+                            DecimalData.clear();
+                        }
+
+                    }
+                    ofs.close();
+                    ifs.close();
+                    emit this->newInfo("文件转换完成！");
+                    return 0; //已转换
+
+        /******************************************************** 12inch-漏磁 End ****************************************************************************/
+
+        }
+            break;
+
+
+        default:
+            break;
+
+        }
+
         break;
     default:
         break;
@@ -753,6 +915,80 @@ QList<double> FileConvertWork::bxDataExtract(QString subframe){
         //subframeData.append(subframe.mid(i,4).right(3).toDouble()*5/4096);       // 低12位/4096*5
     }
     return subframeData;
+}
+
+
+QList<double> FileConvertWork::MFLDataExtract(QString frame){       //包含12路轴向数据、12路径向数据，12路周向数据，4路内外区分数据 (当前通道6路与相邻下移通道6路拼接为12路数据)
+    QList<double> frameData;
+    bool flag;
+    for (int i = 0; i < parameters.dataPara_MFL.MFLData_num; i+=2) {
+        int startPtr=parameters.dataPara_MFL.MFLData_start+(i)*parameters.dataPara_MFL.MFLData_len;
+        // 两组12路轴向
+        for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第一组6路轴向
+            int currentPtr=startPtr+j*8;
+            QString tempFrame=frame.mid(currentPtr,4);
+            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4)); //轴向
+        }
+
+        for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第二组6路轴向
+            int currentPtr=startPtr+parameters.dataPara_MFL.MFLData_len+j*8;
+            QString tempFrame=frame.mid(currentPtr,4);
+            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4)); //轴向
+        }
+
+        // 两组12路径向
+        for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第一组6路径向
+            int currentPtr=startPtr+4+j*8;
+            QString tempFrame=frame.mid(currentPtr,4);
+            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
+        }
+
+        for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第二组6路径向
+            int currentPtr=startPtr+4+parameters.dataPara_MFL.MFLData_len+j*8;
+            QString tempFrame=frame.mid(currentPtr,4);
+            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
+        }
+
+
+        // 两组12路周向
+        for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第一组6路周向
+            int currentPtr=startPtr+48+j*4;
+            QString tempFrame=frame.mid(currentPtr,4);
+            frameData.append((double)((double)(tempFrame.toUInt(&flag,16)&0x0fff)/4096)*3);
+        }
+
+        for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第二组6路周向
+            int currentPtr=startPtr+48+parameters.dataPara_MFL.MFLData_len+j*4;
+            QString tempFrame=frame.mid(currentPtr,4);
+            frameData.append((double)((double)(tempFrame.toUInt(&flag,16)&0x0fff)/4096)*3);
+        }
+
+
+        // 两组4路内外区分
+        for (int j = 0; j < 2; ++j) {       // 第一组2路内外区分
+            int currentPtr=startPtr+76+j*4;
+            QString tempFrame=frame.mid(currentPtr,4);
+            frameData.append((double)((double)(tempFrame.toUInt(&flag,16)&0x0fff)/4096)*3);
+        }
+
+        for (int j = 0; j < 2; ++j) {       // 第二组2路内外区分
+            int currentPtr=startPtr+76+parameters.dataPara_MFL.MFLData_len+j*4;
+            QString tempFrame=frame.mid(currentPtr,4);
+            frameData.append((double)((double)(tempFrame.toUInt(&flag,16)&0x0fff)/4096)*3);
+        }
+
+
+    }
+    return frameData;
+}
+
+double FileConvertWork::MFLDataExtract_Temperature(QString frame, int position){
+    bool flag;
+    int startPtr=parameters.dataPara_MFL.MFLData_start+(position-1)*parameters.dataPara_MFL.MFLData_len;
+    int currentPtr=startPtr+72;
+    QString tempFrame=frame.mid(currentPtr,4);
+    double result = (double)((double)((tempFrame.toUInt(&flag,16)&0x0fff-1708)*302)/4096);
+    return result;
 }
 
 void FileConvertWork::updateLocalFileList(QList<localFile> *newList){
