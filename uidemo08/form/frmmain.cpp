@@ -740,9 +740,10 @@ void frmMain::initParametersConfigPage(){
             str.append(QString("%1").arg(ui->FrequencyComboBox->currentIndex()+1,2,16,QLatin1Char('0')));
             str.append(BindData::frameCalculate(str.right(BindData::frameDataLength(str))));
             serial->write(QByteArray::fromHex(str.toLatin1().data()));
-            testPanel = new TestPanel(nullptr, this->serial);
+            testPanel = new TestPanel(nullptr, this->serial,this->parameters);
             //传输解码完成数据信号
             connect(this,&frmMain::newBxData,testPanel,&TestPanel::updateBxData);               //传输变形数据信息
+            connect(this,&frmMain::newMFLData,testPanel,&TestPanel::updateMFLData);             //传输漏磁数据信息
             connect(this,&frmMain::newBxDataAdditional,testPanel,&TestPanel::updateBxDataAdditional);   //传输额外显示信息
             connect(this,&frmMain::newByteSpeed,testPanel,&TestPanel::updateSpeedLabel);                //传输流量信息
             connect(this,&frmMain::newParameters,testPanel,&TestPanel::updateParametersLabel);          //传输产品型号参数

@@ -588,7 +588,7 @@ void CollectByTimePanel::initPlots_MFL(){
         }
 }
         ui->MFLPlot->xAxis->setLabel("X/数据报信息序号");
-        ui->MFLPlot->yAxis->setLabel("Y/电压(Volt)");
+        ui->MFLPlot->yAxis->setLabel("Y/磁感应强度(Gs)");
         ui->MFLPlot->legend->setVisible(true);
         ui->MFLPlot->setBackground(QColorConstants::Svg::dimgray);
         ui->MFLPlot->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);

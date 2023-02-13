@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1277</width>
+    <width>1549</width>
     <height>877</height>
    </rect>
   </property>
@@ -96,13 +96,16 @@
               </item>
              </widget>
             </item>
+            <item>
+             <widget class="QComboBox" name="MFLRoadscomboBox"/>
+            </item>
            </layout>
           </widget>
          </item>
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>0</number>
+            <number>3</number>
            </property>
            <widget class="QWidget" name="page">
             <layout class="QHBoxLayout" name="horizontalLayout">
@@ -143,6 +146,13 @@
              </item>
             </layout>
            </widget>
+           <widget class="QWidget" name="page_3">
+            <layout class="QGridLayout" name="gridLayout">
+             <item row="0" column="0">
+              <widget class="QCustomPlot" name="MFLPlot" native="true"/>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </item>
          <item>
@@ -173,7 +183,7 @@
        <widget class="QWidget" name="widget_5" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <widget class="QToolButton" name="CollectByTime_StartBtn">
+          <widget class="QToolButton" name="TestPanel_StartBtn">
            <property name="font">
             <font>
              <pointsize>12</pointsize>
@@ -198,7 +208,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="CollectByTime_StopBtn">
+          <widget class="QToolButton" name="TestPanel_StopBtn">
            <property name="font">
             <font>
              <pointsize>12</pointsize>
@@ -472,8 +482,8 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../core_qss/qss.qrc"/>
   <include location="../../src.qrc"/>
+  <include location="../../core_qss/qss.qrc"/>
  </resources>
  <connections/>
 </ui>

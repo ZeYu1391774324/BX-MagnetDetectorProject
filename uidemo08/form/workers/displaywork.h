@@ -8,6 +8,8 @@
 #include "binddata.h"
 #include <QTimer>
 
+#define MFLCHANNELNUM 6 //每个漏磁通道有6个传感器
+
 
 using namespace std;
 
@@ -27,6 +29,7 @@ public:
     int interval=0;
     QString currentFrame;
     QList<double> bxData;                       //图像信息
+    QList<double> MFLData;                       //图像信息(漏磁)
     QMap<QString,QString> bxData_additional;    //额外数字显示信息
     QStringList frameList;
 
@@ -42,6 +45,7 @@ public:
 
     // Data extracting tool functions
     QList<double> bxDataExtract(QString subframe);
+    QList<double> MFLDataExtract(QString frame);
     QList<double> temperatureDataExtract(QString frame);
     QList<double> distanceDataExtract(QString frame);
     QList<double> positionDataExtract(QString frame);
@@ -54,6 +58,9 @@ signals:
     void newBxData(QList<double> bxData);
     void newBxDataAdditional(QMap<QString,QString> bxData_additional);
     void newFrameNum(int num);
+
+    void newMFLData(QList<double> MFLData);
+    void readingSignal();
 
 };
 

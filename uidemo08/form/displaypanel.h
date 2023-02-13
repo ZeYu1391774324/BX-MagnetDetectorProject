@@ -10,6 +10,7 @@
 // Plots Definitions
 #define LINENUM 6       // 每个图表中绘制图像数量
 #define CLEARNUM 150        // 图表中清除缓存取数据阈值
+#define MFLCHANNELNUM 6 //每个漏磁通道有6个传感器
 
 // BufferCtrl Parameters
 #define CLEARBUffER 4096        // 一级缓存区清理阈值
@@ -40,9 +41,20 @@ public:
     void closeEvent(QCloseEvent *e);
     ParaGet *parameters;
 
-    // 变形数据列表
+    // MFL
+    void initPanel_MFL();
+    void initPlots_MFL();
+    void updatePlots_MFL();
+    void updateMFLData(QList<double> newMFLData);
+
+
+    // 变形漏磁数据
     QList<QVector<double>> bxDataList;
+    QList<QVector<double>> MFLDataList;
     int bxData_RoadsNum=54;         //54个变形臂
+    int MFLData_RoadsNum=80;        //80个漏磁通道
+
+
     /*
         55：环境温度；     56：处理板温度；        57：姿态检测温度；
         58：优选里程脉冲；  59：原始里程脉冲1；     60：原始里程脉冲2；     61：原始里程脉冲3；
@@ -60,6 +72,7 @@ signals:
     void newFilePath(QString path);
     void newSpeed(int speed);
     void newBxData(QList<double> newBxData);
+    void newMFLData(QList<double> newMFLData);
     void newBxDataAdditional(QMap<QString,QString> newBxDataAdditional);
     void newParameters(ParaGet* para);
     void newFrameNum(int num);
