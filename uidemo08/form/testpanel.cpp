@@ -19,9 +19,9 @@ TestPanel::~TestPanel()
 
 void TestPanel::initPanel(){
     // initiate buttons
-    // Collect by time start button
-    connect(ui->CollectByTime_StartBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(COLLECTBYTIMEFRAME).toLatin1().data()));});
-    //Collect by time stop button
+    // Test start button
+    connect(ui->CollectByTime_StartBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(COLLECTBYDISTANCEFRAME).toLatin1().data()));});
+    //Test stop button
     connect(ui->CollectByTime_StopBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(STOPCOLLECTFRAME).toLatin1().data()));});
     // stackWidget Selection comBox
     connect(ui->bxDataRoadsSelectingComboBox,&QComboBox::currentTextChanged,[=](){

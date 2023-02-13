@@ -35,9 +35,12 @@ void CollectByTimePanel::initPanel(){
     //Collect by time stop button
     connect(ui->CollectByTime_StopBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(STOPCOLLECTFRAME).toLatin1().data()));});
     // stackWidget Selection comBox
+    ui->bxDataRoadsSelectingComboBox->setVisible(true);
+    ui->MFLRoadscomboBox->setVisible(false);
     connect(ui->bxDataRoadsSelectingComboBox,&QComboBox::currentTextChanged,[=](){
         ui->stackedWidget->setCurrentIndex(ui->bxDataRoadsSelectingComboBox->currentIndex());
     });
+    ui->stackedWidget->setCurrentIndex(0);
     // initiate bxDataRoads
     for (int i = 0; i <= bxData_RoadsNum+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
         this->bxDataList.append(QVector<double>());
