@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1549</width>
+    <width>1645</width>
     <height>877</height>
    </rect>
   </property>
@@ -149,7 +149,13 @@
            <widget class="QWidget" name="page_3">
             <layout class="QGridLayout" name="gridLayout">
              <item row="0" column="0">
-              <widget class="QCustomPlot" name="MFLPlot" native="true"/>
+              <widget class="QCustomPlot" name="MFLPlot_X" native="true"/>
+             </item>
+             <item row="0" column="1">
+              <widget class="QCustomPlot" name="MFLPlot_Y" native="true"/>
+             </item>
+             <item row="0" column="2">
+              <widget class="QCustomPlot" name="MFLPlot_Z" native="true"/>
              </item>
             </layout>
            </widget>

@@ -69,6 +69,7 @@ public:
     void initPlots_MFL();
     void updatePlots_MFL();
     void updateMFLData(QList<double> newMFLData);
+    static QVector<double> QV_add(const QVector<double>&A,const QVector<double>&B);
 
     // 变形漏磁数据列表
     ParaGet * parameters;
@@ -95,6 +96,7 @@ private:
 
 signals:
     void newTestResult(int index, bool stat);
+    void newTestResult_MFL(int index, bool stat);
 };
 
 #endif // TESTPANEL_H

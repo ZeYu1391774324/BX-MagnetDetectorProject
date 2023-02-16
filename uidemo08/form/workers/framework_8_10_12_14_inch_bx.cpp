@@ -170,8 +170,15 @@ QList<double> FrameWork_8_10_12_14_Inch_bx::MFLDataExtract(QString frame){
     for (int i = 1; i <= parameters->dataPara_MFL.MFLData_num; ++i) {
         int startPtr=parameters->dataPara_MFL.MFLData_start+(i-1)*parameters->dataPara_MFL.MFLData_len;
         for (int j = 0; j < MFLCHANNELNUM; ++j) {
-            int currentPtr=startPtr+j*8;
-            QString tempFrame=frame.mid(currentPtr,4);
+            int currentPtr=startPtr+j*12;
+            QString tempFrame;
+            tempFrame=frame.mid(currentPtr,4); //轴向
+            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
+
+            tempFrame=frame.mid(currentPtr+4,4); //径向
+            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
+
+            tempFrame=frame.mid(currentPtr+8,4); //周向
             frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
         }
     }

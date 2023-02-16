@@ -160,6 +160,18 @@ void frmMain::initTableWidget(){
         ui->tableWidget->setItem(i, 3, itemContent);
         ui->tableWidget->setItem(i, 4, itemTime);
     }
+
+    connect(this,&frmMain::newTestResult_MFL,[=](int index, bool stat){
+        ui->tableWidget->item(index,2)->setText("已检查");
+
+        if(stat){
+            ui->tableWidget->item(index,3)->setText("传感器正常");
+        }
+        else {
+            ui->tableWidget->item(index,3)->setText("传感器异常");
+        }
+        ui->tableWidget->item(index,4)->setText(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    });
 }
 
 void frmMain::initTableWidget_2(){
@@ -748,6 +760,7 @@ void frmMain::initParametersConfigPage(){
             connect(this,&frmMain::newByteSpeed,testPanel,&TestPanel::updateSpeedLabel);                //传输流量信息
             connect(this,&frmMain::newParameters,testPanel,&TestPanel::updateParametersLabel);          //传输产品型号参数
             connect(testPanel,&TestPanel::newTestResult,this,&frmMain::newTestResult);                  //回传传感器检测结果
+            connect(testPanel,&TestPanel::newTestResult_MFL,this,&frmMain::newTestResult_MFL);                  //回传传感器检测结果
             testPanel->setWindowState(Qt::WindowMaximized);
             testPanel->show();
             emit this->newParameters(parameters);                                                                   //更新产品型号参数

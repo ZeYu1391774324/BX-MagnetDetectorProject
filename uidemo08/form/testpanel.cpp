@@ -490,7 +490,7 @@ void TestPanel::initPanel_MFL(){
     }
     ui->stackedWidget->setCurrentIndex(3);
     // initiate MFLDataRoads
-    for (int i = 0; i <= MFLData_RoadsNum*MFLCHANNELNUM+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
+    for (int i = 0; i <= MFLData_RoadsNum*MFLCHANNELNUM*3+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
         this->MFLDataList.append(QVector<double>());
     }
 
@@ -501,9 +501,13 @@ void TestPanel::initPanel_MFL(){
         strlist.append(QString("第%1路传感器").arg(i+1));
     }
     ui->testObjectComboBox->addItems(strlist);
-    ui->stackedWidget->setCurrentIndex(0);
+
 
     //TODO TEST OBJECTS of MFL
+    // testObjects Btn
+    connect(ui->TestObjectsBtn,&QPushButton::clicked,[=](){
+        this->testObjects();
+    });
 }
 
 
@@ -513,34 +517,82 @@ void TestPanel::initPlots_MFL(){
     for (int i = 1; i <= MFLCHANNELNUM+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
         switch (i) {
         case 1:
-            ui->MFLPlot->addGraph();     //添加曲线
-            ui->MFLPlot->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::crimson));
-            ui->MFLPlot->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+            ui->MFLPlot_X->addGraph();     //添加曲线
+            ui->MFLPlot_X->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::crimson));
+            ui->MFLPlot_X->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+
+            ui->MFLPlot_Y->addGraph();     //添加曲线
+            ui->MFLPlot_Y->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::crimson));
+            ui->MFLPlot_Y->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+
+            ui->MFLPlot_Z->addGraph();     //添加曲线
+            ui->MFLPlot_Z->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::crimson));
+            ui->MFLPlot_Z->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
             break;
         case 2:
-            ui->MFLPlot->addGraph();     //添加曲线
-            ui->MFLPlot->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::darkorange));
-            ui->MFLPlot->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+            ui->MFLPlot_X->addGraph();     //添加曲线
+            ui->MFLPlot_X->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::darkorange));
+            ui->MFLPlot_X->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+
+            ui->MFLPlot_Y->addGraph();     //添加曲线
+            ui->MFLPlot_Y->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::darkorange));
+            ui->MFLPlot_Y->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+
+            ui->MFLPlot_Z->addGraph();     //添加曲线
+            ui->MFLPlot_Z->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::darkorange));
+            ui->MFLPlot_Z->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
             break;
         case 3:
-            ui->MFLPlot->addGraph();     //添加曲线
-            ui->MFLPlot->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::gold));
-            ui->MFLPlot->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+            ui->MFLPlot_X->addGraph();     //添加曲线
+            ui->MFLPlot_X->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::gold));
+            ui->MFLPlot_X->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+
+            ui->MFLPlot_Y->addGraph();     //添加曲线
+            ui->MFLPlot_Y->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::gold));
+            ui->MFLPlot_Y->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+
+            ui->MFLPlot_Z->addGraph();     //添加曲线
+            ui->MFLPlot_Z->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::gold));
+            ui->MFLPlot_Z->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
             break;
         case 4:
-            ui->MFLPlot->addGraph();     //添加曲线
-            ui->MFLPlot->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::lime));
-            ui->MFLPlot->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+            ui->MFLPlot_X->addGraph();     //添加曲线
+            ui->MFLPlot_X->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::lime));
+            ui->MFLPlot_X->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+
+            ui->MFLPlot_Y->addGraph();     //添加曲线
+            ui->MFLPlot_Y->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::lime));
+            ui->MFLPlot_Y->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+
+            ui->MFLPlot_Z->addGraph();     //添加曲线
+            ui->MFLPlot_Z->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::lime));
+            ui->MFLPlot_Z->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
             break;
         case 5:
-            ui->MFLPlot->addGraph();     //添加曲线
-            ui->MFLPlot->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::cyan));
-            ui->MFLPlot->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+            ui->MFLPlot_X->addGraph();     //添加曲线
+            ui->MFLPlot_X->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::cyan));
+            ui->MFLPlot_X->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+
+            ui->MFLPlot_Y->addGraph();     //添加曲线
+            ui->MFLPlot_Y->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::cyan));
+            ui->MFLPlot_Y->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+
+            ui->MFLPlot_Z->addGraph();     //添加曲线
+            ui->MFLPlot_Z->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::cyan));
+            ui->MFLPlot_Z->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
             break;
         case 6:
-            ui->MFLPlot->addGraph();     //添加曲线
-            ui->MFLPlot->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::violet));
-            ui->MFLPlot->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+            ui->MFLPlot_X->addGraph();     //添加曲线
+            ui->MFLPlot_X->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::violet));
+            ui->MFLPlot_X->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+
+            ui->MFLPlot_Y->addGraph();     //添加曲线
+            ui->MFLPlot_Y->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::violet));
+            ui->MFLPlot_Y->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
+
+            ui->MFLPlot_Z->addGraph();     //添加曲线
+            ui->MFLPlot_Z->graph((i-1)%6)->setPen(QPen(QColorConstants::Svg::violet));
+            ui->MFLPlot_Z->graph((i-1)%6)->setName(QString("传感器%1数据").arg(i));
             break;
 
             /*
@@ -607,11 +659,23 @@ void TestPanel::initPlots_MFL(){
             break;
         }
 }
-        ui->MFLPlot->xAxis->setLabel("X/数据报信息序号");
-        ui->MFLPlot->yAxis->setLabel("Y/磁感应强度(Gs)");
-        ui->MFLPlot->legend->setVisible(true);
-        ui->MFLPlot->setBackground(QColorConstants::Svg::dimgray);
-        ui->MFLPlot->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
+        ui->MFLPlot_X->xAxis->setLabel("X/数据报信息序号");
+        ui->MFLPlot_X->yAxis->setLabel("Y/磁感应强度(Gs)");
+        ui->MFLPlot_X->legend->setVisible(true);
+        ui->MFLPlot_X->setBackground(QColorConstants::Svg::dimgray);
+        ui->MFLPlot_X->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
+
+        ui->MFLPlot_Y->xAxis->setLabel("X/数据报信息序号");
+        ui->MFLPlot_Y->yAxis->setLabel("Y/磁感应强度(Gs)");
+        ui->MFLPlot_Y->legend->setVisible(true);
+        ui->MFLPlot_Y->setBackground(QColorConstants::Svg::dimgray);
+        ui->MFLPlot_Y->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
+
+        ui->MFLPlot_Z->xAxis->setLabel("X/数据报信息序号");
+        ui->MFLPlot_Z->yAxis->setLabel("Y/磁感应强度(Gs)");
+        ui->MFLPlot_Z->legend->setVisible(true);
+        ui->MFLPlot_Z->setBackground(QColorConstants::Svg::dimgray);
+        ui->MFLPlot_Z->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom|QCP::iSelectPlottables);
 
         ui->temperaturePlot->xAxis->setLabel("X/温度信息序号");
         ui->temperaturePlot->yAxis->setLabel("Y/温度(℃)");
@@ -646,7 +710,9 @@ void TestPanel::updatePlots_MFL(){
         case 4:
         case 5:
         case 6:
-            ui->MFLPlot->graph((i-1)%6)->setData(this->MFLDataList[0],this->MFLDataList[ui->MFLRoadscomboBox->currentIndex()*MFLCHANNELNUM+i]);
+            ui->MFLPlot_X->graph((i-1)%6)->setData(this->MFLDataList[0],this->MFLDataList[ui->MFLRoadscomboBox->currentIndex()*MFLCHANNELNUM*3+3*(i-1)+1]);
+            ui->MFLPlot_Y->graph((i-1)%6)->setData(this->MFLDataList[0],this->MFLDataList[ui->MFLRoadscomboBox->currentIndex()*MFLCHANNELNUM*3+3*(i-1)+2]);
+            ui->MFLPlot_Z->graph((i-1)%6)->setData(this->MFLDataList[0],this->MFLDataList[ui->MFLRoadscomboBox->currentIndex()*MFLCHANNELNUM*3+3*(i-1)+3]);
             break;
 
         /*
@@ -657,18 +723,18 @@ void TestPanel::updatePlots_MFL(){
         case 7:
         case 8:
         case 9:
-            ui->temperaturePlot->graph(i%7)->setData(this->MFLDataList[0],this->MFLDataList[MFLCHANNELNUM*this->MFLData_RoadsNum+(i-6)]);
+            ui->temperaturePlot->graph(i%7)->setData(this->MFLDataList[0],this->MFLDataList[3*MFLCHANNELNUM*this->MFLData_RoadsNum+(i-6)]);
             break;
         case 10:
         case 11:
         case 12:
         case 13:
-            ui->distancePlot->graph(i%10)->setData(this->MFLDataList[0],this->MFLDataList[MFLCHANNELNUM*this->MFLData_RoadsNum+(i-6)]);
+            ui->distancePlot->graph(i%10)->setData(this->MFLDataList[0],this->MFLDataList[3*MFLCHANNELNUM*this->MFLData_RoadsNum+(i-6)]);
             break;
         case 14:
         case 15:
         case 16:
-            ui->positionPlot->graph(i%14)->setData(this->MFLDataList[0],this->MFLDataList[MFLCHANNELNUM*this->MFLData_RoadsNum+(i-6)]);
+            ui->positionPlot->graph(i%14)->setData(this->MFLDataList[0],this->MFLDataList[3*MFLCHANNELNUM*this->MFLData_RoadsNum+(i-6)]);
             break;
         default:
             break;
@@ -704,17 +770,23 @@ void TestPanel::updatePlots_MFL(){
 
 
     if(this->dataCount>=CLEARNUM){
-        ui->MFLPlot->xAxis->setRange(this->MFLDataList[0].first(),CLEARNUM,Qt::AlignLeft);
+        ui->MFLPlot_X->xAxis->setRange(this->MFLDataList[0].first(),CLEARNUM,Qt::AlignLeft);
+        ui->MFLPlot_Y->xAxis->setRange(this->MFLDataList[0].first(),CLEARNUM,Qt::AlignLeft);
+        ui->MFLPlot_Z->xAxis->setRange(this->MFLDataList[0].first(),CLEARNUM,Qt::AlignLeft);
         ui->temperaturePlot->xAxis->setRange(this->MFLDataList[0].first(),CLEARNUM,Qt::AlignLeft);
         ui->distancePlot->xAxis->setRange(this->MFLDataList[0].first(),CLEARNUM,Qt::AlignLeft);
         ui->positionPlot->xAxis->setRange(this->MFLDataList[0].first(),CLEARNUM,Qt::AlignLeft);
     }
-    ui->MFLPlot->replot();
+    ui->MFLPlot_X->replot();
+    ui->MFLPlot_Y->replot();
+    ui->MFLPlot_Z->replot();
     ui->temperaturePlot->replot();
     ui->distancePlot->replot();
     ui->positionPlot->replot();
     for (int i = 0; i < LINENUM; ++i) {
-        ui->MFLPlot->graph(i)->rescaleAxes(true);
+        ui->MFLPlot_X->graph(i)->rescaleAxes(true);
+        ui->MFLPlot_Y->graph(i)->rescaleAxes(true);
+        ui->MFLPlot_Z->graph(i)->rescaleAxes(true);
         if(i<3){
             ui->temperaturePlot->graph(i)->rescaleAxes(true);
             ui->positionPlot->graph(i)->rescaleAxes(true);
@@ -878,7 +950,7 @@ void TestPanel::updatePlots(){
 
 void TestPanel::updateMFLData(QList<double> newMFLData){
     // 数据更新
-    for (int i = 0; i <= this->MFLData_RoadsNum*MFLCHANNELNUM+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
+    for (int i = 0; i <= this->MFLData_RoadsNum*MFLCHANNELNUM*3+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
         if(i==0){
             this->MFLDataList[i].append(this->dataCount++);
         }
@@ -915,7 +987,7 @@ void TestPanel::updateMFLData(QList<double> newMFLData){
 
     // 滚动清除数据
     if(this->MFLDataList[0].length()>=CLEARNUM){
-        for (int i = 0; i <= this->MFLData_RoadsNum*MFLCHANNELNUM+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
+        for (int i = 0; i <= this->MFLData_RoadsNum*MFLCHANNELNUM*3+temperature_RoadsNum+distance_RoadsNum+position_RoadsNum; ++i) {
             this->MFLDataList[i].removeFirst();
         }
     }
@@ -1005,47 +1077,150 @@ void TestPanel::testObjects(){
         return;
     }
 
-    QTimer *timer = new QTimer;
-    timer->start(5000);
-    ui->testInfoLabel->setText("检测中...请保持传感器为高电压状态并等候5s");
-    connect(timer,&QTimer::timeout,[=](){
-        QList<int> errList;
-        for (int i = 0; i < objects.length(); ++i) {
-            QVector<double> testData = bxDataList.at(objects.at(i)+1);
-            bool flag=true;
-            for (int j = 0; j < testData.length(); ++j) {
-                if(testData.at(j)<4){       //高电压阈值=4
-                    flag = false;
-                    errList.append(objects.at(i)+1);
-                    emit this->newTestResult(objects.at(i),false);  //返回传感器index,检测结果异常（false）
-                    break;
+    if(parameters->pipeType=="变形"){
+        QTimer *timer = new QTimer;
+        timer->start(5000);
+        ui->testInfoLabel->setText("检测中...请保持传感器为高电压状态并等候5s");
+        connect(timer,&QTimer::timeout,[=](){
+            QList<int> errList;
+            for (int i = 0; i < objects.length(); ++i) {
+                QVector<double> testData = bxDataList.at(objects.at(i)+1);
+                bool flag=true;
+                for (int j = 0; j < testData.length(); ++j) {
+                    if(testData.at(j)<4){       //高电压阈值=4
+                        flag = false;
+                        errList.append(objects.at(i)+1);
+                        emit this->newTestResult(objects.at(i),false);  //返回传感器index,检测结果异常（false）
+                        break;
+                    }
                 }
+                if(flag){
+                    emit this->newTestResult(objects.at(i),true);   //返回传感器index,检测结果正常（true）
+                }
+
             }
-            if(flag){
-                emit this->newTestResult(objects.at(i),true);   //返回传感器index,检测结果正常（true）
+            if(errList.isEmpty()){
+                QMessageBox::information(this,"消息","所选测试传感器均运行正常！");
+                ui->testInfoLabel->setText("上次检测结果正常！");
+            }
+            else{
+                QString testInfo;
+                for (int k = 0; k < errList.length(); ++k) {
+                    if(k!=errList.length()-1){
+                        testInfo.append(QString("%1, ").arg(errList.at(k)));
+                    }
+                    else {
+                        testInfo.append(QString("%1. ").arg(errList.at(k)));
+                    }
+                }
+
+                QMessageBox::information(this,"消息", "测试结果：异常传感器编号 "+testInfo);
+                ui->testInfoLabel->setText("上次检测结果：异常传感器编号 "+testInfo);
             }
 
-        }
-        if(errList.isEmpty()){
-            QMessageBox::information(this,"消息","所选测试传感器均运行正常！");
-            ui->testInfoLabel->setText("上次检测结果正常！");
-        }
-        else{
-            QString testInfo;
-            for (int k = 0; k < errList.length(); ++k) {
-                if(k!=errList.length()-1){
-                    testInfo.append(QString("%1, ").arg(errList.at(k)));
+            timer->stop();
+            timer->disconnect();
+        });
+    }
+    else{       //漏磁
+        QTimer *timer = new QTimer;
+        timer->start(5000);
+        ui->testInfoLabel->setText("检测中...请使用金属干扰待检测的传感器");
+        connect(timer,&QTimer::timeout,[=](){
+            QList<QVector<double>> currentMFLDataList=MFLDataList;
+            QList<int> errList;
+            QVector<QVector<QVector<double>>> testData;     //testData<objects index<Vector of 3 axis<6 Roads summation of data of 3 axis>>>
+            QVector<QVector<double>> tempVector;
+            for (int i = 0; i < objects.length(); ++i) {
+                QVector<double> Xaxis,Yaxis,Zaxis;
+                for (int ii = 0; ii < MFLCHANNELNUM; ++ii) {
+                    if(ii==0){
+                        Xaxis=currentMFLDataList.at(objects.at(i)*3*MFLCHANNELNUM+1);
+                        Yaxis=currentMFLDataList.at(objects.at(i)*3*MFLCHANNELNUM+2);
+                        Zaxis=currentMFLDataList.at(objects.at(i)*3*MFLCHANNELNUM+3);
+                    }
+                    else {
+                        Xaxis=this->QV_add(Xaxis,currentMFLDataList.at(objects.at(i)*3*MFLCHANNELNUM+ii*3+1));
+                        Yaxis=this->QV_add(Yaxis,currentMFLDataList.at(objects.at(i)*3*MFLCHANNELNUM+ii*3+2));
+                        Zaxis=this->QV_add(Zaxis,currentMFLDataList.at(objects.at(i)*3*MFLCHANNELNUM+ii*3+3));
+                    }
+                }
+                tempVector.append(Xaxis);
+                tempVector.append(Yaxis);
+                tempVector.append(Zaxis);
+                testData.append(tempVector);
+                tempVector.clear();
+                Xaxis.clear();
+                Yaxis.clear();
+                Zaxis.clear();
+            }
+            currentMFLDataList.clear();
+            bool flag=false;
+            for (int j = 0; j < testData.length(); ++j) {
+                flag=false;
+                QVector<double> Yaxis,Zaxis;
+                Yaxis = testData.at(j).at(1);
+                Zaxis = testData.at(j).at(2);
+                for (int k = 0; k < Yaxis.length(); ++k) {
+                    if(Yaxis.at(k)>=300){                   // 被人为干扰的6路传感器Gs跳变和大于300判定为传感器正常（径向）
+                        flag=true;
+                        break;
+                    }
+                }
+                for (int m = 0; m < Zaxis.length(); ++m) {
+                    if(Zaxis.at(m)>=300){                   // 被人为干扰的6路传感器Gs跳变和大于300判定为传感器正常（周向）
+                        flag=true;
+                        break;
+                    }
+                }
+                if(flag){
+                    emit this->newTestResult_MFL(objects.at(j),true);   //返回传感器index,检测结果正常（true）
                 }
                 else {
-                    testInfo.append(QString("%1. ").arg(errList.at(k)));
+                    errList.append(objects.at(j)+1);
+                    emit this->newTestResult_MFL(objects.at(j),false);  //返回传感器index,检测结果异常（false）
                 }
+
             }
 
-            QMessageBox::information(this,"消息", "测试结果：异常传感器编号 "+testInfo);
-            ui->testInfoLabel->setText("上次检测结果：异常传感器编号 "+testInfo);
-        }
+            if(errList.isEmpty()){
+                QMessageBox::information(this,"消息","所选测试传感器均运行正常！");
+                ui->testInfoLabel->setText("上次检测结果正常！");
+            }
+            else{
+                QString testInfo;
+                for (int k = 0; k < errList.length(); ++k) {
+                    if(k!=errList.length()-1){
+                        testInfo.append(QString("%1, ").arg(errList.at(k)));
+                    }
+                    else {
+                        testInfo.append(QString("%1. ").arg(errList.at(k)));
+                    }
+                }
 
-        timer->stop();
-        timer->disconnect();
-    });
+                QMessageBox::information(this,"消息", "测试结果：异常传感器编号 "+testInfo);
+                ui->testInfoLabel->setText("上次检测结果：异常传感器编号 "+testInfo);
+            }
+
+            timer->stop();
+            timer->disconnect();
+        });
+ }
+}
+
+QVector<double> TestPanel::QV_add(const QVector<double> &A, const QVector<double> &B){
+    int A_len,B_len;
+    A_len=A.length();
+    B_len=B.length();
+
+    if(A_len!=B_len){
+        qDebug()<<QString("相加向量长度不一致！A_len=%1, B_len=%2.").arg(A_len).arg(B_len);
+        exit(0);
+    }
+
+    QVector<double> sum;
+    for (int i = 0; i < A_len; ++i) {
+        sum.append(A.at(i)+B.at(i));
+    }
+    return sum;
 }

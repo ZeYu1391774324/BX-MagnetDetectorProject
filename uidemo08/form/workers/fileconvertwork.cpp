@@ -925,43 +925,55 @@ QList<double> FileConvertWork::MFLDataExtract(QString frame){       //包含12�
         int startPtr=parameters.dataPara_MFL.MFLData_start+(i)*parameters.dataPara_MFL.MFLData_len;
         // 两组12路轴向
         for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第一组6路轴向
-            int currentPtr=startPtr+j*8;
+            int currentPtr=startPtr+j*12;
             QString tempFrame=frame.mid(currentPtr,4);
             frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4)); //轴向
         }
 
         for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第二组6路轴向
-            int currentPtr=startPtr+parameters.dataPara_MFL.MFLData_len+j*8;
+            int currentPtr=startPtr+parameters.dataPara_MFL.MFLData_len+j*12;
             QString tempFrame=frame.mid(currentPtr,4);
             frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4)); //轴向
         }
 
         // 两组12路径向
         for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第一组6路径向
-            int currentPtr=startPtr+4+j*8;
+            int currentPtr=startPtr+4+j*12;
             QString tempFrame=frame.mid(currentPtr,4);
             frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
         }
 
         for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第二组6路径向
-            int currentPtr=startPtr+4+parameters.dataPara_MFL.MFLData_len+j*8;
+            int currentPtr=startPtr+4+parameters.dataPara_MFL.MFLData_len+j*12;
             QString tempFrame=frame.mid(currentPtr,4);
             frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
         }
 
-
         // 两组12路周向
         for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第一组6路周向
-            int currentPtr=startPtr+48+j*4;
+            int currentPtr=startPtr+8+j*12;
             QString tempFrame=frame.mid(currentPtr,4);
-            frameData.append((double)((double)(tempFrame.toUInt(&flag,16)&0x0fff)/4096)*3);
+            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
         }
 
         for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第二组6路周向
-            int currentPtr=startPtr+48+parameters.dataPara_MFL.MFLData_len+j*4;
+            int currentPtr=startPtr+8+parameters.dataPara_MFL.MFLData_len+j*12;
             QString tempFrame=frame.mid(currentPtr,4);
-            frameData.append((double)((double)(tempFrame.toUInt(&flag,16)&0x0fff)/4096)*3);
+            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
         }
+
+//        // 两组12路周向
+//        for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第一组6路周向
+//            int currentPtr=startPtr+48+j*4;
+//            QString tempFrame=frame.mid(currentPtr,4);
+//            frameData.append((double)((double)(tempFrame.toUInt(&flag,16)&0x0fff)/4096)*3);
+//        }
+
+//        for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第二组6路周向
+//            int currentPtr=startPtr+48+parameters.dataPara_MFL.MFLData_len+j*4;
+//            QString tempFrame=frame.mid(currentPtr,4);
+//            frameData.append((double)((double)(tempFrame.toUInt(&flag,16)&0x0fff)/4096)*3);
+//        }
 
 
         // 两组4路内外区分
