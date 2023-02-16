@@ -766,9 +766,9 @@ int FileConvertWork::HexToDecimalFile(localFile file, int fileFlag){      //retu
                     {
                         QString currentFrame=hexData.mid(i*parameters.frameLength_hard,parameters.frameLength_hard);
                         //优选里程
-                        dis_opt=BindData::frameReverse(currentFrame.mid(parameters.disData.opt_start,parameters.disData.opt_len)).toULongLong(&flag,16);
+                        dis_opt=currentFrame.mid(parameters.disData.opt_start,parameters.disData.opt_len).toULongLong(&flag,16);
                         //时钟
-                        clock=BindData::frameReverse(currentFrame.mid(parameters.dataPara.clock_start,parameters.dataPara.clock_len)).toULongLong(&flag,16);
+                        clock=currentFrame.mid(parameters.dataPara.clock_start,parameters.dataPara.clock_len).toULongLong(&flag,16);
                         //24v
                         Volt24_voltage=BindData::frameReverse(currentFrame.mid(parameters.addData.Volt24V_start,parameters.addData.Volt24V_len)).toUInt(&flag,16)*parameters.addData.Volt_24V_para;
                         //MFLData
@@ -794,13 +794,13 @@ int FileConvertWork::HexToDecimalFile(localFile file, int fileFlag){      //retu
                         //环境温度
                         temp_bat=parameters.tempData.envirPara1-(parameters.tempData.envirPara2*BindData::frameReverse(currentFrame.mid(parameters.tempData.tempEnvir_start,parameters.tempData.tempEnvir_len)).toInt(&flag,16));
                         //处理板温度
-                        temp_panel=BindData::frameReverse(currentFrame.mid(parameters.tempData.tempPanel_start,parameters.tempData.tempPanel_len)).toInt(&flag,16)*parameters.tempData.panelPara;
+                        temp_panel=currentFrame.mid(parameters.tempData.tempPanel_start,parameters.tempData.tempPanel_len).toInt(&flag,16)*parameters.tempData.panelPara;
                         //里程1
-                        dis_1=BindData::frameReverse(currentFrame.mid(parameters.disData.dis1_start,parameters.disData.dis1_len)).toInt(&flag,16);
+                        dis_1=currentFrame.mid(parameters.disData.dis1_start,parameters.disData.dis1_len).toInt(&flag,16);
                         //里程2
-                        dis_2=BindData::frameReverse(currentFrame.mid(parameters.disData.dis2_start,parameters.disData.dis2_len)).toInt(&flag,16);
+                        dis_2=currentFrame.mid(parameters.disData.dis2_start,parameters.disData.dis2_len).toInt(&flag,16);
                         //里程3
-                        dis_3=BindData::frameReverse(currentFrame.mid(parameters.disData.dis3_start,parameters.disData.dis3_len)).toInt(&flag,16);
+                        dis_3=currentFrame.mid(parameters.disData.dis3_start,parameters.disData.dis3_len).toInt(&flag,16);
                         //status
                         stat=currentFrame.mid(parameters.addData.status_start,parameters.addData.status_len).toUInt(&flag,16);
 

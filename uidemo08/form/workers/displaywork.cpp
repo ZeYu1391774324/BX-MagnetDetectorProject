@@ -211,7 +211,12 @@ void DisplayWork::uncodeFrame_additional(){
         3.3V二次电源电压
     */
     bool flag;
-    bxData_additional["时钟脉冲计数"]=QString("%1").arg(BindData::frameReverse(frame.mid(parameters->addData.clock_start,parameters->addData.clock_len)).toUInt(&flag,16));
+    if(parameters->pipeType=="漏磁"){
+        bxData_additional["时钟脉冲计数"]=QString("%1").arg(frame.mid(parameters->addData.clock_start,parameters->addData.clock_len).toUInt(&flag,16));
+    }
+    else {
+        bxData_additional["时钟脉冲计数"]=QString("%1").arg(BindData::frameReverse(frame.mid(parameters->addData.clock_start,parameters->addData.clock_len)).toUInt(&flag,16));
+    }
     bxData_additional["24V系统供电电压"]=QString("%1").arg(BindData::frameReverse(frame.mid(parameters->addData.Volt24V_start,parameters->addData.Volt24V_len)).toUInt(&flag,16)*parameters->addData.Volt_24V_para);
     bxData_additional["24V系统供电电流"]=QString("%1").arg(BindData::frameReverse(frame.mid(parameters->addData.Current_24V_start,parameters->addData.Current_24V_len)).toUInt(&flag,16)*parameters->addData.Current_24V_para);
     bxData_additional["电池组已用电量"]=QString("%1").arg(BindData::frameReverse(frame.mid(parameters->addData.batUsed_start,parameters->addData.batUsed_len)).toUInt(&flag,16)*parameters->addData.batUsed_para);
@@ -276,7 +281,12 @@ QList<double> DisplayWork::temperatureDataExtract(QString frame){
     double temperature_environment,temperature_panel,temperature_position;
     QString subframe_TempEnvir,subframe_TempPanel,subframe_TempPos;
     subframe_TempEnvir=BindData::frameReverse(frame.mid(parameters->tempData.tempEnvir_start,parameters->tempData.tempEnvir_len));     //unsigned
-    subframe_TempPanel=BindData::frameReverse(frame.mid(parameters->tempData.tempPanel_start,parameters->tempData.tempPanel_len));    //signed
+    if(parameters->pipeType=="漏磁"){
+        subframe_TempPanel=frame.mid(parameters->tempData.tempPanel_start,parameters->tempData.tempPanel_len);    //signed
+    }
+    else{
+        subframe_TempPanel=BindData::frameReverse(frame.mid(parameters->tempData.tempPanel_start,parameters->tempData.tempPanel_len));    //signed
+    }
     subframe_TempPos=BindData::frameReverse(frame.mid(parameters->tempData.tempPos_start,parameters->tempData.tempPos_len));      //signed
     bool flag;
     temperature_environment=parameters->tempData.envirPara1-(parameters->tempData.envirPara2*subframe_TempEnvir.toUInt(&flag,16));
@@ -294,10 +304,20 @@ QList<double> DisplayWork::distanceDataExtract(QString frame){
     QList<double> output;
     double distance_optimized,distance_1,distance_2,distance_3;
     QString subframe_opt,subframe_d1,subframe_d2,subframe_d3;
-    subframe_opt=BindData::frameReverse(frame.mid(parameters->disData.opt_start,parameters->disData.opt_len));
-    subframe_d1=BindData::frameReverse(frame.mid(parameters->disData.dis1_start,parameters->disData.dis1_len));
-    subframe_d2=BindData::frameReverse(frame.mid(parameters->disData.dis2_start,parameters->disData.dis2_len));
-    subframe_d3=BindData::frameReverse(frame.mid(parameters->disData.dis3_start,parameters->disData.dis3_len));
+    if(parameters->pipeType=="漏磁"){
+        subframe_opt=frame.mid(parameters->disData.opt_start,parameters->disData.opt_len);
+        subframe_d1=frame.mid(parameters->disData.dis1_start,parameters->disData.dis1_len);
+        subframe_d2=frame.mid(parameters->disData.dis2_start,parameters->disData.dis2_len);
+        subframe_d3=frame.mid(parameters->disData.dis3_start,parameters->disData.dis3_len);
+    }
+    else {
+        subframe_opt=BindData::frameReverse(frame.mid(parameters->disData.opt_start,parameters->disData.opt_len));
+        subframe_d1=BindData::frameReverse(frame.mid(parameters->disData.dis1_start,parameters->disData.dis1_len));
+        subframe_d2=BindData::frameReverse(frame.mid(parameters->disData.dis2_start,parameters->disData.dis2_len));
+        subframe_d3=BindData::frameReverse(frame.mid(parameters->disData.dis3_start,parameters->disData.dis3_len));
+    }
+
+
     bool flag;
     distance_optimized=subframe_opt.toUInt(&flag,16);
     distance_1=subframe_d1.toUInt(&flag,16);
