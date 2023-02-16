@@ -28,6 +28,7 @@ HEADERS += \
     $$PWD/appinit.h \
     $$PWD/base64helper.h \
     $$PWD/iconhelper.h \
+    $$PWD/loadingdialog.h \
     $$PWD/quihelper.h
 
 SOURCES += \
@@ -35,6 +36,7 @@ SOURCES += \
     $$PWD/appinit.cpp \
     $$PWD/base64helper.cpp \
     $$PWD/iconhelper.cpp \
+    $$PWD/loadingdialog.cpp \
     $$PWD/quihelper.cpp
 
 #可以指定不加载对应的资源文件

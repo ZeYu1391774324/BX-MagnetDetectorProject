@@ -5,6 +5,7 @@
 #include <QThread>
 #include "paraget.h"
 #include "workers/displaywork.h"
+#include "loadingdialog.h"
 
 
 // Plots Definitions

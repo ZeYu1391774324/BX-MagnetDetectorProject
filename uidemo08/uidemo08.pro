@@ -54,3 +54,6 @@ include ($$PWD/../core_base/core_base.pri)
 
 FORMS += \
     localpanel.ui
+
+DISTFILES += \
+    dataCollectingIcon_files/loding.gif

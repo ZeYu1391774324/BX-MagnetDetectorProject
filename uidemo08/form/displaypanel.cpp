@@ -77,6 +77,8 @@ void DisplayPanel::initPanel(){
 }
 
 void DisplayPanel::initWorkers(){
+    LoadingDialog *ld = new LoadingDialog(this);
+    ld->setVisible(false);
     qRegisterMetaType<QList<double>>("QList<double>");
     qRegisterMetaType<QMap<QString,QString>>("QMap<QString,QString>");
     QThread *subthread = new QThread;
@@ -90,6 +92,10 @@ void DisplayPanel::initWorkers(){
     connect(displaywork,&DisplayWork::newFrameNum,this,&DisplayPanel::newFrameNum);
     connect(displaywork,&DisplayWork::readingSignal,[=](){
         ui->dataInfoLabel->setText("数据读入中，请稍后...");
+        ld->setVisible(true);
+    });
+    connect(this,&DisplayPanel::newFrameNum,[=](){
+        ld->setVisible(false);
     });
     connect(this,&DisplayPanel::newFilePath,displaywork,&DisplayWork::readFile);
     connect(this,&DisplayPanel::newJumpCommand,displaywork,&DisplayWork::jumpCommand);

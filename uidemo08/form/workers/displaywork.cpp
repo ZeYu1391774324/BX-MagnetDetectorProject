@@ -1,4 +1,5 @@
 #include "displaywork.h"
+#include "loadingdialog.h"
 
 DisplayWork::DisplayWork()
 {
