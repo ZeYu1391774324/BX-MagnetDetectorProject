@@ -38,6 +38,11 @@ void TestPanel::initPanel(){
         ui->stackedWidget->setCurrentIndex(ui->bxDataRoadsSelectingComboBox->currentIndex());
     });
     ui->stackedWidget->setCurrentIndex(0);
+    //testAllBtn
+    connect(ui->testAllBtn,&QPushButton::clicked,[=](){
+        ui->testObjectComboBox->sellectAll();
+    });
+
     // testObjects Btn
     connect(ui->TestObjectsBtn,&QPushButton::clicked,[=](){
         this->testObjects();
@@ -482,6 +487,10 @@ void TestPanel::initPanel_MFL(){
     connect(ui->TestPanel_StartBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(COLLECTBYTIMEFRAME).toLatin1().data()));});
     // Collect by time stop button
     connect(ui->TestPanel_StopBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(STOPCOLLECTFRAME).toLatin1().data()));});
+    //testAllBtn
+    connect(ui->testAllBtn,&QPushButton::clicked,[=](){
+        ui->testObjectComboBox->sellectAll();
+    });
     // stackWidget Selection comBox
     ui->bxDataRoadsSelectingComboBox->setVisible(false);
     ui->MFLRoadscomboBox->setVisible(true);

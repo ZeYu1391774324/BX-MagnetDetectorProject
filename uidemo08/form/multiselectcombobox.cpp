@@ -143,6 +143,17 @@ QList<int> MultiSelectComboBox::currentIndex()
     return indexs;
 }
 
+void MultiSelectComboBox::sellectAll(){
+    for(int row=0;row<popupModel->rowCount();row++)
+    {   QStandardItem* item=popupModel->item(row);
+        if(item->checkState()!=Qt::Checked){
+            item->setCheckState(Qt::Checked);
+            QStandardItem* itemSellected=new QStandardItem(QIcon("://del.png"),item->text());
+            selectModel->appendRow(itemSellected);
+        }
+    }
+}
+
 bool MultiSelectComboBox::eventFilter(QObject *watched, QEvent *event)
 {
     QFrame* frame=this->findChild<QFrame*>();

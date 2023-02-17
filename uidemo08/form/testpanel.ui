@@ -64,6 +64,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="testAllBtn">
+              <property name="text">
+               <string>全选传感器</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="TestObjectsBtn">
               <property name="text">
                <string>测试所选传感器</string>
@@ -488,8 +495,8 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../src.qrc"/>
   <include location="../../core_qss/qss.qrc"/>
+  <include location="../../src.qrc"/>
  </resources>
  <connections/>
 </ui>

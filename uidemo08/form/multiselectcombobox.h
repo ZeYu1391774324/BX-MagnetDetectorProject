@@ -15,8 +15,10 @@ public:
     void addItem(const QString &text, const QVariant &userData = QVariant());
     void addItem(const QIcon &icon, const QString &text, const QVariant &userData = QVariant());
     void addItems(const QStringList &texts);
+    void sellectAll();
     QStringList currentText();
     QList<int> currentIndex();
+
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
     void showPopup() override;
