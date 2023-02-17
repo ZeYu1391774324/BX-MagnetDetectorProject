@@ -927,39 +927,39 @@ QList<double> FileConvertWork::MFLDataExtract(QString frame){       //包含12�
         for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第一组6路轴向
             int currentPtr=startPtr+j*12;
             QString tempFrame=frame.mid(currentPtr,4);
-            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4)); //轴向
+            frameData.append((double)(BindData::MFLDataChange(tempFrame)/4)); //轴向
         }
 
         for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第二组6路轴向
             int currentPtr=startPtr+parameters.dataPara_MFL.MFLData_len+j*12;
             QString tempFrame=frame.mid(currentPtr,4);
-            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4)); //轴向
+            frameData.append((double)(BindData::MFLDataChange(tempFrame)/4)); //轴向
         }
 
         // 两组12路径向
         for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第一组6路径向
             int currentPtr=startPtr+4+j*12;
             QString tempFrame=frame.mid(currentPtr,4);
-            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
+            frameData.append((double)(BindData::MFLDataChange(tempFrame)/4));   //径向
         }
 
         for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第二组6路径向
             int currentPtr=startPtr+4+parameters.dataPara_MFL.MFLData_len+j*12;
             QString tempFrame=frame.mid(currentPtr,4);
-            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
+            frameData.append((double)(BindData::MFLDataChange(tempFrame)/4));   //径向
         }
 
         // 两组12路周向
         for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第一组6路周向
             int currentPtr=startPtr+8+j*12;
             QString tempFrame=frame.mid(currentPtr,4);
-            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
+            frameData.append((double)(BindData::MFLDataChange(tempFrame)/4));   //周向
         }
 
         for (int j = 0; j < MFLCHANNELNUM; ++j) {       // 第二组6路周向
             int currentPtr=startPtr+8+parameters.dataPara_MFL.MFLData_len+j*12;
             QString tempFrame=frame.mid(currentPtr,4);
-            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
+            frameData.append((double)(BindData::MFLDataChange(tempFrame)/4));   //周向
         }
 
 //        // 两组12路周向

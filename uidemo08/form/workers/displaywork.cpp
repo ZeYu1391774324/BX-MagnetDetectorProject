@@ -258,13 +258,13 @@ QList<double> DisplayWork::MFLDataExtract(QString frame){
             int currentPtr=startPtr+j*12;
             QString tempFrame;
             tempFrame=frame.mid(currentPtr,4); //轴向
-            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
+            frameData.append(BindData::MFLDataChange(tempFrame)/4);
 
             tempFrame=frame.mid(currentPtr+4,4); //径向
-            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
+            frameData.append(BindData::MFLDataChange(tempFrame)/4);
 
             tempFrame=frame.mid(currentPtr+8,4); //周向
-            frameData.append((double)((tempFrame.toInt(&flag,16)&0x0fff)/4));
+            frameData.append(BindData::MFLDataChange(tempFrame)/4);
         }
     }
     return frameData;

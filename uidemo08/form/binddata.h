@@ -29,6 +29,7 @@ public:
     static QString frameReverse(QString frame);
     static QString frameUnencrypt(QString frame);
     static QString hardUnencrypt(QString frame);
+    static double MFLDataChange(QString frame);
     QString toString();
 
 

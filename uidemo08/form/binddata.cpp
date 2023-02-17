@@ -177,7 +177,19 @@ QString BindData::hardUnencrypt(QString frame){
     return unencryptedDataFrame.toUpper();
 }
 
-
+double BindData::MFLDataChange(QString frame){
+    bool flag;
+    int temp=frame.toInt(&flag,16)&0x0fff;
+    double result;
+    if((temp&0x0800)==0){
+        result=(int16_t)temp;
+    }
+    else {
+        temp=0xf000|temp;
+        result=(int16_t)temp;
+    }
+    return result;
+}
 
 
 

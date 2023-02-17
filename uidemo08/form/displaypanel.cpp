@@ -40,6 +40,9 @@ void DisplayPanel::initPanel(){
             ui->filePathEdit->setText(filePath);
             emit this->newFilePath(filePath);
         }
+        else {
+            QMessageBox::information(this,"提示","请选择原始数据文件（.dat）");
+        }
     });
 
     // stackWidget Selection comBox
@@ -577,6 +580,9 @@ void DisplayPanel::initPanel_MFL(){
             filePath=QDir::toNativeSeparators(filePath);
             ui->filePathEdit->setText(filePath);
             emit this->newFilePath(filePath);
+        }
+        else {
+            QMessageBox::information(this,"提示","请选择原始数据文件（.dat）");
         }
     });
 
