@@ -35,9 +35,11 @@ void DisplayPanel::initPanel(){
     // Select File Button
     connect(ui->SelectFileBtn,&QPushButton::clicked,[=](){
         QString filePath=QFileDialog::getOpenFileName(this,"Open File","C:\\Users\\DELL\\Desktop");
-        filePath=QDir::toNativeSeparators(filePath);
-        ui->filePathEdit->setText(filePath);
-        emit this->newFilePath(filePath);
+        if(filePath.endsWith(".dat",Qt::CaseInsensitive)){
+            filePath=QDir::toNativeSeparators(filePath);
+            ui->filePathEdit->setText(filePath);
+            emit this->newFilePath(filePath);
+        }
     });
 
     // stackWidget Selection comBox
@@ -571,9 +573,11 @@ void DisplayPanel::initPanel_MFL(){
     // Select File Button
     connect(ui->SelectFileBtn,&QPushButton::clicked,[=](){
         QString filePath=QFileDialog::getOpenFileName(this,"Open File","C:\\Users\\DELL\\Desktop");
-        filePath=QDir::toNativeSeparators(filePath);
-        ui->filePathEdit->setText(filePath);
-        emit this->newFilePath(filePath);
+        if(filePath.endsWith(".dat",Qt::CaseInsensitive)){
+            filePath=QDir::toNativeSeparators(filePath);
+            ui->filePathEdit->setText(filePath);
+            emit this->newFilePath(filePath);
+        }
     });
 
     // stackWidget Selection comBox
