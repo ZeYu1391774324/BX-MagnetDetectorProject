@@ -1220,7 +1220,7 @@ QVector<double> TestPanel::QV_add(const QVector<double> &A, const QVector<double
 
     QVector<double> sum;
     for (int i = 0; i < A_len; ++i) {
-        sum.append(A.at(i)+B.at(i));
+        sum.append(abs(A.at(i))+abs(B.at(i)));
     }
     return sum;
 }
