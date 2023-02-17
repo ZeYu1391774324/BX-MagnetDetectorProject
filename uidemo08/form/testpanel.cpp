@@ -28,7 +28,7 @@ TestPanel::~TestPanel()
 void TestPanel::initPanel(){
     // initiate buttons
     // Test start button
-    connect(ui->TestPanel_StartBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(COLLECTBYDISTANCEFRAME).toLatin1().data()));});
+    connect(ui->TestPanel_StartBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(COLLECTBYTIMEFRAME).toLatin1().data()));});
     //Test stop button
     connect(ui->TestPanel_StopBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(STOPCOLLECTFRAME).toLatin1().data()));});
     // stackWidget Selection comBox
@@ -479,7 +479,7 @@ void TestPanel::initPlots(){
 void TestPanel::initPanel_MFL(){
     // initiate buttons
     // Collect by time start button
-    connect(ui->TestPanel_StartBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(COLLECTBYDISTANCEFRAME).toLatin1().data()));});
+    connect(ui->TestPanel_StartBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(COLLECTBYTIMEFRAME).toLatin1().data()));});
     // Collect by time stop button
     connect(ui->TestPanel_StopBtn,&QPushButton::clicked,[=](){serial->write(QByteArray::fromHex(QString(STOPCOLLECTFRAME).toLatin1().data()));});
     // stackWidget Selection comBox
